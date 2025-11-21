@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Package, ChevronRight, ArrowUpRight, Sparkles, TrendingUp } from 'lucide-react';
 import { featuredCategories } from '@/utils/data';
 import Button from '../ui/Button';
-import BadgeText from '../ui/BadgeText';
+import TextBadge from '../ui/TextBadge';
 
 export default function FeaturedCategories() {
     const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -12,7 +12,7 @@ export default function FeaturedCategories() {
     return (
         <section className="my-24">
             <div className="text-center mb-12">
-                <BadgeText className='mb-4' color='green' variant='light' size='lg' startIcon={<Sparkles />} endIcon={<Package />}>Shop by Category</BadgeText>
+                <TextBadge className='mb-4' color='green' variant='light' size='lg' startIcon={<Sparkles />} endIcon={<Package />}>Shop by Category</TextBadge>
 
                 <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
                     Featured <span className="text-green-600">Categories</span>
@@ -22,7 +22,7 @@ export default function FeaturedCategories() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
                 {featuredCategories.map((category, index) => (
                     <div
                         key={category.id}

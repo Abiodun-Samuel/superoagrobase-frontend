@@ -14,7 +14,7 @@ import { useSearchParams } from "next/navigation";
 const Login = () => {
     const searchParams = useSearchParams()
     const redirectTo = searchParams?.get('redirect');
-    const { mutate, isPending, isError, error } = useLogin({ redirectTo });
+    const { mutateAsync, isPending, isError, error } = useLogin({ redirectTo });
 
     const {
         register,
@@ -28,7 +28,7 @@ const Login = () => {
     const email = watch('email');
 
     const handleLogin = async (data) => {
-        mutate(data);
+        await mutateAsync(data);
     }
 
     return (

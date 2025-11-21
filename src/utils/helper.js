@@ -6,7 +6,7 @@ export const formatErrorMessage = (error) => {
 };
 
 export function getPrimaryRole(roles = []) {
-const ROLE_HIERARCHY = Object.keys(RoleEnum);
+  const ROLE_HIERARCHY = Object.keys(RoleEnum);
 
   if (!Array.isArray(roles) || roles.length === 0) return "user";
 
@@ -18,3 +18,8 @@ const ROLE_HIERARCHY = Object.keys(RoleEnum);
 
   return "user";
 }
+
+export const isActivePath = (pathname, itemPath) => {
+  if (itemPath === '/') return pathname === '/';
+  return pathname === itemPath || pathname?.startsWith(itemPath + '/');
+};

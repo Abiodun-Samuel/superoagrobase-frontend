@@ -1,7 +1,8 @@
+'use client'
 import axios from 'axios';
-import { getSession } from './session';
+import { getAuth } from './auth';
 
-const baseURL = process.env.NODE_ENV == 'development'? process.env.NEXT_PUBLIC_API_DEV : process.env.NEXT_PUBLIC_API_LIVE;
+const baseURL = process.env.NODE_ENV == 'development' ? process.env.NEXT_PUBLIC_API_DEV : process.env.NEXT_PUBLIC_API_LIVE;
 
 const $api = axios.create({
   baseURL,
@@ -14,7 +15,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use(
   async (config) => {
-    const token = await getSession();
+    const { token } = await getAuth();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,7 +27,7 @@ $api.interceptors.request.use(
 $api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error?.response?.status === 401 && typeof window !== 'undefined') {
+    if (error?.response?.status == 401 && typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('auth:unauthorized'));
     }
     return Promise.reject(error?.response);

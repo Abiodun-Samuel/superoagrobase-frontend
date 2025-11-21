@@ -45,7 +45,7 @@ const Footer = () => {
     };
 
     return (
-        <footer className="relative bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] text-gray-300">
+        <footer className="relative bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#1a1a1a] text-gray-300 overflow-x-hidden!">
             {/* Newsletter Section */}
             <NewsletterSection
                 email={email}
