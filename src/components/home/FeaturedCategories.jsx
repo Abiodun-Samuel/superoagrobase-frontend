@@ -29,23 +29,23 @@ export default function FeaturedCategories({ categories }) {
 
     return (
         <>
-            <Suspense fallback={<FeaturedCategoriesSkeleton />}>
-                <section className="my-24">
-                    <div className="text-center mb-12">
-                        <TextBadge className='mb-4' color='green' variant='light' size='lg' startIcon={<Sparkles />} endIcon={<Package />}>
-                            Shop by Category
-                        </TextBadge>
+            {/* <Suspense fallback={<FeaturedCategoriesSkeleton />}> */}
+            <section className="my-24">
+                <div className="text-center mb-12">
+                    <TextBadge className='mb-4' color='green' variant='light' size='lg' startIcon={<Sparkles />} endIcon={<Package />}>
+                        Shop by Category
+                    </TextBadge>
 
-                        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                            Featured <span className="text-green-600">Categories</span>
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                            Explore our comprehensive range of agricultural products tailored for modern farming
-                        </p>
-                    </div>
-                    <CategoriesList categories={categories} />
-                </section>
-            </Suspense>
+                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                        Featured <span className="text-green-600">Categories</span>
+                    </h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Explore our comprehensive range of agricultural products tailored for modern farming
+                    </p>
+                </div>
+                <CategoriesList categories={categories} />
+            </section>
+            {/* </Suspense> */}
         </>
     );
 }
