@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Star, Heart, Eye, ChevronRight, ShoppingCart } from 'lucide-react';
+import Image from "next/image";
+import Link from "next/link";
 
 
 const ProductItem = ({ product }) => {
@@ -26,14 +28,16 @@ const ProductItem = ({ product }) => {
     return (
         <div
             key={product.id}
-            className="group relative bg-white rounded-2xl shadow hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
+            className="group relative bg-white rounded-xl shadow hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
             onMouseEnter={() => setHoveredProduct(product.id)}
             onMouseLeave={() => setHoveredProduct(null)}
         >
             <div className="relative h-64 overflow-hidden bg-gray-50">
-                <img
+                <Image
                     src={product.image}
-                    alt={product.name}
+                    alt={product.title}
+                    width={800}
+                    height={600}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 
@@ -64,25 +68,25 @@ const ProductItem = ({ product }) => {
             <div className="p-5 flex flex-col flex-grow">
                 <div className="flex flex-wrap items-center gap-1 mb-2">
                     <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">
-                        {product.category}
+                        {product?.category?.title}
                     </span>
                     <ChevronRight className="w-3 h-3 text-gray-400" />
                     <div className="flex flex-wrap gap-1">
-                        {product.subcategories.map((sub, index) => (
+                        {/* {product?.subcategory?.map((sub, index) => (
                             <span key={index} className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
                                 {sub}
                             </span>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
 
-                <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors duration-300 h-12">
-                    {product.name}
-                </h3>
+                <Link href={`/products/${product?.slug}`} className="text-base font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors duration-300 h-12">
+                    {product?.title}
+                </Link>
 
                 <div className="flex items-center space-x-2 mb-3">
                     <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
+                        {[...Array(5)]?.map((_, i) => (
                             <Star
                                 key={i}
                                 className={`w-4 h-4 ${i < Math.floor(product.rating)

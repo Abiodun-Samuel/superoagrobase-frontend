@@ -1,8 +1,7 @@
-import React from 'react'
 
 const Page = () => {
     return (
-        <div>all products</div>
+        <div> Product details</div>
     )
 }
 

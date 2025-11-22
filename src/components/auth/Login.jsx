@@ -20,6 +20,7 @@ const Login = () => {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(LoginSchema),
@@ -29,6 +30,7 @@ const Login = () => {
 
     const handleLogin = async (data) => {
         await mutateAsync(data);
+        reset()
     }
 
     return (

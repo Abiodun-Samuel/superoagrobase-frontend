@@ -1,7 +1,13 @@
 // QUERY KEYS
 
 export const QUERY_KEYS = {
-  AUTH: {
-    USEME: ['auth', 'me'],
+  Auth: {
+    UseMe: ['auth', 'me'],
   },
+  Categories: {
+    List: ['categories', 'list']
+  },
+  Products: {
+    FeaturedProducts: ['products', 'FeaturedProducts']
+  }
 }

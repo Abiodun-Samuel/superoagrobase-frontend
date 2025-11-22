@@ -17,7 +17,7 @@ import useAuth from '@/hooks/useAuth';
 export const useMe = (options = {}) => {
   const { setAuth: updateAuthState } = useAuth();
   return useQuery({
-    queryKey: QUERY_KEYS.AUTH.USEME,
+    queryKey: QUERY_KEYS.Auth.UseMe,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: true,
@@ -99,7 +99,7 @@ export const useLogout = (options = {}) => {
     try {
       await clearAuth();
       updateAuthState(null)
-      queryClient.removeQueries({ queryKey: QUERY_KEYS.AUTH.USEME });
+      queryClient.removeQueries({ queryKey: QUERY_KEYS.Auth.UseMe });
       queryClient.clear();
     } catch (error) {
       queryClient.clear();

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 const TextBadge = ({
   variant = "light",
@@ -11,6 +12,7 @@ const TextBadge = ({
   href,
   external = false,
   onClick,
+  target,
   disabled = false
 }) => {
   const baseStyles = "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 border-2 hover:scale-105 active:scale-95";
@@ -143,11 +145,10 @@ const TextBadge = ({
       );
     }
 
-    // For Next.js Link - user should wrap this component with Next.js Link
     return (
-      <a href={href} className={combinedClassName} onClick={onClick}>
+      <Link target={target} href={href} className={combinedClassName} onClick={onClick}>
         {content}
-      </a>
+      </Link>
     );
   }
 

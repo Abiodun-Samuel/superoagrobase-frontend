@@ -8,7 +8,6 @@ export const AuthContext = createContext(null);
 
 export function AuthProvider({ children, initialAuth }) {
 
-    console.log('AuthProvider')
     const [auth, setAuth] = useState(initialAuth);
 
     const handleUnauthorized = async () => {

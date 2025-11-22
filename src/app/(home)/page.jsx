@@ -1,3 +1,4 @@
+import CategoriesSkeleton from "@/components/category/CategoriesSkeleton"
 import BlogSection from "@/components/home/BlogSection"
 import FeaturedCategories from "@/components/home/FeaturedCategories"
 import FeaturedProducts from "@/components/home/FeaturedProducts"
@@ -6,14 +7,27 @@ import HowItWorks from "@/components/home/HowItWorks"
 import Testimonials from "@/components/home/Testimonials"
 import TrendingProducts from "@/components/home/TrendingProducts"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
+import { getAllCategories } from "@/server/category.action"
+import { Suspense } from "react"
 
-const page = () => {
+const page = async () => {
+
+    const [featuredCategories] = await Promise.allSettled([
+        getAllCategories(),
+        // getFeaturedCategories(),
+    ]);
+
+    // const products = featuredProducts.status === 'fulfilled' ? featuredProducts.value : [];
+    const categories = featuredCategories.status === 'fulfilled' ? featuredCategories?.value : [];
+
+
     return (
         <>
             <HeroSection />
-            <FeaturedCategories />
+            <FeaturedCategories categories={categories} />
+
             <FeaturedProducts />
-            <TrendingProducts />
+            {/* <TrendingProducts /> */}
             <WhyChooseUs />
             <HowItWorks />
             <Testimonials />

@@ -1,6 +1,7 @@
+'use client'
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 const Button = ({
     children,
@@ -18,33 +19,10 @@ const Button = ({
     target = "_self",
     rel = "",
 }) => {
-    const [ripples, setRipples] = useState([]);
     const buttonRef = useRef(null);
 
-    const createRipple = (event) => {
+    const handleClick = (event) => {
         if (disabled || loading) return;
-
-        const button = buttonRef.current;
-        if (!button) return;
-
-        const rect = button.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 2;
-        const x = event.clientX - rect.left - size / 2;
-        const y = event.clientY - rect.top - size / 2;
-
-        const newRipple = {
-            x,
-            y,
-            size,
-            id: Date.now(),
-        };
-
-        setRipples((prev) => [...prev, newRipple]);
-
-        setTimeout(() => {
-            setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id));
-        }, 600);
-
         if (onClick) onClick(event);
     };
 
@@ -58,7 +36,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#66BB6A]'
+                focusRing: 'focus-visible:ring-[#66BB6A]',
+                glow: 'hover:shadow-[#66BB6A]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -67,7 +46,8 @@ const Button = ({
                 text: 'text-[#66BB6A]',
                 border: 'border-[#66BB6A]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#66BB6A]'
+                focusRing: 'focus-visible:ring-[#66BB6A]',
+                glow: 'hover:shadow-[#66BB6A]/20'
             }
         },
         darkgreen: {
@@ -78,7 +58,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#558B2F]'
+                focusRing: 'focus-visible:ring-[#558B2F]',
+                glow: 'hover:shadow-[#558B2F]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -87,7 +68,8 @@ const Button = ({
                 text: 'text-[#558B2F]',
                 border: 'border-[#558B2F]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#558B2F]'
+                focusRing: 'focus-visible:ring-[#558B2F]',
+                glow: 'hover:shadow-[#558B2F]/20'
             }
         },
         lightgreen: {
@@ -98,7 +80,8 @@ const Button = ({
                 text: 'text-[#2E2E2E]',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#9CCC65]'
+                focusRing: 'focus-visible:ring-[#9CCC65]',
+                glow: 'hover:shadow-[#9CCC65]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -107,7 +90,8 @@ const Button = ({
                 text: 'text-[#9CCC65]',
                 border: 'border-[#9CCC65]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#9CCC65]'
+                focusRing: 'focus-visible:ring-[#9CCC65]',
+                glow: 'hover:shadow-[#9CCC65]/20'
             }
         },
         orange: {
@@ -118,7 +102,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#FFA726]'
+                focusRing: 'focus-visible:ring-[#FFA726]',
+                glow: 'hover:shadow-[#FFA726]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -127,7 +112,8 @@ const Button = ({
                 text: 'text-[#FFA726]',
                 border: 'border-[#FFA726]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#FFA726]'
+                focusRing: 'focus-visible:ring-[#FFA726]',
+                glow: 'hover:shadow-[#FFA726]/20'
             }
         },
         accent: {
@@ -138,7 +124,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#66BB6A]'
+                focusRing: 'focus-visible:ring-[#66BB6A]',
+                glow: 'hover:shadow-[#66BB6A]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -147,7 +134,8 @@ const Button = ({
                 text: 'text-[#66BB6A]',
                 border: 'border-[#66BB6A]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#66BB6A]'
+                focusRing: 'focus-visible:ring-[#66BB6A]',
+                glow: 'hover:shadow-[#66BB6A]/20'
             }
         },
         dark: {
@@ -158,7 +146,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#2E2E2E]'
+                focusRing: 'focus-visible:ring-[#2E2E2E]',
+                glow: 'hover:shadow-[#2E2E2E]/40'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -167,7 +156,8 @@ const Button = ({
                 text: 'text-[#2E2E2E]',
                 border: 'border-[#2E2E2E]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#2E2E2E]'
+                focusRing: 'focus-visible:ring-[#2E2E2E]',
+                glow: 'hover:shadow-[#2E2E2E]/20'
             }
         },
         gray: {
@@ -178,7 +168,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#757575]'
+                focusRing: 'focus-visible:ring-[#757575]',
+                glow: 'hover:shadow-[#757575]/30'
             },
             outline: {
                 bg: 'bg-[#F5F5F5]',
@@ -187,7 +178,8 @@ const Button = ({
                 text: 'text-[#2E2E2E]',
                 border: 'border-transparent',
                 shadow: 'hover:shadow',
-                focusRing: 'focus-visible:ring-[#F5F5F5]'
+                focusRing: 'focus-visible:ring-[#F5F5F5]',
+                glow: 'hover:shadow-gray-300/50'
             }
         },
         white: {
@@ -198,7 +190,8 @@ const Button = ({
                 text: 'text-[#2E2E2E]',
                 border: 'border-[#E0E0E0]',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-gray-400'
+                focusRing: 'focus-visible:ring-gray-400',
+                glow: 'hover:shadow-gray-300/50'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -207,7 +200,8 @@ const Button = ({
                 text: 'text-[#2E2E2E]',
                 border: 'border-[#2E2E2E]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#2E2E2E]'
+                focusRing: 'focus-visible:ring-[#2E2E2E]',
+                glow: 'hover:shadow-gray-400/30'
             }
         },
         red: {
@@ -218,7 +212,8 @@ const Button = ({
                 text: 'text-white',
                 border: 'border-transparent',
                 shadow: 'shadow-sm hover:shadow-md',
-                focusRing: 'focus-visible:ring-[#EF5350]'
+                focusRing: 'focus-visible:ring-[#EF5350]',
+                glow: 'hover:shadow-[#EF5350]/30'
             },
             outline: {
                 bg: 'bg-transparent',
@@ -227,7 +222,8 @@ const Button = ({
                 text: 'text-[#EF5350]',
                 border: 'border-[#EF5350]',
                 shadow: 'hover:shadow-sm',
-                focusRing: 'focus-visible:ring-[#EF5350]'
+                focusRing: 'focus-visible:ring-[#EF5350]',
+                glow: 'hover:shadow-[#EF5350]/20'
             }
         }
     };
@@ -258,8 +254,8 @@ const Button = ({
     relative
     overflow-hidden
     transition-all
-    duration-200
-    ease-in-out
+    duration-300
+    ease-out
     select-none
     -webkit-tap-highlight-color-transparent
     min-w-fit
@@ -277,8 +273,11 @@ const Button = ({
   `;
 
     const interactionClasses = `
-    active:scale-[0.98]
+    active:scale-[0.96]
+    hover:scale-[1.02]
+    hover:-translate-y-0.5
     ${currentVariant.shadow}
+    ${currentVariant.glow}
   `;
 
     const combinedClasses = `
@@ -326,33 +325,6 @@ const Button = ({
         return null;
     };
 
-    const RippleEffect = () => (
-        <>
-            {ripples.map((ripple) => (
-                <span
-                    key={ripple.id}
-                    className="absolute rounded-full bg-white/30 pointer-events-none"
-                    style={{
-                        left: `${ripple.x}px`,
-                        top: `${ripple.y}px`,
-                        width: `${ripple.size}px`,
-                        height: `${ripple.size}px`,
-                        transform: 'scale(0)',
-                        animation: 'ripple 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                />
-            ))}
-            <style>{`
-        @keyframes ripple {
-          to {
-            transform: scale(1);
-            opacity: 0;
-          }
-        }
-      `}</style>
-        </>
-    );
-
     const ButtonContent = () => (
         <>
             {loading ? (
@@ -369,7 +341,6 @@ const Button = ({
                     {renderEndIcon()}
                 </>
             )}
-            <RippleEffect />
         </>
     );
 
@@ -385,7 +356,7 @@ const Button = ({
                 rel={finalRel}
                 title={title || ''}
                 className={combinedClasses}
-                onClick={createRipple}
+                onClick={handleClick}
                 role="button"
                 tabIndex={0}
             >
@@ -399,7 +370,7 @@ const Button = ({
                 rel={finalRel}
                 title={title || ''}
                 className={combinedClasses}
-                onClick={createRipple}
+                onClick={handleClick}
                 role="button"
                 tabIndex={0}
             >
@@ -414,7 +385,7 @@ const Button = ({
             title={title || ''}
             type={type}
             className={combinedClasses}
-            onClick={createRipple}
+            onClick={handleClick}
             disabled={disabled || loading}
             aria-busy={loading}
             aria-disabled={disabled || loading}
