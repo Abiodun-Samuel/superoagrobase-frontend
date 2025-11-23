@@ -1,140 +1,162 @@
 'use client';
+
 import { Package, Sparkles, MoveLeft, MoveRight } from 'lucide-react';
-import TextBadge from '../ui/TextBadge';
-import { useCategories } from "@/queries/category.query";
-import { useState } from 'react';
-import CategoriesSkeleton from './CategoriesSkeleton';
+import { useState, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
+
+import TextBadge from '../ui/TextBadge';
+import CategoriesItem from './CategoriesItem';
+import CategoriesSkeleton from './CategoriesSkeleton';
+import ContentPlaceholder from '../common/ContentPlaceholder';
+import { useCategories } from '@/queries/categories.query';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
-import 'swiper/css/effect-fade';
-import CategoriesItem from './CategoriesItem';
-import ContentPlaceholder from '../common/ContentPlaceholder';
 
-export default function CategoriesList({ categories: featuredCategories }) {
-    const [swiperRef, setSwiperRef] = useState(null);
-    console.log(featuredCategories)
+// Constants
+const SWIPER_CONFIG = {
+    spaceBetween: 30,
+    slidesPerView: 1,
+    centeredSlides: false,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: true,
+        pauseOnMouseEnter: true,
+    },
+    pagination: {
+        clickable: true,
+        dynamicBullets: true,
+        dynamicMainBullets: 3,
+    },
+    breakpoints: {
+        640: { slidesPerView: 2, spaceBetween: 20 },
+        1024: { slidesPerView: 3, spaceBetween: 30 },
+        1280: { slidesPerView: 3.5, spaceBetween: 30 },
+    },
+};
 
-    // const { data: featuredCategories = [], isLoading, error, isError } = useCategories();
-    const hasCategories = featuredCategories?.length > 0;
+const SKELETON_COUNT = 4;
+
+const NavigationButton = ({ direction, onClick }) => {
+    const isPrev = direction === 'prev';
+    const Icon = isPrev ? MoveLeft : MoveRight;
 
     return (
-        <>
-            {/* <div className="text-center mb-12">
-                <TextBadge className='mb-4' color='green' variant='light' size='lg' startIcon={<Sparkles />} endIcon={<Package />}>
-                    Shop by Category
-                </TextBadge>
+        <button
+            onClick={onClick}
+            className={`
+        absolute ${isPrev ? 'left-0 -translate-x-6' : 'right-0 translate-x-6'}
+        top-1/2 -translate-y-1/2 z-10
+        bg-white dark:bg-slate-800 p-3 rounded-full
+        shadow-2xl hover:shadow-blue-500/50 dark:hover:shadow-blue-400/30
+        transition-all duration-300 hover:scale-110
+        border-2 border-slate-200 dark:border-slate-700 group
+      `}
+            aria-label={`${isPrev ? 'Previous' : 'Next'} slide`}
+        >
+            <Icon className="w-5 h-5 text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+        </button>
+    );
+};
 
-                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                    Featured <span className="text-green-600">Categories</span>
-                </h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Explore our comprehensive range of agricultural products tailored for modern farming
-                </p>
-            </div> */}
+// Section Header Component
+const SectionHeader = () => (
+    <div className="text-center mb-12">
+        <TextBadge
+            className="mb-4"
+            color="green"
+            variant="light"
+            size="lg"
+            startIcon={<Sparkles />}
+            endIcon={<Package />}
+        >
+            Shop by Category
+        </TextBadge>
 
-            {/* {!hasCategories ? (
-                <ContentPlaceholder color='red' description={'error?.data?.message'} variant='light' />
-            ) : (
-            )} */}
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Featured <span className="text-green-600">Categories</span>
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Explore our comprehensive range of agricultural products tailored for modern farming
+        </p>
+    </div>
+);
+
+export default function CategoriesList() {
+    const [swiperRef, setSwiperRef] = useState(null);
+    const { data: categories = [], isLoading, isError } = useCategories();
+
+    const handlePrevSlide = useCallback(() => swiperRef?.slidePrev(), [swiperRef]);
+    const handleNextSlide = useCallback(() => swiperRef?.slideNext(), [swiperRef]);
+
+    const hasCategories = categories.length > 0;
+    const showNavigation = hasCategories && !isLoading;
+
+    // Render empty state
+    if (!isLoading && !hasCategories) {
+        return (
+            <section className="my-24">
+                <SectionHeader />
+                <ContentPlaceholder
+                    icon={Package}
+                    title="No Categories Available"
+                    description="We're currently updating our product categories. Our selection of premium agricultural supplies, farming equipment, and organic products will be available soon. Check back shortly to explore our comprehensive range!"
+                    color="green"
+                    variant="light"
+                />
+            </section>
+        );
+    }
+
+    if (isError) {
+        return (
+            <section className="my-24">
+                <SectionHeader />
+                <ContentPlaceholder
+                    icon={Package}
+                    title="Unable to Load Categories"
+                    description="We're experiencing technical difficulties loading our featured categories. Please try refreshing the page or check back in a few moments."
+                    color="red"
+                    variant="light"
+                />
+            </section>
+        );
+    }
+
+    return (
+        <section className="my-24">
+            <SectionHeader />
+
             <div className="relative">
-                {hasCategories && (
+                {showNavigation && (
                     <>
-                        <button
-                            onClick={() => swiperRef?.slidePrev()}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 bg-white dark:bg-slate-800 p-3 rounded-full shadow-2xl hover:shadow-blue-500/50 dark:hover:shadow-blue-400/30 transition-all duration-300 hover:scale-110 border-2 border-slate-200 dark:border-slate-700 group"
-                            aria-label="Previous slide"
-                        >
-                            <MoveLeft className="w-5 h-5 text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
-                        </button>
-
-                        <button
-                            onClick={() => swiperRef?.slideNext()}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 bg-white dark:bg-slate-800 p-3 rounded-full shadow-2xl hover:shadow-blue-500/50 dark:hover:shadow-blue-400/30 transition-all duration-300 hover:scale-110 border-2 border-slate-200 dark:border-slate-700 group"
-                            aria-label="Next slide"
-                        >
-                            <MoveRight className="w-5 h-5 text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
-                        </button>
+                        <NavigationButton direction="prev" onClick={handlePrevSlide} />
+                        <NavigationButton direction="next" onClick={handleNextSlide} />
                     </>
                 )}
 
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
-                    spaceBetween={30}
-                    slidesPerView={1}
-                    centeredSlides={false}
                     onSwiper={setSwiperRef}
-                    pagination={{
-                        clickable: true,
-                        dynamicBullets: true,
-                        dynamicMainBullets: 3
-                    }}
-                    autoplay={{
-                        delay: 5000,
-                        disableOnInteraction: true,
-                        pauseOnMouseEnter: true
-                    }}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                            spaceBetween: 20
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 30
-                        },
-                        1280: {
-                            slidesPerView: 3.5,
-                            spaceBetween: 30
-                        }
-                    }}
                     className="pb-16!"
+                    {...SWIPER_CONFIG}
                 >
-                    {/* {hasCategories ? (
-                        <>
-                            {[...Array(4)].map((_, i) => (
-                                <SwiperSlide key={i}>
-                                    <CategoriesSkeleton />
-                                </SwiperSlide>
-                            ))}
-                        </>
-                    ) : (
-                    )} */}
-                    <>
-                        {featuredCategories.map((category) => (
+                    {isLoading
+                        ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+                            <SwiperSlide key={`skeleton-${i}`}>
+                                <CategoriesSkeleton />
+                            </SwiperSlide>
+                        ))
+                        : categories.map((category) => (
                             <SwiperSlide key={category.id}>
                                 <CategoriesItem category={category} />
                             </SwiperSlide>
                         ))}
-                    </>
                 </Swiper>
             </div>
-            <style>
-                {`
-                .swiper-pagination-bullet {
-                width: 12px;
-                height: 12px;
-                background: rgb(148 163 184);
-                opacity: 0.5;
-                transition: all 0.3s ease;
-                }
-                .dark .swiper-pagination-bullet {
-                background: rgb(71 85 105);
-                }
-                .swiper-pagination-bullet-active {
-                width: 32px;
-                border-radius: 6px;
-                background: linear-gradient(135deg, rgb(0 200 0), rgb(0 100 4));
-                opacity: 1;
-                }
-                .swiper-pagination-bullet:hover {
-                opacity: 0.8;
-                transform: scale(1.2);
-                }
-            `}</style>
-        </>
+        </section>
     );
 }

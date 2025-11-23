@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { cache } from 'react';
-import { sessionConfig } from '@/utils/sessionConfig';
+import { sessionConfig } from '@/utils/session.config';
 import { AUTH_COOKIE, RoleEnum } from '@/utils/constant';
 import { getPrimaryRole } from '@/utils/helper';
 

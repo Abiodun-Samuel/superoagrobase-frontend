@@ -1,6 +1,6 @@
 const CategoriesSkeleton = () => {
     return (
-        <div className="relative w-96">
+        <div className="relative max-w-sm">
             <div className="relative bg-white rounded-3xl overflow-hidden shadow animate-pulse">
 
                 {/* IMAGE + OVERLAY AREA */}

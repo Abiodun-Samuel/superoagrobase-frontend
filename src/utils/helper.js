@@ -23,3 +23,12 @@ export const isActivePath = (pathname, itemPath) => {
   if (itemPath === '/') return pathname === '/';
   return pathname === itemPath || pathname?.startsWith(itemPath + '/');
 };
+
+export function formatPrice(price) {
+  if (!price) return null
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 0
+  }).format(price);
+}

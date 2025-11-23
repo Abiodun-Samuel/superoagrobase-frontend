@@ -1,9 +1,9 @@
-import React from 'react'
 
-const Page = () => {
+const ProductsPage = async ({ searchParams }) => {
+    const query = await searchParams
     return (
-        <div>all products</div>
+        <div>all products: {query?.page}</div>
     )
 }
 
-export default Page
+export default ProductsPage

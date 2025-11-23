@@ -3,11 +3,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { setAuth, clearAuth, getAuth } from '@/lib/auth';
+import { setAuth, clearAuth, getAuth } from '@/server/auth.action';
 import { AuthService } from '@/services/auth.service';
 import { formatErrorMessage } from '@/utils/helper';
 import Toast from '@/lib/toastify';
-import { QUERY_KEYS } from '@/utils/queryKeys';
+import { QUERY_KEYS } from '@/utils/queries.keys';
 import useAuth from '@/hooks/useAuth';
 
 // ============================================================================
@@ -17,7 +17,7 @@ import useAuth from '@/hooks/useAuth';
 export const useMe = (options = {}) => {
   const { setAuth: updateAuthState } = useAuth();
   return useQuery({
-    queryKey: QUERY_KEYS.Auth.UseMe,
+    queryKey: QUERY_KEYS.auth.me(),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: true,
@@ -99,7 +99,7 @@ export const useLogout = (options = {}) => {
     try {
       await clearAuth();
       updateAuthState(null)
-      queryClient.removeQueries({ queryKey: QUERY_KEYS.Auth.UseMe });
+      queryClient.removeQueries({ queryKey: QUERY_KEYS.auth.me() });
       queryClient.clear();
     } catch (error) {
       queryClient.clear();

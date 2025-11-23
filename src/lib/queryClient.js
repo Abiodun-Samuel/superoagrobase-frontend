@@ -5,7 +5,8 @@ export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnWindowFocus: true,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
         retry: 0,
         staleTime: 60 * 1000,
         gcTime: 5 * 60 * 1000,

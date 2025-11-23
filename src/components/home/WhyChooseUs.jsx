@@ -1,117 +1,173 @@
 'use client'
-import { features, trustIndicators } from '@/utils/data';
-import { Shield, Truck, Headphones, CreditCard, Award, Leaf, TrendingUp, Heart, CheckCircle2, Zap, Users, Globe } from 'lucide-react';
 
-export default function WhyChooseUs() {
+import { useMemo } from 'react';
+import {
+    Shield,
+    Headphones,
+    CheckCircle2,
+    ArrowRight
+} from 'lucide-react';
+import Button from '../ui/Button';
+import TextBadge from '../ui/TextBadge';
+import IconBadge from '../ui/IconBadge';
+import { FEATURES, TRUST_INDICATORS } from '@/utils/data';
 
+// Subcomponents
+const SectionHeader = () => (
+    <header className="text-center mb-12 space-y-4">
+        <TextBadge size='lg' color='green' startIcon={<Shield className="w-5 h-5" />}>
+            <span>Trusted by 10,000+ Farmers Nationwide</span>
+        </TextBadge>
+
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+            Why Farmers Choose{' '}
+            <span className="text-green-600">Our Platform</span>
+        </h2>
+
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            We're not just suppliers—we're your partners in agricultural success. Here's what makes us different.
+        </p>
+    </header>
+);
+
+const TrustIndicatorsBar = ({ indicators }) => (
+    <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl shadow p-6 border border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {indicators.map((indicator, index) => {
+                const Icon = indicator.icon;
+                return (
+                    <article
+                        key={`trust-${index}`}
+                        className="flex items-center gap-4 group cursor-pointer"
+                    >
+                        <IconBadge size='lg' icon={<Icon />} color='green' />
+
+
+                        <div className="flex-1 min-w-0">
+                            <div className="text-lg font-bold text-gray-900 truncate">
+                                {indicator.value}
+                            </div>
+                            <div className="text-sm text-gray-600 truncate">
+                                {indicator.label}
+                            </div>
+                        </div>
+                    </article>
+                );
+            })}
+        </div>
+    </div>
+);
+
+const FeatureCard = ({ feature }) => {
+    const Icon = feature.icon;
 
     return (
-        <section className="my-24">
-            {/* Section Header */}
-            <div className="text-center mb-16 space-y-6">
-                <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                    <Shield className="w-4 h-4" />
-                    <span>Trusted by 10,000+ Farmers Nationwide</span>
+        <article
+            className="group relative h-full"
+            itemScope
+            itemType="https://schema.org/Service"
+        >
+            <div className="relative h-full bg-white rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden">
+                {/* Gradient Background on Hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br from-orange-600 to-amber-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+
+                {/* Badge */}
+                <div className="absolute top-4 right-4 z-10">
+                    <TextBadge size='sm' color='orange'>{feature.badge}</TextBadge>
                 </div>
 
-                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                    Why Farmers Choose
-                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
-                        Our Platform
-                    </span>
-                </h2>
+                {/* Icon Container */}
+                <div className="relative mb-4">
+                    <IconBadge size='lg' color='orange' icon={<Icon />}></IconBadge>
+                </div>
 
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    We're not just suppliers—we're your partners in agricultural success. Here's what makes us different.
+                {/* Content */}
+                <div className="relative space-y-3">
+                    <h3
+                        className="text-xl font-bold text-gray-900 leading-tight"
+                        itemProp="name"
+                    >
+                        {feature.title}
+                    </h3>
+                    <p
+                        className="text-gray-600 text-sm leading-relaxed"
+                        itemProp="description"
+                    >
+                        {feature.description}
+                    </p>
+                </div>
+            </div>
+
+            {/* Decorative Glow Effect */}
+            <div className={`absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-orange-600 to-amber-600 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+        </article>
+    );
+};
+
+const CTASection = () => (
+    <div className="mt-16 text-center ">
+        <div className="bg-[url('/images/bg/product-bg.jpg')] bg-cover bg-center rounded-3xl p-8 lg:p-12 shadow relative overflow-hidden">
+
+            <div className="relative z-10 space-y-6">
+                <h3 className="text-3xl lg:text-4xl font-bold text-gray-700">
+                    Ready to Get Started?
+                </h3>
+                <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+                    Join thousands of successful farmers who trust us for their agricultural needs
                 </p>
-            </div>
+                <div className="max-w-lg mx-auto flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+                    <Button
+                        href="/products"
+                        color='red'
+                        variant='solid'
+                        startIcon={<CheckCircle2 />}
+                        endIcon={<ArrowRight />}
+                    >
+                        <span>Start Shopping</span>
+                    </Button>
 
-            {/* Trust Indicators Bar */}
-            <div className="mb-16 bg-white/80 backdrop-blur-sm rounded-2xl shadow p-6 border border-gray-100">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    {trustIndicators.map((item, index) => (
-                        <div key={index} className="flex items-center space-x-4 group">
-                            <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <item.icon className="w-5 h-5 text-green-600" />
-                            </div>
-
-
-                            <div>
-                                <div className="text-lg font-semibold text-gray-900">{item.value}</div>
-                                <div className="text-xs text-gray-600">{item.label}</div>
-                            </div>
-                        </div>
-                    ))}
+                    <Button
+                        startIcon={<Headphones />}
+                        endIcon={<ArrowRight />}
+                        href="/contact" variant='outline' color='red'>
+                        <span>Talk to Expert</span>
+                    </Button>
                 </div>
             </div>
+        </div>
+    </div>
+);
+
+// Main Component
+export default function WhyChooseUs({
+    trustIndicators = TRUST_INDICATORS,
+    features = FEATURES
+}) {
+    const memoizedIndicators = useMemo(() => trustIndicators, [trustIndicators]);
+    const memoizedFeatures = useMemo(() => features, [features]);
+
+    return (
+        <section
+            className="my-24"
+            aria-labelledby="why-choose-us-heading"
+            itemScope
+            itemType="https://schema.org/Organization"
+        >
+            <SectionHeader />
+            <TrustIndicatorsBar indicators={memoizedIndicators} />
 
             {/* Features Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {features.map((feature, index) => {
-                    const Icon = feature.icon;
-                    return (
-                        <div
-                            key={index}
-                            className="group relative"
-                        >
-                            {/* Card */}
-                            <div className={`relative h-full bg-white rounded-2xl p-6 shadow transition-all duration-500 border border-gray-100 overflow-hidden}`}>
-                                {/* Gradient Background on Hover */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500 to-amber-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
-
-                                {/* Badge */}
-                                <div className="absolute top-4 right-4">
-                                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-yellow-50 text-gray-700">
-                                        {feature.badge}
-                                    </span>
-                                </div>
-
-                                {/* Icon Container */}
-                                <div className="relative mb-6">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-amber-50 rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-all duration-500">
-                                        <Icon className="w-5 h-5 text-yellow-600" />
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="relative space-y-3">
-                                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-green-600 group-hover:to-emerald-600 transition-all duration-300">
-                                        {feature.title}
-                                    </h3>
-                                    <p className="text-gray-600 text-sm leading-relaxed">
-                                        {feature.description}
-                                    </p>
-                                </div>
-
-                            </div>
-
-                            {/* Decorative Corner Element */}
-                            <div className="absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-                        </div>
-                    );
-                })}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {memoizedFeatures.map((feature, index) => (
+                    <FeatureCard
+                        key={`feature-${index}`}
+                        feature={feature}
+                        index={index}
+                    />
+                ))}
             </div>
 
-            {/* Bottom CTA Section */}
-            <div className="mt-16 text-center ">
-                <div className="bg-[url('/images/bg/product-bg.jpg')] bg-cover bg-center rounded-3xl p-8 lg:p-12 shadow relative overflow-hidden">
-
-                    <div className="relative z-10 space-y-6">
-                        <h3 className="text-3xl lg:text-4xl font-bold text-gray-700">
-                            Ready to Get Started?
-                        </h3>
-                        <p className="text-xl text-gray-500 max-w-2xl mx-auto">
-                            Join thousands of successful farmers who trust us for their agricultural needs
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-                            <button className="group px-8 py-4 bg-white text-green-600 rounded-xl font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2">
-                                <span>Start Shopping</span>
-                                <CheckCircle2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <CTASection />
         </section>
     );
 }

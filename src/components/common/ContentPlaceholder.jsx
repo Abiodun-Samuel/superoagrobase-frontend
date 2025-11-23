@@ -7,7 +7,7 @@ export const ContentPlaceholder = ({
     description = 'There is no data to display at the moment.',
     color = 'blue',
     variant = 'light',
-    className = ''
+    className = '',
 }) => {
     // Color palette configuration
     const colorThemes = {
@@ -146,7 +146,7 @@ export const ContentPlaceholder = ({
 
     return (
         <div className={`w-full min-h-[280px] flex items-center justify-center p-3 bg-gradient-to-br ${colorTheme.container} ${className}`}>
-            <div className={`max-w-md w-full ${colorTheme.card} border backdrop-blur-sm rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] shadow`}>
+            <div className={`max-w-xl w-full ${colorTheme.card} border backdrop-blur-sm rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] shadow`}>
 
                 {/* Icon with animated rings */}
                 <div className="relative inline-flex items-center justify-center mb-6">
@@ -166,7 +166,7 @@ export const ContentPlaceholder = ({
                 <h3 className={`text-xl font-semibold ${colorTheme.title} mb-2 animate-fadeIn`}>
                     {title}
                 </h3>
-                <p className={`text-sm ${colorTheme.description} leading-relaxed animate-fadeIn`}
+                <p className={`text-sm ${colorTheme.description} ${colorTheme.card} border p-2 rounded-xl leading-relaxed animate-fadeIn`}
                     style={{ animationDelay: '0.1s' }}>
                     {description}
                 </p>
@@ -206,5 +206,4 @@ export const ContentPlaceholder = ({
     );
 };
 
-// Demo Component
 export default ContentPlaceholder

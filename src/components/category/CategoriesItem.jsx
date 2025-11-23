@@ -41,7 +41,7 @@ const CategoriesItem = ({ category }) => {
                     {/* Floating Badge */}
                     {category?.badges?.length > 0 && (
                         <div className="absolute top-3 right-3">
-                            <TextBadge size="sm" startIcon={<Tag className="w-3 h-3" />} color="purple">
+                            <TextBadge size="sm" startIcon={<Tag className="w-3 h-3" />} color="rose">
                                 {category.badges[0]}
                             </TextBadge>
                         </div>

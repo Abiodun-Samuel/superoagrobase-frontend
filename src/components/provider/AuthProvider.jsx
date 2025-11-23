@@ -1,6 +1,6 @@
 'use client';
 
-import { clearAuth } from '@/lib/auth';
+import { clearAuth } from '@/server/auth.action';
 import Toast from '@/lib/toastify';
 import { createContext, useEffect, useState } from 'react';
 
