@@ -25,8 +25,11 @@ export async function generateMetadata({ params }) {
 
 
 export async function generateStaticParams() {
-    const products = await ProductService.getAllProducts();
-    return products.map(({ slug }) => ({ slug }));
+    try {
+        const products = await ProductService.getAllProducts();
+        return products.map(({ slug }) => ({ slug }));
+    } catch (error) {
+    }
 }
 
 
