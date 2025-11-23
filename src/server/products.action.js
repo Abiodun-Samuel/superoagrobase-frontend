@@ -27,7 +27,7 @@ export const ProductServerService = {
             if (!data && throwOnNotFound) notFound();
             return data;
         } catch (error) {
-            if (error.message === 'NEXT_NOT_FOUND') {
+            if (error?.message === 'NEXT_NOT_FOUND') {
                 throw error;
             }
             return null;
