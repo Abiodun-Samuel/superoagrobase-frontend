@@ -8,10 +8,15 @@ import { notFound } from 'next/navigation';
 import { ProductService } from '@/services/products.service';
 import RatingStars from '@/components/products/RatingStars';
 
-
 export const revalidate = 3600;
 export const dynamicParams = true;
 
+/**
+ * Generate metadata for the product page
+ * @param {Object} props - Page props
+ * @param {Promise<Object>} props.params - Route parameters
+ * @returns {Promise<Object>} Metadata object
+ */
 export async function generateMetadata({ params }) {
     try {
         const { slug } = await params;
@@ -22,41 +27,56 @@ export async function generateMetadata({ params }) {
         });
 
         return generateProductMetadata(product);
-
     } catch (error) {
+        console.error('[generateMetadata] Error:', error);
         return generateProductMetadata(null);
     }
 }
 
-
+/**
+ * Generate static paths at build time for ISR
+ * @returns {Promise<Array>} Array of slug params
+ */
 export async function generateStaticParams() {
     try {
         const { data: products } = await ProductService.getAllProducts();
+
         if (!Array.isArray(products)) {
             return [];
         }
+
         return products
             .filter(product => product?.slug)
             .map(({ slug }) => ({ slug }));
     } catch (error) {
+        console.error('[generateStaticParams] Error:', error);
         return [];
     }
 }
 
-
+/**
+ * Product detail page component
+ * @param {Object} props - Page props
+ * @param {Promise<Object>} props.params - Route parameters containing slug
+ * @returns {Promise<JSX.Element>} Rendered product page
+ */
 export default async function ProductPage({ params }) {
-    const { slug } = await params;
-    if (!slug) notFound();
-
     try {
+        const { slug } = await params;
+
+        if (!slug) {
+            notFound();
+        }
+
         const { data: product } = await ProductService.getProductBySlug(slug, {
             incrementView: true
         });
 
-        console.log(product)
+        if (!product) {
+            notFound();
+        }
 
-        if (!product) notFound();
-
+        // Generate JSON-LD structured data for SEO
         const jsonLdScripts = [
             generateProductJsonLd(product),
             generateBreadcrumbJsonLd(product),
@@ -65,6 +85,7 @@ export default async function ProductPage({ params }) {
 
         return (
             <>
+                {/* Structured Data (JSON-LD) */}
                 {jsonLdScripts.map((jsonLd, idx) => (
                     <script
                         key={idx}
@@ -74,9 +95,13 @@ export default async function ProductPage({ params }) {
                 ))}
 
                 <main className="container mx-auto px-4 py-8">
-                    {/* Breadcrumb Navigation */}
+                    {/* Breadcrumb Navigation with Schema.org markup */}
                     <nav aria-label="Breadcrumb" className="mb-6">
-                        <ol className="flex items-center space-x-2 text-sm" itemScope itemType="https://schema.org/BreadcrumbList">
+                        <ol
+                            className="flex items-center space-x-2 text-sm"
+                            itemScope
+                            itemType="https://schema.org/BreadcrumbList"
+                        >
                             <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
                                 <a href="/" className="text-gray-600 hover:text-green-600" itemProp="item">
                                     <span itemProp="name">Home</span>
@@ -113,7 +138,7 @@ export default async function ProductPage({ params }) {
                         </ol>
                     </nav>
 
-                    {/* Product Detail Content */}
+                    {/* Product Detail Content with Schema.org Product markup */}
                     <article
                         className="grid md:grid-cols-2 gap-8"
                         itemScope
@@ -126,7 +151,6 @@ export default async function ProductPage({ params }) {
 
                         {/* Product Images */}
                         <div>
-                            {/* Your product image gallery component */}
                             <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
                                 <img
                                     src={product.image}
@@ -143,24 +167,24 @@ export default async function ProductPage({ params }) {
                                 {product.title}
                             </h1>
 
-                            {/* Rating */}
-                            {product.rating > 0 && (
+                            {/* Rating with AggregateRating schema */}
+                            {product.reviews_summary?.average_ratings > 0 && (
                                 <div
                                     className="flex items-center gap-2 mb-4"
                                     itemProp="aggregateRating"
                                     itemScope
                                     itemType="https://schema.org/AggregateRating"
                                 >
-                                    <meta itemProp="ratingValue" content={product.reviews_summary?.average_ratings} />
-                                    <meta itemProp="reviewCount" content={product.reviews_summary?.reviews_count || 0} />
+                                    <meta itemProp="ratingValue" content={product.reviews_summary.average_ratings} />
+                                    <meta itemProp="reviewCount" content={product.reviews_summary.reviews_count || 0} />
                                     <meta itemProp="bestRating" content="5" />
                                     <meta itemProp="worstRating" content="1" />
 
                                     <div className="flex">
-                                        <RatingStars ratings={product?.reviews_summary?.average_ratings} />
+                                        <RatingStars ratings={product.reviews_summary.average_ratings} />
                                     </div>
                                     <span className="text-sm text-gray-600">
-                                        {product.reviews_summary?.reviews_count || 0} reviews)
+                                        ({product.reviews_summary.reviews_count || 0} reviews)
                                     </span>
                                 </div>
                             )}
@@ -210,7 +234,7 @@ export default async function ProductPage({ params }) {
                                 )}
                             </div>
 
-                            {/* Category & Brand */}
+                            {/* Category & Brand Tags */}
                             {(product.category || product.brands) && (
                                 <div className="mb-6 flex flex-wrap gap-2">
                                     {product.category && (
@@ -234,7 +258,7 @@ export default async function ProductPage({ params }) {
                                 </p>
                             </div>
 
-                            {/* Add to Cart */}
+                            {/* Add to Cart Button */}
                             <button
                                 disabled={product.stock === 0}
                                 className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
@@ -244,7 +268,7 @@ export default async function ProductPage({ params }) {
                         </div>
                     </article>
 
-                    {/* Additional Product Details - SEO Content */}
+                    {/* Product Specifications - SEO Content */}
                     <section className="mt-12 border-t pt-8">
                         <h2 className="text-2xl font-bold mb-6">Product Specifications</h2>
                         <dl className="grid sm:grid-cols-2 gap-6">
@@ -280,7 +304,7 @@ export default async function ProductPage({ params }) {
                                 <dt className="font-semibold text-gray-700 mb-1">SKU</dt>
                                 <dd className="text-gray-600">{product.slug}</dd>
                             </div>
-                            {product.view_count && (
+                            {product.view_count > 0 && (
                                 <div>
                                     <dt className="font-semibold text-gray-700 mb-1">Views</dt>
                                     <dd className="text-gray-600">{product.view_count.toLocaleString()}</dd>
@@ -303,125 +327,22 @@ export default async function ProductPage({ params }) {
                         </section>
                     )}
                 </main>
-
-                <main className="container mx-auto px-4 py-8">
-                    {/* Breadcrumb Navigation */}
-                    <nav aria-label="Breadcrumb" className="mb-6">
-
-                        <h1>{product?.view_count}</h1>
-                        <ol className="flex items-center space-x-2 text-sm">
-                            <li><a href="/" className="text-gray-600 hover:text-green-600">Home</a></li>
-                            <li className="text-gray-400">/</li>
-
-                            <li><a href="/products" className="text-gray-600 hover:text-green-600">
-                                Products
-                            </a></li>
-
-                            {product?.category && (
-                                <>
-                                    <li className="text-gray-400">/</li>
-                                    <li>
-                                        <a
-                                            href={`/products/categories/${product.category.slug}`}
-                                            className="text-gray-600 hover:text-green-600"
-                                        >
-                                            {product.category.title}
-                                        </a>
-                                    </li>
-                                </>
-                            )}
-
-                            <li className="text-gray-400">/</li>
-                            <li className="text-gray-900 font-medium">{product.title}</li>
-                        </ol>
-                    </nav>
-
-                    {/* Product Content */}
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <div>{/* Product Images Component */}</div>
-
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.title}</h1>
-
-                            {/* Rating */}
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="text-sm text-gray-600">
-                                    {product.reviews?.rating} ({product?.reviews?.rating || 0} reviews)
-
-                                </span>
-                            </div>
-
-                            {/* Price */}
-                            <div className="mb-6">
-                                <span className="text-3xl font-bold text-green-600">
-                                    ₦{Number(product.price).toLocaleString()}
-                                </span>
-                            </div>
-
-                            {/* Stock */}
-                            <div className="mb-6">
-                                {product.stock > 0 ? (
-                                    <span className="text-green-600 font-medium">
-                                        ✓ In Stock ({product.stock} available)
-                                    </span>
-                                ) : (
-                                    <span className="text-red-600 font-medium">
-                                        Out of Stock
-                                    </span>
-                                )}
-                            </div>
-
-                            {/* Description */}
-                            <div className="mb-6">
-                                <h2 className="text-xl font-bold mb-2">Description</h2>
-                                <p className="text-gray-600 whitespace-pre-line">
-                                    {product.description}
-                                </p>
-                            </div>
-
-                            <button
-                                disabled={product.stock === 0}
-                                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 disabled:bg-gray-300"
-                            >
-                                {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Additional SEO Fields */}
-                    <div className="mt-12">
-                        <h2 className="text-2xl font-bold mb-4">Product Details</h2>
-                        <dl className="grid grid-cols-2 gap-4">
-                            <div>
-                                <dt className="font-semibold text-gray-700">Brand</dt>
-                                <dd className="text-gray-600">{product.brands || 'SuperAgroBase'}</dd>
-                            </div>
-
-                            <div>
-                                <dt className="font-semibold text-gray-700">Category</dt>
-                                <dd className="text-gray-600">{product.category?.title}</dd>
-                            </div>
-
-                            <div>
-                                <dt className="font-semibold text-gray-700">Pack Size</dt>
-                                <dd className="text-gray-600">{product.pack_size}</dd>
-                            </div>
-
-                            <div>
-                                <dt className="font-semibold text-gray-700">SKU</dt>
-                                <dd className="text-gray-600">{product.id}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                </main>
             </>
-        )
+        );
     } catch (error) {
-        if (error.response?.status == 404 || error.status == 404) {
+        console.error('[ProductPage] Error:', {
+            message: error?.message,
+            status: error?.status || error?.response?.status,
+            slug: (await params)?.slug,
+        });
+
+        // Handle 404 errors
+        if (error?.response?.status === 404 || error?.status === 404) {
             notFound();
         }
-        return (
-            " <ErrorWrapper />"
-        );
+
+        // For any other errors, show 404 instead of 500
+        // This prevents breaking the page and provides better UX
+        notFound();
     }
 }
