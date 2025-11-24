@@ -40,7 +40,6 @@ export const useMe = (options = {}) => {
       updateAuthState(authState);
       return user
     },
-    enabled: options.isAuthenticated,
     ...options,
   });
 };
@@ -50,8 +49,8 @@ export const useMe = (options = {}) => {
 // ============================================================================
 
 export const useLogin = (options = {}) => {
-  const router = useRouter();
   const { setAuth: updateAuthState } = useAuth();
+  const router = useRouter();
   return useMutation({
     mutationFn: AuthService.login,
     onSuccess: async (response, variables) => {
@@ -73,10 +72,12 @@ export const useLogin = (options = {}) => {
         const redirectTo = options.redirectTo || '/';
         router.replace(redirectTo);
       } catch (error) {
+        console.log('login', error)
         Toast.error('Login successful but session setup failed', error);
       }
     },
     onError: (error, variables) => {
+      console.log('error', error)
       const message = formatErrorMessage(error);
       Toast.error(message);
       options.onError?.(error, variables);

@@ -11,7 +11,7 @@ export async function setAuth(data) {
     const { token, user } = data;
 
     if (!token || !user) {
-      throw new Error('Invalid auth data: token and user are required');
+      return null
     }
 
     const { roles, ...userdetails } = user;
@@ -35,7 +35,7 @@ export async function setAuth(data) {
       isAuthenticated: true
     };
   } catch (error) {
-    return error;
+    return null;
   }
 }
 
@@ -89,7 +89,5 @@ export async function clearAuth() {
   try {
     const cookieStore = await cookies();
     cookieStore.delete(AUTH_COOKIE);
-  } catch (error) {
-    throw error;
-  }
+  } catch (error) { }
 }

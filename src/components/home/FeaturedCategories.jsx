@@ -1,7 +1,7 @@
 'use client';
 
 import { Package, Sparkles, MoveLeft, MoveRight } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 
@@ -86,14 +86,18 @@ const SectionHeader = () => (
 );
 
 export default function FeaturedCategories() {
+    const [isClient, setIsClient] = useState(false);
     const [swiperRef, setSwiperRef] = useState(null);
-    const { data: categories = [], isLoading, isError } = useCategories();
-
+    const { data: categories = [], isLoading, isError, error } = useCategories();
     const handlePrevSlide = useCallback(() => swiperRef?.slidePrev(), [swiperRef]);
     const handleNextSlide = useCallback(() => swiperRef?.slideNext(), [swiperRef]);
 
     const hasCategories = categories.length > 0;
-    const showNavigation = hasCategories && !isLoading;
+    const showNavigation = hasCategories && !isLoading && isClient;
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // Render empty state
     if (!isLoading && !hasCategories) {

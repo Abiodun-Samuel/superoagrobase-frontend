@@ -162,22 +162,24 @@ export default function HeroSection({
                             </p>
                         </div>
 
-                        <div className="max-w-sm md:mx-auto flex flex-col sm:flex-row gap-4">
-                            <Button
-                                href="/products"
-                                startIcon={<ShoppingCart className="w-5 h-5" />}
-                                endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
-                            >
-                                Shop Now
-                            </Button>
-                            <Button
-                                href="/contact"
-                                variant="outline"
-                                startIcon={<Leaf className="w-5 h-5 text-green-600" />}
-                                endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
-                            >
-                                Contact Us
-                            </Button>
+                        <div className="flex justify-center lg:justify-start">
+                            <div className='flex flex-col sm:flex-row gap-4 md:max-w-sm max-w-xs w-full'>
+                                <Button
+                                    href="/products"
+                                    startIcon={<ShoppingCart className="w-5 h-5" />}
+                                    endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
+                                >
+                                    Shop Now
+                                </Button>
+                                <Button
+                                    href="/contact"
+                                    variant="outline"
+                                    startIcon={<Leaf className="w-5 h-5 text-green-600" />}
+                                    endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
+                                >
+                                    Contact Us
+                                </Button>
+                            </div>
                         </div>
 
                         <StatsGrid stats={STATS} />

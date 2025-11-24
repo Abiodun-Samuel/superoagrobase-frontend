@@ -7,7 +7,6 @@ import TrendingProductsSSR from "@/components/home/TrendingProductsSSR"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
 
 const page = async () => {
-
     return (
         <>
             <HeroWithFeaturedProductsSSR />

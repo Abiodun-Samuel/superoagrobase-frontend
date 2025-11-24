@@ -1,8 +1,17 @@
 import { RoleEnum } from "./constant";
 
 export const formatErrorMessage = (error) => {
-  const message = error?.data?.message || error || 'An error occured.';
-  return message;
+  if (error?.response) {
+    return error.response.data?.message ||
+      error.response.data?.error ||
+      'An error occurred';
+  }
+
+  if (error?.request) {
+    return 'Network error. Please check your connection.';
+  }
+
+  return error?.message || 'An unexpected error occurred';
 };
 
 export function getPrimaryRole(roles = []) {

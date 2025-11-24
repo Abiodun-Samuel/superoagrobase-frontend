@@ -8,9 +8,9 @@ import {
 } from 'lucide-react';
 
 const Alert = ({
-    variant = 'info',
+    variant,
     message = null,
-    data = null,
+    error = null,
     onClose,
     dismissible = true,
     className = '',
@@ -25,6 +25,8 @@ const Alert = ({
         setIsVisible(false);
         onClose?.();
     };
+
+    const activeVariant = variant || (error ? 'error' : 'info');
 
     // Variant configurations
     const variantConfig = {
@@ -62,21 +64,25 @@ const Alert = ({
         },
     };
 
-    const config = variantConfig[variant] || variantConfig.info;
+    const config = variantConfig[activeVariant] || variantConfig.info;
     const IconComponent = config.icon;
 
-    // Determine content to display
-    const displayMessage = message || data?.message;
-    const hasErrors = data?.errors && Object.keys(data.errors).length > 0;
+    // Extract message and errors from error object or use direct message prop
+    const displayMessage = message || error?.response?.data?.message || error?.message;
+    const errorDetails = error?.response?.data?.errors;
+    const hasErrors = errorDetails && Object.keys(errorDetails).length > 0;
+
+    // Don't render if no message and no errors
+    if (!displayMessage && !hasErrors) return null;
 
     return (
         <div
             className={`
-        relative flex gap-3 p-4 rounded-lg border
-        ${config.container}
-        ${dismissible ? 'pr-10' : ''}
-        ${className}
-      `.trim().replace(/\s+/g, ' ')}
+                relative flex gap-3 p-4 rounded-lg border
+                ${config.container}
+                ${dismissible ? 'pr-10' : ''}
+                ${className}
+            `.trim().replace(/\s+/g, ' ')}
             role="alert"
             aria-live="polite"
         >
@@ -86,10 +92,10 @@ const Alert = ({
                     type="button"
                     onClick={handleDismiss}
                     className={`
-            absolute top-3 right-3 p-1 rounded-md transition-colors
-            ${config.closeHover}
-            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-current
-          `.trim().replace(/\s+/g, ' ')}
+                        absolute top-3 right-3 p-1 rounded-md transition-colors
+                        ${config.closeHover}
+                        focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-current
+                    `.trim().replace(/\s+/g, ' ')}
                     aria-label="Dismiss alert"
                 >
                     <X className="w-4 h-4" />
@@ -115,12 +121,12 @@ const Alert = ({
                 {/* Error details */}
                 {hasErrors && (
                     <div className={`mt-2 space-y-1 text-sm ${config.messageColor}`}>
-                        {Object.entries(data?.errors).map(([field, messages]) => {
+                        {Object.entries(errorDetails).map(([field, messages]) => {
                             const errorMessages = Array.isArray(messages) ? messages : [messages];
 
                             return errorMessages.map((msg, index) => (
-                                <div key={`${field}-${index}`} className="flex items-start gap-2">
-                                    <span className="shrink-0 mt-1 w-1 h-1 rounded-full bg-current opacity-60" />
+                                <div key={`${field}-${index}`} className="flex items-center gap-2">
+                                    <span className="shrink-0 w-1 h-1 rounded-full bg-current opacity-60" />
                                     <span className="flex-1">
                                         <span className="font-semibold capitalize">{field.replace(/_/g, ' ')}</span>
                                         {': '}

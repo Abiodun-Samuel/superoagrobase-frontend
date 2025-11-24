@@ -7,6 +7,7 @@ import Link from "next/link";
 import Button from "../ui/Button";
 import TextBadge from "../ui/TextBadge";
 import { BADGE_COLORS } from "@/utils/data";
+import RatingStars from "./RatingStars";
 
 const ProductItem = ({ product }) => {
     const [isWishlisted, setIsWishlisted] = useState(false);
@@ -50,40 +51,8 @@ const ProductItem = ({ product }) => {
         return { available: true, label: `In Stock (${product.stock} available)`, color: 'green' };
     }, [product.stock]);
 
-    // Generate structured data for SEO
-    const structuredData = useMemo(() => ({
-        "@context": "https://schema.org/",
-        "@type": "Product",
-        "name": product.title,
-        "image": product.image,
-        "description": product.description || product.title,
-        "sku": product.id,
-        "brand": {
-            "@type": "Brand",
-            "name": product.brands || "SuperAgroBase"
-        },
-        "offers": {
-            "@type": "Offer",
-            "url": `https://superoagrobase.com/products/${product.slug}`,
-            "priceCurrency": "NGN",
-            "price": product.price,
-            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            "itemCondition": "https://schema.org/NewCondition"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": product.rating || 4.5,
-            "reviewCount": product.reviews || 0
-        }
-    }), [product]);
-
     return (
         <>
-            {/* JSON-LD Structured Data for SEO */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-            />
 
             <article
                 className="group relative bg-white rounded-xl shadow hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
@@ -180,23 +149,11 @@ const ProductItem = ({ product }) => {
 
                     {/* Rating with SEO markup */}
                     <div className="flex items-center gap-2" itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-                        <meta itemProp="ratingValue" content={product.rating || 4.5} />
-                        <meta itemProp="reviewCount" content={product.reviews || 0} />
+                        <meta itemProp="ratingValue" content={product?.reviews_summary?.average_ratings || 0} />
+                        <meta itemProp="reviewCount" content={product?.reviews_summary?.reviews_count || 0} />
                         <meta itemProp="bestRating" content="5" />
                         <meta itemProp="worstRating" content="1" />
-                        <div className="flex items-center" aria-label={`Rating: ${product.rating} out of 5`}>
-                            {Array.from({ length: 5 }, (_, i) => (
-                                <Star
-                                    key={i}
-                                    className={`w-4 h-4 ${i < Math.floor(product.rating)
-                                        ? 'text-yellow-400 fill-yellow-400'
-                                        : 'text-gray-300'
-                                        }`}
-                                />
-                            ))}
-                        </div>
-                        <span className="text-sm font-semibold text-gray-700">{product.rating}</span>
-                        <span className="text-xs text-gray-500">({product.reviews || 0})</span>
+                        <RatingStars ratings={product?.reviews_summary?.average_ratings} />
                     </div>
 
                     {/* Price with SEO markup */}

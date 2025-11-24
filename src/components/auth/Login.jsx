@@ -29,8 +29,10 @@ const Login = () => {
     const email = watch('email');
 
     const handleLogin = async (data) => {
-        await mutateAsync(data);
-        reset()
+        try {
+            await mutateAsync(data);
+            reset();
+        } catch (err) { }
     }
 
     return (
@@ -83,7 +85,7 @@ const Login = () => {
                         />
 
                         {isError && (
-                            <Alert response={error?.data?.error} message={error?.data?.message} variant="error" data={error?.data} />
+                            <Alert error={error} />
                         )}
 
                         <Button

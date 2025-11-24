@@ -29,9 +29,9 @@ export default async function RootLayout({ children }) {
         <link rel="manifest" href="/favicon/site.webmanifest"></link>
       </head>
       <body className={`${outfit.className} dark:bg-gray-900`}>
-        <Toaster />
-        <NextTopLoader {...loadingIndicatorProperties} />
         <TanstackQueryProvider>
+          <Toaster />
+          <NextTopLoader {...loadingIndicatorProperties} />
           <SidebarProvider>
             <AuthProvider initialAuth={auth}>
               {children}
