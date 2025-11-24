@@ -37,22 +37,22 @@ export async function generateMetadata({ params }) {
  * Generate static paths at build time for ISR
  * @returns {Promise<Array>} Array of slug params
  */
-export async function generateStaticParams() {
-    try {
-        const { data: products } = await ProductService.getAllProducts();
+// export async function generateStaticParams() {
+//     try {
+//         const { data: products } = await ProductService.getAllProducts();
 
-        if (!Array.isArray(products)) {
-            return [];
-        }
+//         if (!Array.isArray(products)) {
+//             return [];
+//         }
 
-        return products
-            .filter(product => product?.slug)
-            .map(({ slug }) => ({ slug }));
-    } catch (error) {
-        console.error('[generateStaticParams] Error:', error);
-        return [];
-    }
-}
+//         return products
+//             .filter(product => product?.slug)
+//             .map(({ slug }) => ({ slug }));
+//     } catch (error) {
+//         console.error('[generateStaticParams] Error:', error);
+//         return [];
+//     }
+// }
 
 /**
  * Product detail page component
