@@ -35,9 +35,6 @@ export default async function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        <meta name="author" content="{{SITE_CONFIG.name}}" />
-
-        {/* IE Compatibility */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
         {jsonLdScripts.map((jsonLd, idx) => (

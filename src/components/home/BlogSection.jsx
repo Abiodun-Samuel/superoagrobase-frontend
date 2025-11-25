@@ -1,7 +1,46 @@
 'use client'
 
 import React from 'react';
-import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
+import { Calendar, User, ArrowRight, Tag, Book, ChevronRight } from 'lucide-react';
+import TextBadge from '../ui/TextBadge';
+import Button from '../ui/Button';
+
+const SectionHeader = () => (
+    <header className="text-center mb-12 space-y-4">
+        <TextBadge
+            color="green"
+            variant="light"
+            size="lg"
+            startIcon={<Tag className="w-5 h-5" />}
+            endIcon={<Book className="w-5 h-5" />}
+        >
+            Latest Insights
+        </TextBadge>
+
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+            From Our{" "} <span className="text-green-600"> Blogs</span>
+        </h2>
+
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Expert advice, farming tips, and industry insights to help you grow better
+
+        </p>
+    </header>
+);
+
+const ViewAllButton = () => (
+    <div className="text-center mt-12">
+        <Button
+            startIcon={<Book />}
+            href="/blogs"
+            className="max-w-xs"
+            variant="outline"
+            endIcon={<ChevronRight />}
+        >
+            <span>View All Articles</span>
+        </Button>
+    </div>
+)
 
 export default function BlogSection() {
     const blogs = [
@@ -49,24 +88,10 @@ export default function BlogSection() {
 
     return (
         <section className="my-24">
-            <div className="text-center mb-12 lg:mb-16">
-                <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                    <Tag className="w-4 h-4" />
-                    Latest Insights
-                </div>
-                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                    From Our{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
-                        Blog
-                    </span>
-                </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Expert advice, farming tips, and industry insights to help you grow better
-                </p>
-            </div>
+            <SectionHeader />
 
             {/* Blog Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 relative">
                 {blogs.map((blog) => (
                     <article
                         key={blog.id}
@@ -139,10 +164,7 @@ export default function BlogSection() {
 
             {/* View All Button */}
             <div className="text-center mt-12">
-                <button className="inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-800 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 border-2 border-green-600 hover:bg-green-600 hover:text-white">
-                    View All Articles
-                    <ArrowRight className="w-5 h-5" />
-                </button>
+                <ViewAllButton />
             </div>
         </section>
     );

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { NavbarData } from '@/utils/data';
+import { NAVBAR_DATA } from '@/utils/data';
 import TopBar from './partials/TopBar';
 import Logo from './partials/Logo';
 import DesktopNavigation from './partials/DesktopNavigation';
@@ -49,7 +49,7 @@ const Navbar = () => {
             <div style={{ height: `${navHeight}px` }} />
 
             <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-                <TopBar data={NavbarData.topBar} />
+                <TopBar data={NAVBAR_DATA.topBar} />
 
                 {/* Main Navigation Bar */}
                 <div
@@ -61,7 +61,7 @@ const Navbar = () => {
                             <Logo />
 
                             <DesktopNavigation
-                                items={NavbarData.mainNav}
+                                items={NAVBAR_DATA.mainNav}
                                 activeDropdown={state.activeDropdown}
                                 onToggleDropdown={(id) => updateState({ activeDropdown: state.activeDropdown === id ? null : id })}
                                 pathname={pathname}
@@ -71,7 +71,7 @@ const Navbar = () => {
                                 isAuthenticated={isAuthenticated}
                                 user={user}
                                 role={role}
-                                userMenu={NavbarData.userMenu}
+                                userMenu={NAVBAR_DATA.userMenu}
                                 pathname={pathname}
                             />
 
@@ -86,11 +86,11 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 <MobileMenu
                     isOpen={state.isMobileMenuOpen}
-                    items={NavbarData.mainNav}
+                    items={NAVBAR_DATA.mainNav}
                     isAuthenticated={isAuthenticated}
                     user={user}
                     role={role}
-                    userMenu={NavbarData.userMenu}
+                    userMenu={NAVBAR_DATA.userMenu}
                     onClose={() => updateState({ isMobileMenuOpen: false })}
                     pathname={pathname}
                 />

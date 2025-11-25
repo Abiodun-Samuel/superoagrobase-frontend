@@ -160,7 +160,7 @@ export default function WhyChooseUs({
             <TrustIndicatorsBar indicators={memoizedIndicators} />
 
             {/* Features Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 {memoizedFeatures.map((feature, index) => (
                     <FeatureCard
                         key={`feature-${index}`}

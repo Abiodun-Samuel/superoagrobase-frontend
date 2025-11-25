@@ -1,5 +1,6 @@
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Info, Package, Tag, Eye, Calendar } from 'lucide-react';
+import IconBadge from '../ui/IconBadge';
 
 /**
  * Product Specifications Section
@@ -31,24 +32,6 @@ export default function ProductSpecifications({ product }) {
             show: !!product.pack_size
         },
         {
-            icon: Tag,
-            label: 'Product ID',
-            value: product.id,
-            show: true
-        },
-        {
-            icon: Tag,
-            label: 'SKU',
-            value: product.slug,
-            show: true
-        },
-        {
-            icon: Eye,
-            label: 'Views',
-            value: product.view_count?.toLocaleString(),
-            show: product.view_count > 0
-        },
-        {
             icon: Info,
             label: 'Status',
             value: product.status?.replace('_', ' '),
@@ -60,9 +43,7 @@ export default function ProductSpecifications({ product }) {
     return (
         <section className="bg-white rounded-2xl shadow p-5 lg:p-8 mb-8">
             <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                    <Info className="w-5 h-5 text-green-600" />
-                </div>
+                <IconBadge size='lg' color='green' icon={<Info className="w-5 h-5 text-green-600" />} />
                 <h2 className="text-2xl font-bold text-gray-900">Product Specifications</h2>
             </div>
 
@@ -72,14 +53,13 @@ export default function ProductSpecifications({ product }) {
                         key={index}
                         className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200"
                     >
-                        <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <spec.icon className="w-5 h-5 text-gray-600" />
-                        </div>
+                        <IconBadge size='lg' color='white' icon={<spec.icon />} />
+
                         <div className="min-w-0">
-                            <dt className="font-semibold text-gray-700 text-sm mb-1">
+                            <dt className="font-normal text-gray-600 text-sm">
                                 {spec.label}
                             </dt>
-                            <dd className={`text-gray-900 font-medium ${spec.capitalize ? 'capitalize' : ''}`}>
+                            <dd className={`text-gray-900 text-sm font-semibold ${spec.capitalize ? 'capitalize' : ''}`}>
                                 {spec.value}
                             </dd>
                         </div>

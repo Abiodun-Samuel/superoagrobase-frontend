@@ -42,7 +42,7 @@ utils/
 └── product-metadata.js      # Product-specific (your existing file)
 
 app/
-├── layout.js                # Root layout with SITE_CONFIG
+├── layout.js                # Root layout with SITE_DATE
 ├── page.js                  # Homepage with SEO
 ├── about/page.js
 ├── contact/page.js
@@ -60,7 +60,7 @@ app/
 
 ---
 
-## 📦 SITE_CONFIG - Single Source of Truth
+## 📦 SITE_DATE - Single Source of Truth
 
 ### Benefits
 ✅ **No hardcoding** - All values in one place
@@ -70,7 +70,7 @@ app/
 
 ### What's Included
 ```javascript
-SITE_CONFIG = {
+SITE_DATE = {
   // Business Info
   name: 'SuperoAgrobase'
   legalName: 'Supero Incorporation Limited'
@@ -236,9 +236,9 @@ getBreadcrumbJsonLd(items)
 ### Step 1: Update Site Config
 ```javascript
 // File: utils/seo-metadata.js
-// Update SITE_CONFIG with your actual data
+// Update SITE_DATE with your actual data
 
-export const SITE_CONFIG = {
+export const SITE_DATE = {
   // ... your actual information
   verification: {
     google: 'PASTE-YOUR-GOOGLE-CODE-HERE',
@@ -299,11 +299,11 @@ npm run start
 ### Example 1: Custom Landing Page
 ```javascript
 // File: app/landing/black-friday/page.js
-import { generateMetadata, SITE_CONFIG } from "@/utils/seo-metadata";
+import { generateMetadata, SITE_DATE } from "@/utils/seo-metadata";
 
 export const metadata = generateMetadata({
   title: 'Black Friday Sale - Up to 50% Off Agricultural Products',
-  description: `Massive Black Friday discounts at ${SITE_CONFIG.name}! Save up to 50% on seeds, fertilizers, equipment & more. Limited time offer. Shop now!`,
+  description: `Massive Black Friday discounts at ${SITE_DATE.name}! Save up to 50% on seeds, fertilizers, equipment & more. Limited time offer. Shop now!`,
   path: '/landing/black-friday',
   keywords: [
     'black friday sale',
@@ -332,7 +332,7 @@ export default function BlackFridayPage() {
 // File: app/locations/lagos/page.js
 export const metadata = generateMetadata({
   title: 'Agricultural Products in Lagos - Fast Delivery',
-  description: `Buy quality agricultural products in Lagos. ${SITE_CONFIG.name} offers fast same-day delivery across Lagos State. Seeds, fertilizers, equipment & more. Order now!`,
+  description: `Buy quality agricultural products in Lagos. ${SITE_DATE.name} offers fast same-day delivery across Lagos State. Seeds, fertilizers, equipment & more. Order now!`,
   path: '/locations/lagos',
   keywords: [
     'agricultural products Lagos',
@@ -382,7 +382,7 @@ generateMetadata({
     'maize seeds',           // Page-specific
     'hybrid maize',
     'improved maize varieties'
-    // SITE_CONFIG.keywords are auto-added!
+    // SITE_DATE.keywords are auto-added!
   ]
 })
 ```
@@ -414,7 +414,7 @@ getCategoryMetadata(category, {
 ### 4. Location Targeting
 ```javascript
 // Keywords automatically include locations
-SITE_CONFIG.keywords.locations // ['Ikorodu', 'Lagos', 'Ibadan', ...]
+SITE_DATE.keywords.locations // ['Ikorodu', 'Lagos', 'Ibadan', ...]
 
 // Your pages automatically rank for:
 // - "agricultural products Ikorodu"
@@ -431,7 +431,7 @@ SITE_CONFIG.keywords.locations // ['Ikorodu', 'Lagos', 'Ibadan', ...]
 1. **Add Property**
    - Go to: https://search.google.com/search-console
    - Add property: `superoagrobase.com`
-   - Verify using code in SITE_CONFIG.verification.google
+   - Verify using code in SITE_DATE.verification.google
 
 2. **Submit Sitemap**
    ```
@@ -538,7 +538,7 @@ viewport: {
 ## ✅ Launch Checklist
 
 ### Pre-Launch
-- [ ] Updated SITE_CONFIG with real data
+- [ ] Updated SITE_DATE with real data
 - [ ] Added verification codes
 - [ ] Tested all page types locally
 - [ ] Checked JSON-LD with validators
@@ -578,7 +578,7 @@ Focus on:
 ### 2. Update Regularly
 ```javascript
 // Refresh metadata quarterly
-SITE_CONFIG.descriptions.long = "Updated description with latest stats..."
+SITE_DATE.descriptions.long = "Updated description with latest stats..."
 ```
 
 ### 3. Local SEO
@@ -605,7 +605,7 @@ SITE_CONFIG.descriptions.long = "Updated description with latest stats..."
 
 Your SEO foundation is now:
 ✅ **Unified** - One function for all metadata
-✅ **Centralized** - SITE_CONFIG for all values
+✅ **Centralized** - SITE_DATE for all values
 ✅ **Flexible** - Easy to customize per page
 ✅ **Powerful** - Rich results & social sharing
 ✅ **Maintainable** - Change once, apply everywhere
@@ -629,9 +629,9 @@ export async function generateMetadata({ params }) {
   return getCategoryMetadata(data)
 }
 
-// Always use SITE_CONFIG
-import { SITE_CONFIG } from '@/utils/seo-metadata'
-console.log(SITE_CONFIG.phone) // +2348157037737
+// Always use SITE_DATE
+import { SITE_DATE } from '@/utils/seo-metadata'
+console.log(SITE_DATE.phone) // +2348157037737
 ```
 
 ---

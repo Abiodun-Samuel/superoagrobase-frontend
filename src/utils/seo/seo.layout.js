@@ -1,5 +1,6 @@
 // seo.layout.js
-import { SITE_CONFIG } from "../config/site.config";
+
+import { SITE_DATA } from "../data";
 
 export function getRootLayoutViewport() {
     return {
@@ -18,22 +19,22 @@ export function getRootLayoutViewport() {
 
 export function getRootLayoutMetadata() {
     return {
-        metadataBase: new URL(SITE_CONFIG.domain),
+        metadataBase: new URL(SITE_DATA.domain),
 
         title: {
-            default: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-            template: `%s | ${SITE_CONFIG.name}`
+            default: `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
+            template: `%s | ${SITE_DATA.name}`
         },
-        description: SITE_CONFIG.descriptions.long,
+        description: SITE_DATA.descriptions.long,
         keywords: [
-            ...SITE_CONFIG.keywords.primary,
-            ...SITE_CONFIG.keywords.secondary,
-            ...SITE_CONFIG.keywords.locations
+            ...SITE_DATA.keywords.primary,
+            ...SITE_DATA.keywords.secondary,
+            ...SITE_DATA.keywords.locations
         ].join(', '),
 
-        authors: [{ name: SITE_CONFIG.name, url: SITE_CONFIG.domain }],
-        creator: SITE_CONFIG.name,
-        publisher: SITE_CONFIG.legalName,
+        authors: [{ name: SITE_DATA.name, url: SITE_DATA.domain }],
+        creator: SITE_DATA.name,
+        publisher: SITE_DATA.legalName,
 
         // Format detection
         formatDetection: {
@@ -43,14 +44,14 @@ export function getRootLayoutMetadata() {
         },
 
         // App configuration
-        applicationName: SITE_CONFIG.name,
+        applicationName: SITE_DATA.name,
         generator: 'Next.js',
         referrer: 'origin-when-cross-origin',
 
         // Verification tags
         verification: {
-            google: SITE_CONFIG.verification.google,
-            bing: SITE_CONFIG.verification.bing,
+            google: SITE_DATA.verification.google,
+            bing: SITE_DATA.verification.bing,
         },
 
         // Category
@@ -75,16 +76,16 @@ export function getRootLayoutMetadata() {
         openGraph: {
             type: 'website',
             locale: 'en_NG',
-            url: SITE_CONFIG.domain,
-            siteName: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-            title: `${SITE_CONFIG.name} - Buy Quality Agricultural Products in Nigeria`,
-            description: SITE_CONFIG.descriptions.medium,
+            url: SITE_DATA.domain,
+            siteName: `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
+            title: `${SITE_DATA.name} - Buy Quality Agricultural Products in Nigeria`,
+            description: SITE_DATA.descriptions.medium,
             images: [
                 {
-                    url: SITE_CONFIG.assets.ogImage,
-                    width: SITE_CONFIG.assets.ogImageWidth,
-                    height: SITE_CONFIG.assets.ogImageHeight,
-                    alt: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+                    url: SITE_DATA.assets.ogImage,
+                    width: SITE_DATA.assets.ogImageWidth,
+                    height: SITE_DATA.assets.ogImageHeight,
+                    alt: `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
                     type: 'image/jpeg',
                 }
             ],
@@ -93,11 +94,11 @@ export function getRootLayoutMetadata() {
         // Twitter
         twitter: {
             card: 'summary_large_image',
-            title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-            description: SITE_CONFIG.descriptions.short,
-            creator: SITE_CONFIG.social.twitterHandle,
-            site: SITE_CONFIG.social.twitterHandle,
-            images: [SITE_CONFIG.assets.ogImage],
+            title: `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
+            description: SITE_DATA.descriptions.short,
+            creator: SITE_DATA.social.twitterHandle,
+            site: SITE_DATA.social.twitterHandle,
+            images: [SITE_DATA.assets.ogImage],
         },
 
         // Icons
@@ -126,15 +127,15 @@ export function getRootLayoutMetadata() {
         // Apple Web App
         appleWebApp: {
             capable: true,
-            title: SITE_CONFIG.name,
+            title: SITE_DATA.name,
             statusBarStyle: 'default',
         },
 
         // Alternative languages
         alternates: {
-            canonical: SITE_CONFIG.domain,
+            canonical: SITE_DATA.domain,
             languages: {
-                'en-NG': SITE_CONFIG.domain,
+                'en-NG': SITE_DATA.domain,
             },
         },
 
@@ -143,28 +144,28 @@ export function getRootLayoutMetadata() {
             'mobile-web-app-capable': 'yes',
             'apple-mobile-web-app-capable': 'yes',
             'apple-mobile-web-app-status-bar-style': 'default',
-            'apple-mobile-web-app-title': SITE_CONFIG.name,
+            'apple-mobile-web-app-title': SITE_DATA.name,
             'format-detection': 'telephone=no',
 
             // Facebook App ID
-            'fb:app_id': SITE_CONFIG.verification.facebook,
+            'fb:app_id': SITE_DATA.verification.facebook,
 
             // Business information
-            'og:region': SITE_CONFIG.address.countryCode,
-            'og:country-name': SITE_CONFIG.address.country,
-            'og:email': SITE_CONFIG.email,
-            'og:phone_number': SITE_CONFIG.phone,
-            'og:latitude': SITE_CONFIG.geo.latitude,
-            'og:longitude': SITE_CONFIG.geo.longitude,
-            'og:street-address': SITE_CONFIG.address.street,
-            'og:locality': SITE_CONFIG.address.city,
-            'og:region': SITE_CONFIG.address.state,
+            'og:region': SITE_DATA.address.countryCode,
+            'og:country-name': SITE_DATA.address.country,
+            'og:email': SITE_DATA.email,
+            'og:phone_number': SITE_DATA.phone,
+            'og:latitude': SITE_DATA.geo.latitude,
+            'og:longitude': SITE_DATA.geo.longitude,
+            'og:street-address': SITE_DATA.address.street,
+            'og:locality': SITE_DATA.address.city,
+            'og:region': SITE_DATA.address.state,
 
             // Business contact data
-            'business:contact_data:street_address': SITE_CONFIG.address.street,
-            'business:contact_data:locality': SITE_CONFIG.address.city,
-            'business:contact_data:region': SITE_CONFIG.address.state,
-            'business:contact_data:country_name': SITE_CONFIG.address.country,
+            'business:contact_data:street_address': SITE_DATA.address.street,
+            'business:contact_data:locality': SITE_DATA.address.city,
+            'business:contact_data:region': SITE_DATA.address.state,
+            'business:contact_data:country_name': SITE_DATA.address.country,
 
             // Pinterest
             'pinterest-rich-pin': 'true',

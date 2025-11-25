@@ -8,7 +8,7 @@ import {
     SERVICE_CONFIG,
     toJsonLd
 } from "../config/seo.config";
-import { SITE_CONFIG } from "../config/site.config";
+import { SITE_DATA } from "../data";
 
 /**
  * Generate Organization JSON-LD
@@ -69,12 +69,12 @@ export function getLocalBusinessJsonLd() {
         "@type": "LocalBusiness",
         "name": SCHEMA_BASE.organization.name,
         "image": SCHEMA_BASE.logo.url,
-        "telephone": SITE_CONFIG.phone,
-        "email": SITE_CONFIG.email,
+        "telephone": SITE_DATA.phone,
+        "email": SITE_DATA.email,
         "address": toJsonLd(SCHEMA_BASE.address),
         "geo": toJsonLd(SCHEMA_BASE.geo),
         "url": SCHEMA_BASE.organization.url,
-        "priceRange": SITE_CONFIG.business.priceRange,
+        "priceRange": SITE_DATA.business.priceRange,
         "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
         "aggregateRating": {
             "@type": "AggregateRating",
@@ -148,32 +148,32 @@ export function getProductJsonLd(product) {
     return {
         "@context": SCHEMA_BASE.context,
         "@type": "Product",
-        "@id": `${SITE_CONFIG.domain}/products/${slug}`,
+        "@id": `${SITE_DATA.domain}/products/${slug}`,
         "name": title,
         "description": description,
-        "url": `${SITE_CONFIG.domain}/products/${slug}`,
-        "image": productImages.length ? productImages : [`${SITE_CONFIG.domain}/placeholder.jpg`],
+        "url": `${SITE_DATA.domain}/products/${slug}`,
+        "image": productImages.length ? productImages : [`${SITE_DATA.domain}/placeholder.jpg`],
         "sku": id.toString(),
         "mpn": id.toString(),
         "gtin13": id.toString().padStart(13, '0'),
         "brand": {
             "@type": "Brand",
-            "name": brands || SITE_CONFIG.name
+            "name": brands || SITE_DATA.name
         },
         "manufacturer": {
             "@type": "Organization",
-            "name": brands || SITE_CONFIG.name,
-            "url": SITE_CONFIG.domain
+            "name": brands || SITE_DATA.name,
+            "url": SITE_DATA.domain
         },
         "category": category?.title,
         ...(category?.title && { "category": category.title }),
         ...(subcategory?.title && { "additionalType": subcategory.title }),
-        "url": `${SITE_CONFIG.domain}/products/${slug}`,
+        "url": `${SITE_DATA.domain}/products/${slug}`,
 
         // Enhanced offer information
         "offers": {
             "@type": "Offer",
-            "url": `${SITE_CONFIG.domain}/products/${slug}`,
+            "url": `${SITE_DATA.domain}/products/${slug}`,
             "priceCurrency": "NGN",
             "price": price,
             "priceValidUntil": PRODUCT_SCHEMA_CONFIG.getPriceValidUntil(),
@@ -189,8 +189,8 @@ export function getProductJsonLd(product) {
             }),
             "seller": {
                 "@type": "Organization",
-                "name": SITE_CONFIG.name,
-                "url": SITE_CONFIG.domain
+                "name": SITE_DATA.name,
+                "url": SITE_DATA.domain
             },
             "shippingDetails": toJsonLd(PRODUCT_SCHEMA_CONFIG.shippingDetails),
             "hasMerchantReturnPolicy": toJsonLd(PRODUCT_SCHEMA_CONFIG.returnPolicy)
@@ -266,13 +266,13 @@ export function getHomePageJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
         "@type": "WebPage",
-        "@id": `${SITE_CONFIG.domain}/#webpage`,
-        "url": SITE_CONFIG.domain,
-        "name": `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-        "description": SITE_CONFIG.descriptions.medium,
+        "@id": `${SITE_DATA.domain}/#webpage`,
+        "url": SITE_DATA.domain,
+        "name": `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
+        "description": SITE_DATA.descriptions.medium,
         "isPartOf": {
             "@type": "WebSite",
-            "@id": `${SITE_CONFIG.domain}/#website`
+            "@id": `${SITE_DATA.domain}/#website`
         },
         "about": {
             "@type": "Thing",
@@ -281,13 +281,13 @@ export function getHomePageJsonLd() {
         },
         "mainEntity": {
             "@type": "Store",
-            "name": SITE_CONFIG.name,
+            "name": SITE_DATA.name,
             "image": SCHEMA_BASE.logo.url,
             "address": toJsonLd(SCHEMA_BASE.address),
             "geo": toJsonLd(SCHEMA_BASE.geo),
-            "priceRange": SITE_CONFIG.business.priceRange,
-            "telephone": SITE_CONFIG.phone,
-            "email": SITE_CONFIG.email,
+            "priceRange": SITE_DATA.business.priceRange,
+            "telephone": SITE_DATA.phone,
+            "email": SITE_DATA.email,
             "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
             "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Mobile Money"]
         }
@@ -346,16 +346,16 @@ export function getArticleJsonLd(article) {
         "dateModified": article.updated_at || article.created_at,
         "author": {
             "@type": "Person",
-            "name": article.author || `${SITE_CONFIG.name} Team`
+            "name": article.author || `${SITE_DATA.name} Team`
         },
         "publisher": {
             "@type": "Organization",
-            "name": SITE_CONFIG.name,
+            "name": SITE_DATA.name,
             "logo": toJsonLd(SCHEMA_BASE.logo)
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `${SITE_CONFIG.domain}/blog/${article.slug}`
+            "@id": `${SITE_DATA.domain}/blog/${article.slug}`
         },
         "keywords": article.tags?.join(", ") || "",
         "articleSection": article.category || "Agriculture"
@@ -372,15 +372,15 @@ export function getCollectionPageJsonLd(category, productCount = 0) {
         "@context": SCHEMA_BASE.context,
         "@type": "CollectionPage",
         "name": category.title,
-        "description": category.description || `Browse ${category.title} products at ${SITE_CONFIG.name}`,
-        "url": `${SITE_CONFIG.domain}/products/categories/${category.slug}`,
+        "description": category.description || `Browse ${category.title} products at ${SITE_DATA.name}`,
+        "url": `${SITE_DATA.domain}/products/categories/${category.slug}`,
         ...(productCount > 0 && {
             "numberOfItems": productCount
         }),
         "isPartOf": {
             "@type": "WebSite",
-            "name": SITE_CONFIG.name,
-            "url": SITE_CONFIG.domain
+            "name": SITE_DATA.name,
+            "url": SITE_DATA.domain
         }
     };
 }
@@ -395,11 +395,11 @@ export function getServiceJsonLd() {
         "name": SERVICE_CONFIG.name,
         "provider": {
             "@type": "Organization",
-            "name": SITE_CONFIG.name,
-            "url": SITE_CONFIG.domain
+            "name": SITE_DATA.name,
+            "url": SITE_DATA.domain
         },
         "serviceType": SERVICE_CONFIG.serviceType,
-        "description": SITE_CONFIG.descriptions.long,
+        "description": SITE_DATA.descriptions.long,
         "areaServed": toJsonLd(SCHEMA_BASE.areaServed),
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -454,7 +454,7 @@ export function getItemListJsonLd(products, listName = "Products") {
         "itemListElement": products.map((product, index) => ({
             "@type": "ListItem",
             "position": index + 1,
-            "url": `${SITE_CONFIG.domain}/products/${product.slug}`,
+            "url": `${SITE_DATA.domain}/products/${product.slug}`,
             "name": product.title,
             "image": product.image
         }))

@@ -1,6 +1,7 @@
 // seo.config.js
 
-import { SITE_CONFIG } from "./site.config";
+import { SITE_DATA } from "../data";
+
 
 export function generateMetadata(options = {}) {
     const {
@@ -25,28 +26,28 @@ export function generateMetadata(options = {}) {
         additionalMetadata = {}
     } = options;
 
-    const pageUrl = canonical || `${SITE_CONFIG.domain}${path}`;
+    const pageUrl = canonical || `${SITE_DATA.domain}${path}`;
 
     const fullTitle = title
-        ? `${title} | ${SITE_CONFIG.name}`
-        : `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`;
+        ? `${title} | ${SITE_DATA.name}`
+        : `${SITE_DATA.name} - ${SITE_DATA.tagline}`;
 
-    const fullDescription = description || SITE_CONFIG.descriptions.medium;
+    const fullDescription = description || SITE_DATA.descriptions.medium;
 
     const allKeywords = [
-        ...SITE_CONFIG.keywords.primary,
+        ...SITE_DATA.keywords.primary,
         ...keywords,
-        ...SITE_CONFIG.keywords.secondary,
-        ...SITE_CONFIG.keywords.locations
+        ...SITE_DATA.keywords.secondary,
+        ...SITE_DATA.keywords.locations
     ].filter(Boolean).join(', ');
 
     const ogImages = images.length > 0
         ? images.map(img => typeof img === 'string' ? { url: img } : img)
         : [{
-            url: SITE_CONFIG.assets.ogImage,
-            width: SITE_CONFIG.assets.ogImageWidth,
-            height: SITE_CONFIG.assets.ogImageHeight,
-            alt: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`
+            url: SITE_DATA.assets.ogImage,
+            width: SITE_DATA.assets.ogImageWidth,
+            height: SITE_DATA.assets.ogImageHeight,
+            alt: `${SITE_DATA.name} - ${SITE_DATA.tagline}`
         }];
 
     const metadata = {
@@ -58,7 +59,7 @@ export function generateMetadata(options = {}) {
             type: pageType === 'article' ? 'article' : 'website',
             locale: 'en_NG',
             url: pageUrl,
-            siteName: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+            siteName: `${SITE_DATA.name} - ${SITE_DATA.tagline}`,
             title: title || fullTitle,
             description: fullDescription,
             images: ogImages,
@@ -73,8 +74,8 @@ export function generateMetadata(options = {}) {
             title: title || fullTitle,
             description: fullDescription,
             images: ogImages.map(img => img.url),
-            creator: SITE_CONFIG.social.twitterHandle,
-            site: SITE_CONFIG.social.twitterHandle
+            creator: SITE_DATA.social.twitterHandle,
+            site: SITE_DATA.social.twitterHandle
         },
 
         alternates: {
@@ -109,68 +110,68 @@ export const SCHEMA_BASE = {
     // Organization details
     organization: {
         type: "Organization",
-        name: SITE_CONFIG.name,
-        legalName: SITE_CONFIG.legalName,
-        alternateName: SITE_CONFIG.tagline,
-        url: SITE_CONFIG.domain,
-        description: SITE_CONFIG.descriptions.long,
-        foundingDate: SITE_CONFIG.business.founded,
+        name: SITE_DATA.name,
+        legalName: SITE_DATA.legalName,
+        alternateName: SITE_DATA.tagline,
+        url: SITE_DATA.domain,
+        description: SITE_DATA.descriptions.long,
+        foundingDate: SITE_DATA.business.founded,
     },
 
     // Logo object (reusable)
     logo: {
         type: "ImageObject",
-        url: `${SITE_CONFIG.domain}${SITE_CONFIG.assets.logo}`,
-        width: SITE_CONFIG.assets.logoWidth,
-        height: SITE_CONFIG.assets.logoHeight
+        url: `${SITE_DATA.domain}${SITE_DATA.assets.logo}`,
+        width: SITE_DATA.assets.logoWidth,
+        height: SITE_DATA.assets.logoHeight
     },
 
     // Address object (reusable)
     address: {
         type: "PostalAddress",
-        streetAddress: SITE_CONFIG.address.street,
-        addressLocality: SITE_CONFIG.address.city,
-        addressRegion: SITE_CONFIG.address.state,
-        addressCountry: SITE_CONFIG.address.countryCode
+        streetAddress: SITE_DATA.address.street,
+        addressLocality: SITE_DATA.address.city,
+        addressRegion: SITE_DATA.address.state,
+        addressCountry: SITE_DATA.address.countryCode
     },
 
     // Geo coordinates (reusable)
     geo: {
         type: "GeoCoordinates",
-        latitude: SITE_CONFIG.geo.latitude,
-        longitude: SITE_CONFIG.geo.longitude
+        latitude: SITE_DATA.geo.latitude,
+        longitude: SITE_DATA.geo.longitude
     },
 
     // Contact points (reusable)
     contactPoints: [
         {
             type: "ContactPoint",
-            telephone: SITE_CONFIG.phone,
+            telephone: SITE_DATA.phone,
             contactType: "customer service",
-            email: SITE_CONFIG.email,
+            email: SITE_DATA.email,
             availableLanguage: ["en"],
-            areaServed: SITE_CONFIG.address.countryCode
+            areaServed: SITE_DATA.address.countryCode
         },
         {
             type: "ContactPoint",
-            telephone: SITE_CONFIG.phone,
+            telephone: SITE_DATA.phone,
             contactType: "sales",
             availableLanguage: ["en"],
-            areaServed: SITE_CONFIG.address.countryCode
+            areaServed: SITE_DATA.address.countryCode
         }
     ],
 
     // Social media profiles
     sameAs: [
-        SITE_CONFIG.social.facebook,
-        SITE_CONFIG.social.twitter,
-        SITE_CONFIG.social.instagram
+        SITE_DATA.social.facebook,
+        SITE_DATA.social.twitter,
+        SITE_DATA.social.instagram
     ],
 
     // Area served
     areaServed: {
         type: "Country",
-        name: SITE_CONFIG.address.country
+        name: SITE_DATA.address.country
     },
 
     // Opening hours specifications
@@ -178,14 +179,14 @@ export const SCHEMA_BASE = {
         {
             type: "OpeningHoursSpecification",
             dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            opens: SITE_CONFIG.business.openingHours.weekdays.open,
-            closes: SITE_CONFIG.business.openingHours.weekdays.close
+            opens: SITE_DATA.business.openingHours.weekdays.open,
+            closes: SITE_DATA.business.openingHours.weekdays.close
         },
         {
             type: "OpeningHoursSpecification",
             dayOfWeek: "Saturday",
-            opens: SITE_CONFIG.business.openingHours.saturday.open,
-            closes: SITE_CONFIG.business.openingHours.saturday.close
+            opens: SITE_DATA.business.openingHours.saturday.open,
+            closes: SITE_DATA.business.openingHours.saturday.close
         }
     ]
 };
@@ -201,7 +202,7 @@ export const PRODUCT_SCHEMA_CONFIG = {
         return rawImages.map((img) =>
             img.startsWith('http')
                 ? img
-                : `${SITE_CONFIG.domain}${img}`
+                : `${SITE_DATA.domain}${img}`
         );
         // const images = [
         //     product.image,
@@ -213,7 +214,7 @@ export const PRODUCT_SCHEMA_CONFIG = {
     // Product description generator
     getProductDescription: (product) => {
         return product.description ||
-            `${product.title} - Premium ${product.category?.title || 'agricultural product'} by ${product.brands || SITE_CONFIG.name}`;
+            `${product.title} - Premium ${product.category?.title || 'agricultural product'} by ${product.brands || SITE_DATA.name}`;
     },
 
     // Price valid until (1 year from now)
@@ -277,8 +278,8 @@ export const PRODUCT_SCHEMA_CONFIG = {
 export const FAQ_CONFIG = {
     homeFAQs: [
         {
-            question: `What products does ${SITE_CONFIG.name} sell?`,
-            answer: `${SITE_CONFIG.name} offers a wide range of agricultural products including seeds, fertilizers, pesticides, herbicides, fungicides, farm equipment, irrigation systems, animal feed, and other farming supplies for Nigerian farmers. We provide quality agricultural inputs, farm management services, and agricultural laboratory services.`
+            question: `What products does ${SITE_DATA.name} sell?`,
+            answer: `${SITE_DATA.name} offers a wide range of agricultural products including seeds, fertilizers, pesticides, herbicides, fungicides, farm equipment, irrigation systems, animal feed, and other farming supplies for Nigerian farmers. We provide quality agricultural inputs, farm management services, and agricultural laboratory services.`
         },
         {
             question: "Do you deliver nationwide in Nigeria?",
@@ -286,7 +287,7 @@ export const FAQ_CONFIG = {
         },
         {
             question: "Are the products genuine and quality assured?",
-            answer: `Absolutely! All products sold on ${SITE_CONFIG.name} are 100% genuine and sourced directly from reputable manufacturers and authorized distributors. ${SITE_CONFIG.legalName} leverages in-depth research and development to guarantee quality and authenticity for all agricultural products.`
+            answer: `Absolutely! All products sold on ${SITE_DATA.name} are 100% genuine and sourced directly from reputable manufacturers and authorized distributors. ${SITE_DATA.legalName} leverages in-depth research and development to guarantee quality and authenticity for all agricultural products.`
         },
         {
             question: "What payment methods do you accept?",
@@ -297,8 +298,8 @@ export const FAQ_CONFIG = {
             answer: "Yes, we have a 7-day return policy for unopened products in their original packaging. If you receive a damaged or wrong product, contact us immediately for a free replacement or full refund."
         },
         {
-            question: `Where is ${SITE_CONFIG.name} located?`,
-            answer: `We are located at ${SITE_CONFIG.address.full}. You can contact us via phone at ${SITE_CONFIG.phone}, email at ${SITE_CONFIG.email}, or through WhatsApp for immediate assistance.`
+            question: `Where is ${SITE_DATA.name} located?`,
+            answer: `We are located at ${SITE_DATA.address.full}. You can contact us via phone at ${SITE_DATA.phone}, email at ${SITE_DATA.email}, or through WhatsApp for immediate assistance.`
         }
     ],
 
@@ -307,7 +308,7 @@ export const FAQ_CONFIG = {
         {
             question: `What is ${product.title}?`,
             answer: product.description ||
-                `${product.title} is a premium ${product.category?.title || 'agricultural product'} from ${product.brands || SITE_CONFIG.name}.`
+                `${product.title} is a premium ${product.category?.title || 'agricultural product'} from ${product.brands || SITE_DATA.name}.`
         },
         {
             question: `How much does ${product.title} cost?`,
@@ -331,7 +332,7 @@ export const FAQ_CONFIG = {
 
 export const OFFER_CATALOG_CONFIG = {
     name: "Agricultural Products & Services Catalog",
-    description: SITE_CONFIG.descriptions.medium,
+    description: SITE_DATA.descriptions.medium,
     categories: [
         {
             name: "Seeds",

@@ -8,6 +8,11 @@ export const QUERY_KEYS = {
     lists: () => [...QUERY_KEYS.categories.all, 'lists'],
   },
 
+  reviews: {
+    all: ['reviews'],
+    lists: (params) => [...QUERY_KEYS.reviews.all, 'lists', params],
+  },
+
   products: {
     all: ['products'],
     featured: () => [...QUERY_KEYS.products.all, 'featured'],

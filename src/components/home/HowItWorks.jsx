@@ -31,7 +31,7 @@ export default function HowItWorks() {
                 <SectionHeader />
 
                 {/* Steps Grid */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 relative">
                     {/* Connection Lines - Desktop Only */}
                     <div className="hidden lg:block absolute top-20 left-0 right-0 h-1" aria-hidden="true">
                         <div className="relative h-full mx-auto px-24">
@@ -48,7 +48,7 @@ export default function HowItWorks() {
                                 aria-label={step.ariaLabel}
                             >
                                 {/* Step Card */}
-                                <div className="bg-white rounded-2xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-green-200">
+                                <div className="bg-white rounded-2xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-blue-200">
                                     {/* Step Number */}
                                     <div className="flex items-center justify-between mb-6">
                                         <div className="relative">
@@ -69,7 +69,7 @@ export default function HowItWorks() {
 
                                     {/* Content */}
                                     <div>
-                                        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                                             {step.title}
                                         </h3>
                                         <p className="text-gray-600 leading-relaxed">

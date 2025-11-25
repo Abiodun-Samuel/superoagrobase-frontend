@@ -3,11 +3,31 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
+import { useReviews } from '@/queries/reviews.query';
 
+// ============================================
+// CONSTANTS & CONFIGURATION
+// ============================================
+const AUTOPLAY_INTERVAL = 5000;
+const TRANSITION_DURATION = 700;
+
+// ============================================
+// SUB-COMPONENTS
+// ============================================
+
+/**
+ * Section Header Component
+ */
 const SectionHeader = () => (
     <header className="text-center mb-12 space-y-4">
-        <TextBadge endIcon={<UserCheck />} size='lg' variant='solid' color='green' startIcon={<Award className="w-4 h-4" />}>
-            <span> Customer Success Stories</span>
+        <TextBadge
+            endIcon={<UserCheck aria-hidden="true" />}
+            size='lg'
+            variant='solid'
+            color='green'
+            startIcon={<Award className="w-4 h-4" aria-hidden="true" />}
+        >
+            <span>Customer Success Stories</span>
         </TextBadge>
 
         <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
@@ -23,73 +43,248 @@ const SectionHeader = () => (
     </header>
 );
 
+/**
+ * Testimonial Card Component
+ */
+const TestimonialCard = ({ testimonial, position, onClick }) => {
+    const isCenter = position === 'center';
+    const isClickable = !isCenter;
+
+    return (
+        <div
+            className={`absolute transition-all duration-${TRANSITION_DURATION} ease-in-out ${position === 'center'
+                ? 'w-full lg:w-[600px] scale-100 opacity-100 z-30'
+                : position === 'left'
+                    ? 'w-full lg:w-[500px] -translate-x-[70%] lg:-translate-x-[70%] scale-90 opacity-40 z-10'
+                    : position === 'right'
+                        ? 'w-full lg:w-[500px] translate-x-[70%] lg:translate-x-[70%] scale-90 opacity-40 z-10'
+                        : 'opacity-0 scale-75 pointer-events-none'
+                }`}
+            onClick={onClick}
+            style={{ cursor: isClickable ? 'pointer' : 'default' }}
+            role={isClickable ? "button" : undefined}
+            tabIndex={isClickable ? 0 : -1}
+            onKeyDown={(e) => {
+                if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    onClick();
+                }
+            }}
+            aria-label={isClickable ? `View testimonial from ${testimonial.user.full_name}` : undefined}
+        >
+            <div className="bg-white mx-5 rounded-3xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
+                {/* Quote Icon */}
+                <div className="absolute top-6 right-6 opacity-10" aria-hidden="true">
+                    <Quote className="w-24 h-24 text-green-600" />
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+                        {/* Avatar */}
+                        <div className="relative">
+                            <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-green-100 shadow-lg">
+                                <img
+                                    src={testimonial.user.avatar}
+                                    alt={`${testimonial.user.full_name}'s profile picture`}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                            {/* Verified Badge */}
+                            <div
+                                className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-600 rounded-full flex items-center justify-center border-2 border-white"
+                                aria-label="Verified customer"
+                            >
+                                <Award className="w-4 h-4 text-white" aria-hidden="true" />
+                            </div>
+                        </div>
+
+                        {/* Info */}
+                        <div className="text-center sm:text-left flex-1">
+                            <h3 className="text-xl font-bold text-gray-900">
+                                {testimonial.user.full_name}
+                            </h3>
+                            <p className="text-green-600 font-semibold">
+                                {testimonial.user.city}, {testimonial.user.state}
+                            </p>
+                            {testimonial.product && (
+                                <p className="text-sm text-gray-500">
+                                    Reviewed: {testimonial.product.title}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Rating */}
+                        <div className="flex gap-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
+                            {[...Array(5)].map((_, i) => (
+                                <Star
+                                    key={i}
+                                    className={`w-5 h-5 ${i < testimonial.rating
+                                        ? 'fill-yellow-400 text-yellow-400'
+                                        : 'fill-gray-200 text-gray-200'
+                                        }`}
+                                    aria-hidden="true"
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Comment */}
+                    <blockquote className="text-gray-700 text-lg leading-relaxed mb-6">
+                        <p className="italic">"{testimonial.comment}"</p>
+                    </blockquote>
+
+                    {/* Date & Product Info */}
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+                            <div className="w-2 h-2 bg-green-600 rounded-full" aria-hidden="true"></div>
+                            Verified Purchase
+                        </div>
+                        <time className="text-sm text-gray-500" dateTime={testimonial.created_at}>
+                            {new Date(testimonial.created_at).toLocaleDateString('en-NG', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })}
+                        </time>
+                    </div>
+                </div>
+
+                {/* Decorative Element */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400" aria-hidden="true"></div>
+            </div>
+        </div>
+    );
+};
+
+/**
+ * Navigation Button Component
+ */
+const NavButton = ({ direction, onClick, ariaLabel }) => (
+    <button
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className={`absolute ${direction === 'prev' ? 'left-0 lg:left-4' : 'right-0 lg:right-4'
+            } top-1/2 -translate-y-1/2 z-40 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2`}
+    >
+        {direction === 'prev' ? (
+            <ChevronLeft className="w-6 h-6 text-green-600 group-hover:text-white" aria-hidden="true" />
+        ) : (
+            <ChevronRight className="w-6 h-6 text-green-600 group-hover:text-white" aria-hidden="true" />
+        )}
+    </button>
+);
+
+/**
+ * Dots Indicator Component
+ */
+const DotsIndicator = ({ total, currentIndex, onDotClick }) => (
+    <div className="flex justify-center gap-2 mt-10" role="tablist" aria-label="Testimonial navigation">
+        {[...Array(total)].map((_, index) => (
+            <button
+                key={index}
+                onClick={() => onDotClick(index)}
+                role="tab"
+                aria-selected={currentIndex === index}
+                aria-label={`Go to testimonial ${index + 1}`}
+                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 ${currentIndex === index
+                    ? 'w-8 h-3 bg-green-600'
+                    : 'w-3 h-3 bg-gray-300 hover:bg-green-400'
+                    }`}
+            >{''}</button>
+        ))}
+    </div>
+);
+
+/**
+ * Loading Skeleton Component
+ */
+const TestimonialsSkeleton = () => (
+    <section className="my-24 py-5 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+        <div className="relative z-10">
+            {/* Header Skeleton */}
+            <header className="text-center mb-12 space-y-4">
+                <div className="flex justify-center">
+                    <div className="h-10 w-64 bg-gray-200 rounded-full animate-pulse"></div>
+                </div>
+                <div className="h-12 w-96 bg-gray-200 rounded-lg mx-auto animate-pulse"></div>
+                <div className="h-6 w-[500px] bg-gray-200 rounded-lg mx-auto animate-pulse"></div>
+            </header>
+
+            {/* Card Skeleton */}
+            <div className="relative h-[500px] lg:h-[450px] flex items-center justify-center">
+                <div className="w-full lg:w-[600px]">
+                    <div className="bg-white mx-5 rounded-3xl shadow-2xl p-8 lg:p-10">
+                        <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+                            {/* Avatar Skeleton */}
+                            <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse"></div>
+
+                            {/* Info Skeleton */}
+                            <div className="flex-1 space-y-2">
+                                <div className="h-6 w-40 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-4 w-36 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+
+                            {/* Rating Skeleton */}
+                            <div className="flex gap-1">
+                                {[...Array(5)].map((_, i) => (
+                                    <div key={i} className="w-5 h-5 bg-gray-200 rounded animate-pulse"></div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Comment Skeleton */}
+                        <div className="space-y-3 mb-6">
+                            <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+
+                        {/* Badge Skeleton */}
+                        <div className="h-10 w-40 bg-gray-200 rounded-full animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Dots Skeleton */}
+            <div className="flex justify-center gap-2 mt-10">
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className="w-3 h-3 bg-gray-200 rounded-full animate-pulse"></div>
+                ))}
+            </div>
+        </div>
+    </section>
+);
+
+// ============================================
+// MAIN COMPONENT
+// ============================================
 export default function Testimonials() {
+    const { data: reviewsData, isLoading, isError } = useReviews({
+        limit: 10,
+        is_published: true
+    });
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    const testimonials = [
-        {
-            id: 1,
-            name: "Adeola Adebayo",
-            role: "Commercial Farmer",
-            location: "Ogun State",
-            avatar: "https://i.pravatar.cc/150?img=12",
-            rating: 5,
-            comment: "Supero Agrobase has transformed my farming business. Their fertilizers are top-quality and the delivery is always on time. I've seen a 40% increase in my crop yield!",
-            businessType: "Large Scale Farming"
-        },
-        {
-            id: 2,
-            name: "Chioma Okonkwo",
-            role: "Restaurant Owner",
-            location: "Lagos",
-            avatar: "https://i.pravatar.cc/150?img=45",
-            rating: 5,
-            comment: "As a restaurant owner, I need fresh quality produce consistently. Their seeds and organic products have helped me start my own vegetable garden. Excellent service!",
-            businessType: "Food & Hospitality"
-        },
-        {
-            id: 3,
-            name: "Ibrahim Musa",
-            role: "Agricultural Retailer",
-            location: "Kano",
-            avatar: "https://i.pravatar.cc/150?img=33",
-            rating: 5,
-            comment: "I've been sourcing products from Supero Agrobase for 3 years. Their wholesale prices are competitive and product authenticity is guaranteed. Highly recommended!",
-            businessType: "Retail & Distribution"
-        },
-        {
-            id: 4,
-            name: "Grace Okafor",
-            role: "Organic Farmer",
-            location: "Enugu",
-            avatar: "https://i.pravatar.cc/150?img=47",
-            rating: 5,
-            comment: "The customer support is exceptional! They guided me in choosing the right organic fertilizers and pest control methods. My farm is now fully organic and thriving.",
-            businessType: "Organic Agriculture"
-        },
-        {
-            id: 5,
-            name: "Yusuf Abdullahi",
-            role: "Greenhouse Manager",
-            location: "Abuja",
-            avatar: "https://i.pravatar.cc/150?img=51",
-            rating: 5,
-            comment: "Their irrigation equipment and greenhouse supplies are world-class. The technical support team helped set up my entire system. Production has doubled since!",
-            businessType: "Greenhouse Operations"
-        }
-    ];
+    const testimonials = reviewsData?.data || [];
 
+    // Auto-play effect
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!isAutoPlaying || testimonials.length === 0) return;
 
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-        }, 5000);
+        }, AUTOPLAY_INTERVAL);
 
         return () => clearInterval(interval);
     }, [isAutoPlaying, testimonials.length]);
 
+    // Navigation handlers
     const goToSlide = (index) => {
         setCurrentIndex(index);
         setIsAutoPlaying(false);
@@ -105,7 +300,10 @@ export default function Testimonials() {
         setIsAutoPlaying(false);
     };
 
+    // Calculate slide position
     const getSlidePosition = (index) => {
+        if (testimonials.length === 0) return 'hidden';
+
         const diff = index - currentIndex;
         if (diff === 0) return 'center';
         if (diff === 1 || diff === -(testimonials.length - 1)) return 'right';
@@ -113,10 +311,23 @@ export default function Testimonials() {
         return 'hidden';
     };
 
+    // Loading state
+    if (isLoading) {
+        return <TestimonialsSkeleton />;
+    }
+
+    // Error state
+    if (isError || !testimonials.length) {
+        return null;
+    }
+
     return (
-        <section className="my-24 py-5 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+        <section
+            className="my-24 py-5 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden"
+            aria-label="Customer testimonials"
+        >
             {/* Background Decorations */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
                 <div className="absolute top-0 left-0 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
             </div>
@@ -126,111 +337,65 @@ export default function Testimonials() {
                 <SectionHeader />
 
                 {/* Testimonials Carousel */}
-                <div className="relative">
+                <div className="relative" role="region" aria-roledescription="carousel" aria-label="Customer testimonials carousel">
                     <div className="relative h-[500px] lg:h-[450px] flex items-center justify-center">
                         {testimonials.map((testimonial, index) => {
                             const position = getSlidePosition(index);
-
                             return (
-                                <div
+                                <TestimonialCard
                                     key={testimonial.id}
-                                    className={`absolute transition-all duration-700 ease-in-out ${position === 'center'
-                                        ? 'w-full lg:w-[600px] scale-100 opacity-100 z-30'
-                                        : position === 'left'
-                                            ? 'w-full lg:w-[500px] -translate-x-[70%] lg:-translate-x-[70%] scale-90 opacity-40 z-10'
-                                            : position === 'right'
-                                                ? 'w-full lg:w-[500px] translate-x-[70%] lg:translate-x-[70%] scale-90 opacity-40 z-10'
-                                                : 'opacity-0 scale-75 pointer-events-none'
-                                        }`}
+                                    testimonial={testimonial}
+                                    position={position}
                                     onClick={() => position !== 'center' && goToSlide(index)}
-                                    style={{ cursor: position !== 'center' ? 'pointer' : 'default' }}
-                                >
-                                    <div className="bg-white mx-5 rounded-3xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
-                                        {/* Quote Icon */}
-                                        <div className="absolute top-6 right-6 opacity-10">
-                                            <Quote className="w-24 h-24 text-green-600" />
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="relative z-10">
-                                            {/* Header */}
-                                            <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
-                                                {/* Avatar */}
-                                                <div className="relative">
-                                                    <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-green-100 shadow-lg">
-                                                        <img
-                                                            src={testimonial.avatar}
-                                                            alt={testimonial.name}
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                    </div>
-                                                    {/* Verified Badge */}
-                                                    <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-600 rounded-full flex items-center justify-center border-2 border-white">
-                                                        <Award className="w-4 h-4 text-white" />
-                                                    </div>
-                                                </div>
-
-                                                {/* Info */}
-                                                <div className="text-center sm:text-left flex-1">
-                                                    <h3 className="text-xl font-bold text-gray-900">{testimonial.name}</h3>
-                                                    <p className="text-green-600 font-semibold">{testimonial.role}</p>
-                                                    <p className="text-sm text-gray-500">{testimonial.location}</p>
-                                                </div>
-
-                                                {/* Rating */}
-                                                <div className="flex gap-1">
-                                                    {[...Array(testimonial.rating)].map((_, i) => (
-                                                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            {/* Comment */}
-                                            <p className="text-gray-700 text-lg leading-relaxed mb-6 italic">
-                                                "{testimonial.comment}"
-                                            </p>
-
-                                            {/* Business Type Badge */}
-                                            <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
-                                                <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                                                {testimonial.businessType}
-                                            </div>
-                                        </div>
-
-                                        {/* Decorative Element */}
-                                        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400"></div>
-                                    </div>
-                                </div>
+                                />
                             );
                         })}
                     </div>
 
                     {/* Navigation Buttons */}
-                    <button
-                        onClick={prevSlide}
-                        className="absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group"
-                    >
-                        <ChevronLeft className="w-6 h-6 text-green-600 group-hover:text-white" />
-                    </button>
-                    <button
-                        onClick={nextSlide}
-                        className="absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-300 group"
-                    >
-                        <ChevronRight className="w-6 h-6 text-green-600 group-hover:text-white" />
-                    </button>
+                    {testimonials.length > 1 && (
+                        <>
+                            <NavButton
+                                direction="prev"
+                                onClick={prevSlide}
+                                ariaLabel="Previous testimonial"
+                            />
+                            <NavButton
+                                direction="next"
+                                onClick={nextSlide}
+                                ariaLabel="Next testimonial"
+                            />
+                        </>
+                    )}
                 </div>
 
                 {/* Dots Indicator */}
-                <div className="flex justify-center gap-2 mt-10">
-                    {testimonials.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className={`transition-all duration-300 rounded-full ${currentIndex === index
-                                ? 'w-8 h-3 bg-green-600'
-                                : 'w-3 h-3 bg-gray-300 hover:bg-green-400'
-                                }`}
-                        >{''}</button>
+                {testimonials.length > 1 && (
+                    <DotsIndicator
+                        total={testimonials.length}
+                        currentIndex={currentIndex}
+                        onDotClick={goToSlide}
+                    />
+                )}
+
+                {/* SEO-friendly content (hidden but crawlable) */}
+                <div className="sr-only">
+                    <h3>Customer Reviews and Testimonials</h3>
+                    {testimonials.map((testimonial) => (
+                        <article key={testimonial.id} itemScope itemType="https://schema.org/Review">
+                            <meta itemProp="author" content={testimonial.user.full_name} />
+                            <meta itemProp="datePublished" content={testimonial.created_at} />
+                            <div itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
+                                <meta itemProp="ratingValue" content={testimonial.rating} />
+                                <meta itemProp="bestRating" content="5" />
+                            </div>
+                            {testimonial.product && (
+                                <div itemProp="itemReviewed" itemScope itemType="https://schema.org/Product">
+                                    <meta itemProp="name" content={testimonial.product.title} />
+                                </div>
+                            )}
+                            <p itemProp="reviewBody">{testimonial.comment}</p>
+                        </article>
                     ))}
                 </div>
             </div>
@@ -247,6 +412,17 @@ export default function Testimonials() {
                 }
                 .animation-delay-2000 {
                     animation-delay: 2s;
+                }
+                .sr-only {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    margin: -1px;
+                    overflow: hidden;
+                    clip: rect(0, 0, 0, 0);
+                    white-space: nowrap;
+                    border-width: 0;
                 }
             `}</style>
         </section>

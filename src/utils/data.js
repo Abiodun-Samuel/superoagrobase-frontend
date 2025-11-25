@@ -1,5 +1,5 @@
 import {
-  Shield, Truck, Headphones, CreditCard, Award, Leaf, TrendingUp, Facebook,
+  Shield, Truck, Headphones, Award, Facebook,
   Twitter,
   Instagram,
   Linkedin,
@@ -20,7 +20,132 @@ import {
   Package,
   Search,
   ShoppingCart,
+  WheatIcon,
+  PhoneIcon,
 } from 'lucide-react';
+
+export const SITE_DATA = {
+  // Basic Information
+  name: 'SuperoAgrobase',
+  legalName: 'Supero Incorporation Limited',
+  tagline: 'Key to Agricultural Productivity',
+  domain: 'https://superoagrobase.com',
+
+  // Contact Information
+  email: 'contact@superoagrobase.com',
+  phone: '+2348157037737',
+  whatsapp: 'https://wa.me/message/KK2QPDR6KTLBK1',
+
+  address: {
+    street: '10, Jimoh Odu Street, Opp Benson B/S, Ikorodu Garage',
+    city: 'Ikorodu',
+    state: 'Lagos',
+    stateCode: 'LA',
+    country: 'Nigeria',
+    countryCode: 'NG',
+    full: '10, Jimoh Odu Street, Opp Benson B/S, Ikorodu Garage, Ikorodu, Lagos, Nigeria'
+  },
+
+  // Geolocation (Ikorodu, Lagos coordinates)
+  geo: {
+    latitude: '6.6153',
+    longitude: '3.5075'
+  },
+
+  // Business Details
+  business: {
+    type: 'Agribusiness Enterprise',
+    founded: '2020',
+    priceRange: '₦₦',
+    openingHours: {
+      weekdays: { open: '08:00', close: '18:00' },
+      saturday: { open: '09:00', close: '16:00' },
+      sunday: 'closed'
+    }
+  },
+
+  // Descriptions
+  descriptions: {
+    short: 'Nigeria\'s #1 agricultural marketplace for quality seeds, fertilizers, and farm equipment.',
+    medium: 'Shop 1000+ quality agricultural products: seeds, fertilizers, farm equipment, pesticides, herbicides & more. Fast nationwide delivery. Trusted by 10,000+ farmers.',
+    long: 'Supero Incorporation Limited is a fast-rising agribusiness enterprise that leverages in-depth research and development to provide farmers with high quality agricultural inputs, farm management, consultancy and agricultural laboratory services. Shop genuine products with expert support and fast delivery across Nigeria.',
+    tagline: 'Key to Agricultural Productivity'
+  },
+
+  // Social Media
+  social: {
+    facebook: 'https://www.facebook.com/superoagrobasedltd/',
+    instagram: 'https://www.instagram.com/superoagrobase/',
+    twitter: 'https://twitter.com/LimitedSupero',
+    whatsapp: 'https://wa.me/message/KK2QPDR6KTLBK1',
+    twitterHandle: '@LimitedSupero'
+  },
+
+  // Assets
+  assets: {
+    logo: '/images/logo/logo.png',
+    logoWidth: 600,
+    logoHeight: 60,
+    ogImage: '/images/images/og-image.jpg',
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    favicon: '/favicon/favicon.ico'
+  },
+
+  // SEO Keywords (Base)
+  keywords: {
+    primary: [
+      'SuperoAgrobase',
+      'agricultural marketplace Nigeria',
+      'farm products Nigeria',
+      'seeds fertilizers Nigeria',
+      'Supero Incorporation Limited'
+    ],
+    secondary: [
+      'buy farm inputs Nigeria',
+      'agricultural supplies',
+      'farm equipment Nigeria',
+      'pesticides herbicides Nigeria',
+      'agro chemicals Nigeria',
+      'farming supplies online',
+      'crop protection products',
+      'animal feed Nigeria',
+      'irrigation equipment',
+      'farm machinery Nigeria',
+      'agricultural tools',
+      'organic fertilizers',
+      'hybrid seeds Nigeria'
+    ],
+    locations: [
+      'Ikorodu',
+      'Lagos',
+      'Ibadan',
+      'Abuja',
+      'Port Harcourt',
+      'Kano',
+      'Nigeria'
+    ]
+  },
+
+  // Features/USPs
+  features: [
+    'Fast Nationwide Delivery',
+    'Trusted by 10,000+ Farmers',
+    'Genuine Products',
+    'Expert Support',
+    '1000+ Quality Products',
+    'Agricultural Consultancy',
+    'Laboratory Services',
+    'Farm Management Solutions'
+  ],
+
+  // Verification IDs
+  verification: {
+    google: 'your-google-verification-code',
+    bing: 'your-bing-verification-code',
+    facebook: 'your-facebook-app-id'
+  }
+};
 
 export const BADGE_COLORS = {
   'Featured': 'green',
@@ -39,74 +164,57 @@ export const STATS =
     { icon: Globe, value: "36+", label: "States Nationwide" }
   ]
 
-export const footerData = {
+export const FOOTER_DATA = {
   company: {
-    name: 'SuperoAgrobase',
-    tagline: 'Key to Agricultural Productivity.',
-    description: 'Supero Agrobase Limited is a fast-rising agribusiness enterprise that leverages in-depth research and development to provide farmers with high quality agricultural inputs, farm management, consultancy and agricultural laboratory services.',
+    name: SITE_DATA?.name,
+    description: SITE_DATA?.descriptions?.long,
     contact: {
-      email: 'support@superoagrobase.com',
-      phone: '+234 800 123 4567',
-      address: 'Plot 45, Agric Plaza, Lagos-Ibadan Expressway, Lagos, Nigeria'
+      phone: SITE_DATA?.phone,
+      email: SITE_DATA?.email,
+      address: SITE_DATA?.address?.full
     }
   },
 
   links: {
     quickLinks: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Our Story', href: '/story' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press & Media', href: '/press' },
-      { label: 'Blog', href: '/blogs' },
-      { label: 'Affiliate Program', href: '/affiliate' }
+      { label: 'All Products', href: '/products' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Blogs', href: '/blogs' },
+      { label: 'Become a vendor', href: '/become-a-vendor' },
     ],
     customerService: [
-      { label: 'Help Center', href: '/help' },
-      { label: 'Track Order', href: '/track-order' },
-      { label: 'Returns & Refunds', href: '/returns' },
-      { label: 'Shipping Info', href: '/shipping' },
-      { label: 'FAQs', href: '/faqs' },
-      { label: 'Contact Support', href: '/contact' }
-    ],
-    shop: [
-      { label: 'All Products', href: '/products' },
-      { label: 'Seeds & Seedlings', href: '/products/seeds' },
-      { label: 'Fertilizers', href: '/products/fertilizers' },
-      { label: 'Farm Equipment', href: '/products/equipment' },
-      { label: 'Organic Products', href: '/products/organic' },
-      { label: 'Special Offers', href: '/offers' }
+      { label: 'Track Order', href: '/dashboard/orders' },
+      { label: 'Help Center', href: '/customers?tab=help' },
+      { label: 'Returns & Refunds', href: '/customers?tab=returns' },
+      { label: 'FAQs', href: '/customers?tab=faqs' },
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'Accessibility', href: '/accessibility' },
-      { label: 'Disclaimer', href: '/disclaimer' }
+      { label: 'Privacy Policy', href: '/legal?tab=privacy' },
+      { label: 'Terms of Service', href: '/legal?tab=terms' },
+      { label: 'Cookie Policy', href: '/legal?tab=cookies' },
+      { label: 'Disclaimer', href: '/legal?tab=disclaimer' }
     ]
   },
 
   social: [
-    { name: 'Facebook', icon: Facebook, href: 'https://facebook.com', color: '#1877F2' },
-    { name: 'Twitter', icon: Twitter, href: 'https://twitter.com', color: '#1DA1F2' },
-    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com', color: '#E4405F' },
-    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com', color: '#0A66C2' },
-    { name: 'YouTube', icon: Youtube, href: 'https://youtube.com', color: '#FF0000' }
+    { name: 'Facebook', icon: Facebook, href: SITE_DATA?.social?.facebook, color: '#1877F2' },
+    { name: 'Twitter', icon: Twitter, href: SITE_DATA?.social?.twitter, color: '#1DA1F2' },
+    { name: 'Instagram', icon: Instagram, href: SITE_DATA?.social?.instagram, color: '#E4405F' },
+    { name: 'Whatsapp', icon: PhoneIcon, href: SITE_DATA?.social?.whatsapp, color: '#E4405F' },
   ],
 
   paymentMethods: [
-    { name: 'Visa', logo: '💳' },
-    { name: 'Mastercard', logo: '💳' },
-    { name: 'Verve', logo: '💳' },
-    { name: 'PayPal', logo: '🅿️' },
-    { name: 'Bank Transfer', logo: '🏦' }
+    {
+      name: 'PayStack', logo: '/images/images/paystack.svg', sub: ['Visa', 'Mastercard', 'Verve', 'Bank Transfer']
+    },
   ]
 };
 
-export const NavbarData = {
+export const NAVBAR_DATA = {
   topBar: {
-    phone: '+2348157037737',
-    email: 'contact@superoagrobase.com',
-    address: '10, Jimoh Odu Street, Opp Benson B/S, Ikorodu Garage, Ikorodu, Lagos'
+    phone: SITE_DATA?.phone,
+    email: SITE_DATA?.email,
+    address: SITE_DATA?.address?.full
   },
   mainNav: [
     { id: 'home', label: 'Home', path: '/', icon: Home },
@@ -156,6 +264,7 @@ export const NavbarData = {
     ]
   }
 };
+
 export const ROLE_CONFIG = {
   'super admin': {
     icon: ShieldCheck,
