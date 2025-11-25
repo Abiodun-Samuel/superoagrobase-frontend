@@ -159,3 +159,9 @@ export function buildBreadcrumb(config) {
 
   return items;
 }
+
+export const getPriceValidUntil = () => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+  return date.toISOString().split('T')[0];
+};

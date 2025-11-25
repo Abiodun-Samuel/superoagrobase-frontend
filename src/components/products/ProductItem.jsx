@@ -8,6 +8,7 @@ import Button from "../ui/Button";
 import TextBadge from "../ui/TextBadge";
 import { BADGE_COLORS } from "@/utils/data";
 import RatingStars from "./RatingStars";
+import { getPriceValidUntil } from "@/utils/helper";
 
 const ProductItem = ({ product }) => {
     const [isWishlisted, setIsWishlisted] = useState(false);
@@ -113,6 +114,7 @@ const ProductItem = ({ product }) => {
                 {/* Product Information */}
                 <div className="p-5 flex flex-col flex-grow space-y-3">
                     {/* Hidden meta tags for SEO */}
+                    <meta itemProp="name" content={product.title} />
                     <meta itemProp="sku" content={product.id} />
                     <meta itemProp="productID" content={product.slug} />
                     <meta itemProp="brand" content={product.brands || "SuperAgroBase"} />
@@ -121,7 +123,6 @@ const ProductItem = ({ product }) => {
                     <Link
                         href={`/products/${product.slug}`}
                         className="text-lg font-bold text-gray-900 hover:text-green-600 transition-colors duration-300 line-clamp-2"
-                        itemProp="name"
                     >
                         {product.title}
                     </Link>
@@ -149,8 +150,8 @@ const ProductItem = ({ product }) => {
 
                     {/* Rating with SEO markup */}
                     <div className="flex items-center gap-2" itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-                        <meta itemProp="ratingValue" content={product?.reviews_summary?.average_ratings || 0} />
-                        <meta itemProp="reviewCount" content={product?.reviews_summary?.reviews_count || 0} />
+                        <meta itemProp="ratingValue" content={product?.reviews_summary?.average_ratings || 1} />
+                        <meta itemProp="reviewCount" content={product?.reviews_summary?.reviews_count || 1} />
                         <meta itemProp="bestRating" content="5" />
                         <meta itemProp="worstRating" content="1" />
                         <RatingStars ratings={product?.reviews_summary?.average_ratings} />
@@ -159,6 +160,7 @@ const ProductItem = ({ product }) => {
                     {/* Price with SEO markup */}
                     <div className="flex items-baseline gap-2" itemProp="offers" itemScope itemType="https://schema.org/Offer">
                         <meta itemProp="priceCurrency" content="NGN" />
+                        <meta itemProp="priceValidUntil" content={getPriceValidUntil()} />
                         <meta itemProp="price" content={product.price} />
                         <meta itemProp="availability" content={product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"} />
                         <link itemProp="url" href={`https://superoagrobase.com/products/${product.slug}`} />

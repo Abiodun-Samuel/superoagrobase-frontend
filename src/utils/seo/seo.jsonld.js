@@ -102,15 +102,24 @@ export function getBreadcrumbJsonLd(items) {
     return {
         "@context": SCHEMA_BASE.context,
         "@type": "BreadcrumbList",
-        "itemListElement": items.map((item, index) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "name": item.name,
-            "item": item.url
-        }))
+        "itemListElement": items.map((item, index) => {
+            const isLastItem = index === items.length - 1;
+            return {
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": item.name,
+                ...(!isLastItem && {
+                    "item": {
+                        "@type": "WebPage",
+                        "@id": item.url,
+                        "url": item.url,
+                        "name": item.name
+                    }
+                })
+            };
+        })
     };
 }
-
 /**
  * Generate Product JSON-LD Schema
  * Comprehensive product structured data for e-commerce
@@ -133,13 +142,14 @@ export function getProductJsonLd(product) {
         pack_size,
         reviews,
         reviews_summary,
-        created_at
+        created_at,
+        image
     } = product;
 
     const productImages = PRODUCT_SCHEMA_CONFIG.getProductImages(product);
     const description = PRODUCT_SCHEMA_CONFIG.getProductDescription(product);
-    const rating = reviews_summary?.average_ratings || 0;
-    const reviewCount = reviews_summary?.reviews_count || 0;
+    const rating = reviews_summary?.average_ratings || 1;
+    const reviewCount = reviews_summary?.reviews_count || 1;
 
     return {
         "@context": SCHEMA_BASE.context,
@@ -147,7 +157,7 @@ export function getProductJsonLd(product) {
         "@id": `${SITE_CONFIG.domain}/products/${slug}`,
         "name": title,
         "description": description,
-        "image": productImages,
+        "image": image,
         "sku": id.toString(),
         "mpn": id.toString(),
         "gtin13": id.toString().padStart(13, '0'),
