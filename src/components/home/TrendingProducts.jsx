@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react';
-import { ChevronRight, Flame, Zap } from 'lucide-react';
+import { ChevronRight, Flame, ShoppingBag, Zap } from 'lucide-react';
 import ProductItem from '../products/ProductItem';
 import { ProductItemSkeleton } from '../products/ProductItemSkeleton';
 import TextBadge from '../ui/TextBadge';
@@ -59,7 +59,9 @@ const ProductGrid = ({ products, isLoading }) => {
 const ViewAllButton = () => (
     <div className="text-center mt-12">
         <Button
+            startIcon={<ShoppingBag />}
             href="/products"
+            variant='outline'
             className="max-w-xs"
             endIcon={<ChevronRight />}
         >

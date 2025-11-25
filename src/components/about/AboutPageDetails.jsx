@@ -13,17 +13,15 @@ import {
     Microscope,
     ShoppingBag,
     Sprout,
-    LineChart,
     Shield,
     Heart,
     Sparkles,
     MapPin,
     Phone,
     Mail,
-    Clock
 } from 'lucide-react';
 
-export default function AboutPage() {
+export default function AboutPageDetails() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {

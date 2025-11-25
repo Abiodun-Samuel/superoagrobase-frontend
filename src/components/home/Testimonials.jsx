@@ -1,7 +1,27 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, Award } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck } from 'lucide-react';
+import TextBadge from '../ui/TextBadge';
+
+const SectionHeader = () => (
+    <header className="text-center mb-12 space-y-4">
+        <TextBadge endIcon={<UserCheck />} size='lg' variant='solid' color='green' startIcon={<Award className="w-4 h-4" />}>
+            <span> Customer Success Stories</span>
+        </TextBadge>
+
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+            What Our{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+                Customers Say
+            </span>
+        </h2>
+
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Trusted by thousands of farmers, retailers, and agricultural businesses across Nigeria
+        </p>
+    </header>
+);
 
 export default function Testimonials() {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -103,21 +123,7 @@ export default function Testimonials() {
 
             <div className="relative z-10">
                 {/* Section Header */}
-                <div className="text-center mb-12 lg:mb-16">
-                    <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                        <Award className="w-4 h-4" />
-                        Customer Success Stories
-                    </div>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                        What Our{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
-                            Customers Say
-                        </span>
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                        Trusted by thousands of farmers, retailers, and agricultural businesses across Nigeria
-                    </p>
-                </div>
+                <SectionHeader />
 
                 {/* Testimonials Carousel */}
                 <div className="relative">
@@ -139,7 +145,7 @@ export default function Testimonials() {
                                     onClick={() => position !== 'center' && goToSlide(index)}
                                     style={{ cursor: position !== 'center' ? 'pointer' : 'default' }}
                                 >
-                                    <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
+                                    <div className="bg-white mx-5 rounded-3xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
                                         {/* Quote Icon */}
                                         <div className="absolute top-6 right-6 opacity-10">
                                             <Quote className="w-24 h-24 text-green-600" />
@@ -215,7 +221,7 @@ export default function Testimonials() {
                 </div>
 
                 {/* Dots Indicator */}
-                <div className="flex justify-center gap-2 mt-8">
+                <div className="flex justify-center gap-2 mt-10">
                     {testimonials.map((_, index) => (
                         <button
                             key={index}
@@ -227,21 +233,6 @@ export default function Testimonials() {
                         >{''}</button>
                     ))}
                 </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
-                    {[
-                        { label: "Happy Customers", value: "10,000+" },
-                        { label: "5-Star Reviews", value: "8,500+" },
-                        { label: "Success Rate", value: "98%" },
-                        { label: "Products Sold", value: "50,000+" }
-                    ].map((stat, index) => (
-                        <div key={index} className="text-center bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                            <div className="text-3xl font-bold text-green-600 mb-2">{stat.value}</div>
-                            <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-                        </div>
-                    ))}
-                </div>
             </div>
 
             <style jsx>{`
@@ -251,11 +242,9 @@ export default function Testimonials() {
                     50% { transform: translate(-20px, 20px) scale(0.9); }
                     75% { transform: translate(50px, 50px) scale(1.05); }
                 }
-                
                 .animate-blob {
                     animation: blob 7s infinite;
                 }
-                
                 .animation-delay-2000 {
                     animation-delay: 2s;
                 }

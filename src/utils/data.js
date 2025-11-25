@@ -18,6 +18,8 @@ import {
   Factory,
   Sprout, ShieldCheck, Store, User,
   Package,
+  Search,
+  ShoppingCart,
 } from 'lucide-react';
 
 export const BADGE_COLORS = {
@@ -28,64 +30,6 @@ export const BADGE_COLORS = {
   'Best Seller': 'yellow',
   'Sale': 'red',
 };
-
-export const TRUST_INDICATORS = [
-  {
-    icon: CheckCircle2,
-    label: "Certified Quality Products",
-    value: "ISO 9001",
-    description: "International quality management certification"
-  },
-  {
-    icon: Globe,
-    label: "Pan-Nigeria Delivery",
-    value: "All 36 States",
-    description: "Complete nationwide coverage and distribution"
-  },
-  {
-    icon: Heart,
-    label: "Customer Trust Rating",
-    value: "4.9/5.0",
-    description: "Based on 10,000+ verified farmer reviews"
-  },
-  {
-    icon: Zap,
-    label: "Fast Order Fulfillment",
-    value: "24-48 Hours",
-    description: "Average delivery time across Nigeria"
-  }
-];
-
-export const FEATURES = [
-  {
-    icon: Shield,
-    title: "100% Authentic Agricultural Products",
-    description: "All products are certified genuine and sourced directly from authorized manufacturers. Every item undergoes strict quality control to ensure you receive only authentic, high-performance agricultural supplies for optimal farm productivity.",
-    badge: "Verified",
-    color: "green"
-  },
-  {
-    icon: Truck,
-    title: "Nationwide Express Delivery Service",
-    description: "Fast and reliable delivery to all 36 states in Nigeria within 24-48 hours. Our efficient logistics network ensures your farming supplies arrive on time, every time, so you never miss critical planting or application windows.",
-    badge: "Express",
-    color: "blue"
-  },
-  {
-    icon: Headphones,
-    title: "Expert Agricultural Support 24/7",
-    description: "Access certified agronomists and farming experts round-the-clock. Get professional guidance on product selection, application techniques, pest management, and crop optimization tailored to your specific farming needs.",
-    badge: "Live Support",
-    color: "purple"
-  },
-  {
-    icon: Award,
-    title: "Best Price Guarantee & Rewards",
-    description: "Competitive wholesale pricing with transparent costs and no hidden fees. Enjoy our loyalty program with exclusive discounts, seasonal offers, and special rates for bulk purchases. Your success is our priority.",
-    badge: "Best Value",
-    color: "orange"
-  }
-];
 
 export const STATS =
   [
@@ -404,3 +348,92 @@ export const MOCK_PRODUCTS = [
     "updated_at": "2025-11-15T05:18:06.000000Z"
   },
 ]
+
+export const STEPS = [
+  {
+    id: 1,
+    title: "Browse & Select Products",
+    description: "Search our catalog of agricultural products like seeds, pesticide. Add your chosen products to your shopping cart with just one click.",
+    icon: Search,
+    ariaLabel: "Step 1: Browse agricultural products and add to cart"
+  },
+  {
+    id: 2,
+    title: "Place Order & Pay",
+    description: "Complete your purchase with secure checkout. Choose from multiple payment methods including cash on delivery, bank transfer, or pay later options.",
+    icon: ShoppingCart,
+    ariaLabel: "Step 2: Place order with flexible payment options"
+  },
+  {
+    id: 3,
+    title: "Monitor Order Status",
+    description: "Track your agricultural product order through your personal dashboard. View order status, processing updates, and estimated delivery time.",
+    icon: Package,
+    ariaLabel: "Step 3: Track order in your dashboard"
+  },
+  {
+    id: 4,
+    title: "Delivery or Pickup",
+    description: "Choose doorstep delivery to your farm or warehouse, or pick up your order at our nearest collection center at your convenience.",
+    icon: Truck,
+    ariaLabel: "Step 4: Receive delivery or pickup your order"
+  }
+];
+
+export const TRUST_INDICATORS = [
+  {
+    icon: CheckCircle2,
+    label: "Certified Quality",
+    value: "ISO 9001",
+    description: "International quality management certification for agricultural supplies"
+  },
+  {
+    icon: Globe,
+    label: "Nationwide Coverage",
+    value: "All 36 States",
+    description: "Complete delivery and pickup network across Nigeria"
+  },
+  {
+    icon: Heart,
+    label: "Customer Satisfaction",
+    value: "4.9/5.0",
+    description: "Rated by 10,000+ verified farmers nationwide"
+  },
+  {
+    icon: Zap,
+    label: "Quick Processing",
+    value: "Same Day",
+    description: "Fast order processing and fulfillment service"
+  }
+];
+
+export const FEATURES = [
+  {
+    icon: Shield,
+    title: "Certified Genuine Farm Products",
+    description: "Purchase verified authentic agricultural supplies including seeds, fertilizers, pesticides, and equipment. Every product is quality-tested and sourced from authorized manufacturers to guarantee optimal crop yields and farm performance.",
+    badge: "Verified",
+    color: "green"
+  },
+  {
+    icon: Truck,
+    title: "Delivery & Office Pickup Options",
+    description: "Choose convenient doorstep delivery to your farm across all 36 Nigerian states or collect your order from our pickup centers. Flexible fulfillment options designed for busy farmers with reliable logistics support.",
+    badge: "Flexible",
+    color: "blue"
+  },
+  {
+    icon: Headphones,
+    title: "24/7 Agricultural Expert Support",
+    description: "Connect with certified agronomists and farming consultants anytime. Receive professional advice on crop protection, fertilizer application, pest control, soil management, and product recommendations for your farm type.",
+    badge: "Live Help",
+    color: "purple"
+  },
+  {
+    icon: Award,
+    title: "Competitive Prices & Loyalty Rewards",
+    description: "Save money with wholesale pricing on bulk orders, transparent costs, and no hidden charges. Earn rewards through our farmer loyalty program with exclusive discounts, seasonal promotions, and special member benefits.",
+    badge: "Best Value",
+    color: "orange"
+  }
+];

@@ -15,7 +15,7 @@ const TextBadge = ({
   target,
   disabled = false
 }) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 border-2 hover:scale-105 active:scale-95";
+  const baseStyles = "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 border-1 hover:scale-105 active:scale-95";
 
   const sizeStyles = {
     xs: "text-xs px-2 py-0.5 gap-1",

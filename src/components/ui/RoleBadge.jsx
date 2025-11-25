@@ -7,7 +7,7 @@ const RoleBadge = ({
     showIcon = true,
     className = ''
 }) => {
-    const baseStyles = "inline-flex items-center justify-center gap-1.5 rounded-full font-semibold border-2 transition-all duration-200";
+    const baseStyles = "inline-flex items-center justify-center gap-1.5 rounded-full font-semibold border-1 transition-all duration-200";
 
     const sizeStyles = {
         xs: "text-xs px-2 py-0.5",

@@ -1,51 +1,65 @@
+/**
+ * IconBadge Component
+ * A versatile badge component for displaying icons with various styles and shapes
+ * 
+ * @param {Object} props - Component props
+ * @param {'light' | 'solid' | 'outline'} props.variant - Visual style variant
+ * @param {string} props.color - Color theme (green, blue, red, etc.)
+ * @param {'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'} props.size - Badge size
+ * @param {'square' | 'circle'} props.shape - Badge shape
+ * @param {React.ReactNode} props.icon - Icon element to display
+ * @param {string} props.className - Additional CSS classes
+ * @param {string} props.href - Optional link URL
+ * @param {boolean} props.external - Whether link opens in new tab
+ * @param {Function} props.onClick - Click handler function
+ * @param {boolean} props.disabled - Disabled state
+ * @param {string} props.ariaLabel - Accessibility label
+ */
 const IconBadge = ({
     variant = "light",
     color = "white",
     size = "md",
+    shape = "square",
     icon,
     className = "",
     href,
     external = false,
     onClick,
-    disabled = false
+    disabled = false,
+    ariaLabel
 }) => {
-    const baseStyles = "inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 border-2 hover:scale-110 active:scale-95";
+    // Base styles shared across all variants
+    const baseStyles = "inline-flex items-center justify-center font-semibold transition-all duration-200 border-1 hover:scale-110 active:scale-95";
 
-    const sizeStyles = {
-        xs: "p-1",
-        sm: "p-1.5",
-        md: "p-2",
-        lg: "p-2.5",
-        xl: "p-3",
-        '2xl': "p-4",
+    // Shape-specific styles
+    const shapeStyles = {
+        square: "rounded-lg",
+        circle: "rounded-full"
     };
 
-    const iconSizes = {
-        xs: 12,
-        sm: 14,
-        md: 16,
-        lg: 20,
-        xl: 24,
-        '2xl': 28,
+    // Size configurations
+    const sizeConfig = {
+        xs: { padding: "p-1", iconSize: 12 },
+        sm: { padding: "p-1.5", iconSize: 14 },
+        md: { padding: "p-2", iconSize: 16 },
+        lg: { padding: "p-2.5", iconSize: 20 },
+        xl: { padding: "p-3", iconSize: 24 },
+        '2xl': { padding: "p-4", iconSize: 28 }
     };
 
-    const variants = {
+    // Color variants configuration
+    const colorVariants = {
         light: {
-            // Existing colors
             green: "bg-green-50 text-green-700 border-green-200 hover:bg-green-100 hover:border-green-300 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700/50 dark:hover:bg-green-900/30",
             darkGreen: "bg-[#558B2F]/10 text-[#558B2F] border-[#558B2F]/30 hover:bg-[#558B2F]/20 hover:border-[#558B2F]/50 dark:bg-[#558B2F]/20 dark:text-[#7CB342] dark:border-[#7CB342]/50",
             lightGreen: "bg-[#9CCC65]/15 text-[#558B2F] border-[#9CCC65]/40 hover:bg-[#9CCC65]/25 hover:border-[#9CCC65]/60 dark:bg-[#9CCC65]/25 dark:text-[#9CCC65] dark:border-[#9CCC65]/50",
-            orange: "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:border-orange-300 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-700/50",
-            gray: "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100 hover:border-gray-300 dark:bg-gray-800/50 dark:text-gray-300 dark:border-gray-600/50",
-            red: "bg-red-50 text-red-700 border-red-200 hover:bg-red-100 hover:border-red-300 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700/50",
-            white: "bg-white text-gray-800 border-gray-200 hover:bg-gray-50 hover:border-gray-300 dark:bg-white/10 dark:text-white dark:border-white/20",
-
-            // New colors
             blue: "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 hover:border-blue-300 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-700/50",
             indigo: "bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 dark:bg-indigo-900/20 dark:text-indigo-300 dark:border-indigo-700/50",
             purple: "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100 hover:border-purple-300 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-700/50",
             pink: "bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100 hover:border-pink-300 dark:bg-pink-900/20 dark:text-pink-300 dark:border-pink-700/50",
             rose: "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100 hover:border-rose-300 dark:bg-rose-900/20 dark:text-rose-300 dark:border-rose-700/50",
+            red: "bg-red-50 text-red-700 border-red-200 hover:bg-red-100 hover:border-red-300 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700/50",
+            orange: "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:border-orange-300 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-700/50",
             yellow: "bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100 hover:border-yellow-300 dark:bg-yellow-900/20 dark:text-yellow-300 dark:border-yellow-700/50",
             amber: "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 hover:border-amber-300 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-700/50",
             lime: "bg-lime-50 text-lime-700 border-lime-200 hover:bg-lime-100 hover:border-lime-300 dark:bg-lime-900/20 dark:text-lime-300 dark:border-lime-700/50",
@@ -55,25 +69,22 @@ const IconBadge = ({
             sky: "bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100 hover:border-sky-300 dark:bg-sky-900/20 dark:text-sky-300 dark:border-sky-700/50",
             violet: "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100 hover:border-violet-300 dark:bg-violet-900/20 dark:text-violet-300 dark:border-violet-700/50",
             fuchsia: "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 hover:bg-fuchsia-100 hover:border-fuchsia-300 dark:bg-fuchsia-900/20 dark:text-fuchsia-300 dark:border-fuchsia-700/50",
+            gray: "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100 hover:border-gray-300 dark:bg-gray-800/50 dark:text-gray-300 dark:border-gray-600/50",
             slate: "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300 dark:bg-slate-800/50 dark:text-slate-300 dark:border-slate-600/50",
+            white: "bg-white text-gray-800 border-gray-200 hover:bg-gray-50 hover:border-gray-300 dark:bg-white/10 dark:text-white dark:border-white/20",
         },
 
         solid: {
-            // Existing colors
             green: "bg-gradient-to-br from-green-500 to-green-600 text-white border-green-400 hover:from-green-600 hover:to-green-700 shadow-sm hover:shadow-md",
             darkGreen: "bg-gradient-to-br from-[#558B2F] to-[#33691E] text-white border-[#558B2F] hover:from-[#689F38] hover:to-[#558B2F] shadow-sm hover:shadow-md",
             lightGreen: "bg-gradient-to-br from-[#9CCC65] to-[#7CB342] text-white border-[#9CCC65] hover:from-[#AED581] hover:to-[#9CCC65] shadow-sm hover:shadow-md",
-            orange: "bg-gradient-to-br from-orange-500 to-orange-600 text-white border-orange-400 hover:from-orange-600 hover:to-orange-700 shadow-sm hover:shadow-md",
-            gray: "bg-gradient-to-br from-gray-500 to-gray-600 text-white border-gray-400 hover:from-gray-600 hover:to-gray-700 shadow-sm hover:shadow-md",
-            red: "bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md",
-            white: "bg-white text-gray-800 border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow-md",
-
-            // New colors
             blue: "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-400 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md",
             indigo: "bg-gradient-to-br from-indigo-500 to-indigo-600 text-white border-indigo-400 hover:from-indigo-600 hover:to-indigo-700 shadow-sm hover:shadow-md",
             purple: "bg-gradient-to-br from-purple-500 to-purple-600 text-white border-purple-400 hover:from-purple-600 hover:to-purple-700 shadow-sm hover:shadow-md",
             pink: "bg-gradient-to-br from-pink-500 to-pink-600 text-white border-pink-400 hover:from-pink-600 hover:to-pink-700 shadow-sm hover:shadow-md",
             rose: "bg-gradient-to-br from-rose-500 to-rose-600 text-white border-rose-400 hover:from-rose-600 hover:to-rose-700 shadow-sm hover:shadow-md",
+            red: "bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md",
+            orange: "bg-gradient-to-br from-orange-500 to-orange-600 text-white border-orange-400 hover:from-orange-600 hover:to-orange-700 shadow-sm hover:shadow-md",
             yellow: "bg-gradient-to-br from-yellow-400 to-yellow-500 text-gray-900 border-yellow-300 hover:from-yellow-500 hover:to-yellow-600 shadow-sm hover:shadow-md",
             amber: "bg-gradient-to-br from-amber-500 to-amber-600 text-white border-amber-400 hover:from-amber-600 hover:to-amber-700 shadow-sm hover:shadow-md",
             lime: "bg-gradient-to-br from-lime-500 to-lime-600 text-gray-900 border-lime-400 hover:from-lime-600 hover:to-lime-700 shadow-sm hover:shadow-md",
@@ -83,7 +94,9 @@ const IconBadge = ({
             sky: "bg-gradient-to-br from-sky-500 to-sky-600 text-white border-sky-400 hover:from-sky-600 hover:to-sky-700 shadow-sm hover:shadow-md",
             violet: "bg-gradient-to-br from-violet-500 to-violet-600 text-white border-violet-400 hover:from-violet-600 hover:to-violet-700 shadow-sm hover:shadow-md",
             fuchsia: "bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 text-white border-fuchsia-400 hover:from-fuchsia-600 hover:to-fuchsia-700 shadow-sm hover:shadow-md",
+            gray: "bg-gradient-to-br from-gray-500 to-gray-600 text-white border-gray-400 hover:from-gray-600 hover:to-gray-700 shadow-sm hover:shadow-md",
             slate: "bg-gradient-to-br from-slate-500 to-slate-600 text-white border-slate-400 hover:from-slate-600 hover:to-slate-700 shadow-sm hover:shadow-md",
+            white: "bg-white text-gray-800 border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow-md",
         },
 
         outline: {
@@ -96,44 +109,67 @@ const IconBadge = ({
         }
     };
 
-    const sizeClass = sizeStyles[size];
-    const colorStyles = variants[variant]?.[color] || variants.light.white;
-    const iconSize = iconSizes[size];
+    // Get configuration values
+    const { padding, iconSize } = sizeConfig[size] || sizeConfig.md;
+    const shapeClass = shapeStyles[shape] || shapeStyles.square;
+    const colorClass = colorVariants[variant]?.[color] || colorVariants.light.white;
 
-    const disabledStyles = disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : "";
-    const interactiveStyles = (href || onClick) && !disabled ? "cursor-pointer" : "";
+    // Conditional styles
+    const disabledClass = disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : "";
+    const interactiveClass = (href || onClick) && !disabled ? "cursor-pointer" : "";
 
-    const combinedClassName = `${baseStyles} ${sizeClass} ${colorStyles} ${disabledStyles} ${interactiveStyles} ${className}`;
+    // Combine all classes
+    const combinedClassName = [
+        baseStyles,
+        shapeClass,
+        padding,
+        colorClass,
+        disabledClass,
+        interactiveClass,
+        className
+    ].filter(Boolean).join(" ");
 
-    const content = (
-        <span className="flex items-center justify-center" style={{ width: iconSize, height: iconSize }}>
+    // Icon content wrapper
+    const IconContent = () => (
+        <span
+            className="flex items-center justify-center"
+            style={{ width: iconSize, height: iconSize }}
+        >
             {icon}
         </span>
     );
 
-    if (href) {
-        if (external) {
-            return (
-                <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={combinedClassName}
-                    onClick={onClick}
-                    aria-label="Icon link"
-                >
-                    {content}
-                </a>
-            );
-        }
-
+    // Render as external link
+    if (href && external) {
         return (
-            <a href={href} className={combinedClassName} onClick={onClick} aria-label="Icon link">
-                {content}
+            <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={combinedClassName}
+                onClick={onClick}
+                aria-label={ariaLabel || "External icon link"}
+            >
+                <IconContent />
             </a>
         );
     }
 
+    // Render as internal link
+    if (href) {
+        return (
+            <a
+                href={href}
+                className={combinedClassName}
+                onClick={onClick}
+                aria-label={ariaLabel || "Icon link"}
+            >
+                <IconContent />
+            </a>
+        );
+    }
+
+    // Render as button
     if (onClick) {
         return (
             <button
@@ -141,15 +177,19 @@ const IconBadge = ({
                 className={combinedClassName}
                 onClick={onClick}
                 disabled={disabled}
-                aria-label="Icon button"
+                aria-label={ariaLabel || "Icon button"}
             >
-                {content}
+                <IconContent />
             </button>
         );
     }
 
-    return <span className={combinedClassName}>{content}</span>;
+    // Render as static span
+    return (
+        <span className={combinedClassName} aria-label={ariaLabel}>
+            <IconContent />
+        </span>
+    );
 };
 
-// Demo
-export default IconBadge
+export default IconBadge;

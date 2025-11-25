@@ -22,7 +22,7 @@
     "next-env.d.js",
     "**/*.js",
     "**/*.jsx"
-  ],
+, "next-sitemap.config.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -132,7 +132,7 @@ export default function HeroSection({
     }, [products.length]);
 
     return (
-        <div className="mt-10 bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden">
+        <div className="bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden">
             <AnimatedBackground />
 
             <div className="relative mx-auto py-12 px-4 sm:px-6 lg:px-8">

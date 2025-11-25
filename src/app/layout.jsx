@@ -3,32 +3,53 @@ import './globals.css';
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import NextTopLoader from 'nextjs-toploader';
-import { loadingIndicatorProperties } from '@/utils/config';
+import { loadingIndicatorProperties } from '@/utils/config/lib.config';
 import { Toaster } from 'react-hot-toast';
 import { TanstackQueryProvider } from '@/components/provider/TanstackQueryProvider';
 import { AuthProvider } from '@/components/provider/AuthProvider';
 import { getAuth } from '@/server/auth.action';
+import { getOrganizationJsonLd, getWebSiteJsonLd } from '@/utils/seo/seo.jsonld';
+import { getRootLayoutViewport, getRootLayoutMetadata } from '@/utils/seo/seo.layout';
 
 const outfit = Outfit({
   subsets: ["latin"],
 });
 
+export const viewport = getRootLayoutViewport();
+export const metadata = getRootLayoutMetadata();
+
 export default async function RootLayout({ children }) {
   const auth = await getAuth();
+
+  const jsonLdScripts = [
+    getOrganizationJsonLd(),
+    getWebSiteJsonLd(),
+  ];
+
   return (
     <html lang="en">
       <head>
+        {/* DNS Prefetch for performance */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        <meta name="author" content="{{SITE_CONFIG.name}}" />
+
+        {/* IE Compatibility */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="robots" content="max-image-preview:large, NOODP, NOYDIR" />
-        <link rel="icon" href="/favicon/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-        <link rel="apple-touch-icon" type="image/png" href="/favicon/apple-touch-icon.png" />
-        <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png" />
-        <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png" />
-        <link rel="manifest" href="/favicon/site.webmanifest"></link>
+
+        {jsonLdScripts.map((jsonLd, idx) => (
+          <script
+            key={idx}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        ))}
+
       </head>
-      <body className={`${outfit.className} dark:bg-gray-900`}>
+      <body className={`${outfit.className}`}>
         <TanstackQueryProvider>
           <Toaster />
           <NextTopLoader {...loadingIndicatorProperties} />
