@@ -51,114 +51,93 @@ export function formatPrice(price) {
  */
 export function buildBreadcrumb(config) {
   const { page, data = {} } = config;
-
   const items = [];
 
-  // Always add the base
-  items.push({ label: 'Home', href: '/' });
+  items.push({ name: 'Home', url: '/' });
 
   switch (page) {
     case 'allProducts':
       items.push({
-        label: 'Products',
-        href: '/products',
+        name: 'Products',
+        url: '/products',
         current: true
       });
       break;
 
     case 'category':
-      items.push({ label: 'Products', href: '/products' });
+      items.push({ name: 'Products', url: '/products' });
       items.push({
-        label: data.category.title,
-        href: `/products/categories/${data.category.slug}`,
-        current: true,
+        name: data.category?.title,
+        url: `/products/categories/${data.category?.slug}`,
+        current: true
       });
       break;
 
     case 'subcategory':
-      items.push({ label: 'Products', href: '/products' });
+      items.push({ name: 'Products', url: '/products' });
       items.push({
-        label: data.category.title,
-        href: `/products/categories/${data.category.slug}`,
+        name: data.category?.title,
+        url: `/products/categories/${data.category.slug}`
       });
       items.push({
-        label: data.subcategory.title,
-        href: `/products/categories/${data.category.slug}/${data.subcategory.slug}`,
-        current: true,
+        name: data.subcategory?.title,
+        url: `/products/categories/${data.category.slug}/${data.subcategory.slug}`,
+        current: true
       });
       break;
 
     case 'product':
-      items.push({ label: 'Products', href: '/products' });
+      items.push({ name: 'Products', url: '/products' });
 
       if (data.category) {
         items.push({
-          label: data.category.title,
-          href: `/products/categories/${data.category.slug}`,
+          name: data.category.title,
+          url: `/products/categories/${data.category.slug}`
         });
       }
 
       if (data.subcategory) {
         items.push({
-          label: data.subcategory.title,
-          href: `/products/categories/${data.category.slug}/${data.subcategory.slug}`,
+          name: data.subcategory.title,
+          url: `/products/categories/${data.category.slug}/${data.subcategory.slug}`
         });
       }
 
       items.push({
-        label: data.title,
-        href: `/products/${data.slug}`,
-        current: true,
+        name: data.title,
+        url: `/products/${data.slug}`,
+        current: true
       });
       break;
 
     case 'about':
-      items.push({
-        label: 'About Us',
-        href: '/about',
-        current: true,
-      });
+      items.push({ name: 'About Us', url: '/about', current: true });
       break;
 
     case 'contact':
-      items.push({
-        label: 'Contact Us',
-        href: '/contact',
-        current: true,
-      });
+      items.push({ name: 'Contact Us', url: '/contact', current: true });
       break;
 
     case 'services':
-      items.push({
-        label: 'Services',
-        href: '/services',
-        current: true,
-      });
+      items.push({ name: 'Services', url: '/services', current: true });
       break;
 
     case 'singleService':
+      items.push({ name: 'Services', url: '/services' });
       items.push({
-        label: 'Services',
-        href: '/services'
-      });
-      items.push({
-        label: data.title,
-        href: `/services/${data.slug}`,
-        current: true,
+        name: data.title,
+        url: `/services/${data.slug}`,
+        current: true
       });
       break;
 
     default:
-      // fallback
-      items.push({
-        label: 'Page',
-        href: '#',
-        current: true,
-      });
+      items.push({ name: 'Page', url: '#', current: true });
   }
 
   return items;
 }
+
 
 export const getPriceValidUntil = () => {
   const date = new Date();

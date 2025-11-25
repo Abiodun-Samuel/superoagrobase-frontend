@@ -100,26 +100,21 @@ export function getBreadcrumbJsonLd(items) {
     if (!items || items.length === 0) return null;
 
     return {
-        "@context": SCHEMA_BASE.context,
+        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": items.map((item, index) => {
-            const isLastItem = index === items.length - 1;
-            return {
-                "@type": "ListItem",
-                "position": index + 1,
-                "name": item.name,
-                ...(!isLastItem && {
-                    "item": {
-                        "@type": "WebPage",
-                        "@id": item.url,
-                        "url": item.url,
-                        "name": item.name
-                    }
-                })
-            };
-        })
+        "itemListElement": items.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+                "@type": "WebPage",
+                "@id": item.url,
+                "url": item.url,
+                "name": item.name
+            }
+        }))
     };
 }
+
 /**
  * Generate Product JSON-LD Schema
  * Comprehensive product structured data for e-commerce
