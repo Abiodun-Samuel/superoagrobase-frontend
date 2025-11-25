@@ -193,11 +193,21 @@ export const SCHEMA_BASE = {
 export const PRODUCT_SCHEMA_CONFIG = {
     // Default product image handler
     getProductImages: (product) => {
-        const images = [
+        const rawImages = [
             product.image,
             ...(product.images ? JSON.parse(product.images) : [])
         ].filter(Boolean);
-        return images;
+
+        return rawImages.map((img) =>
+            img.startsWith('http')
+                ? img
+                : `${SITE_CONFIG.domain}${img}`
+        );
+        // const images = [
+        //     product.image,
+        //     ...(product.images ? JSON.parse(product.images) : [])
+        // ].filter(Boolean);
+        // return images;
     },
 
     // Product description generator
@@ -302,8 +312,8 @@ export const FAQ_CONFIG = {
         {
             question: `How much does ${product.title} cost?`,
             answer: `${product.title} is priced at ₦${Number(product.price).toLocaleString()} ${product.discount_price
-                    ? `(Save ₦${Number(product.discount_price - product.price).toLocaleString()})`
-                    : ''
+                ? `(Save ₦${Number(product.discount_price - product.price).toLocaleString()})`
+                : ''
                 }.`
         },
         {

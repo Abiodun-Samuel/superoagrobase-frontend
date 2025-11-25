@@ -138,13 +138,12 @@ export function getProductJsonLd(product) {
         reviews,
         reviews_summary,
         created_at,
-        image
     } = product;
 
-    // const productImages = PRODUCT_SCHEMA_CONFIG.getProductImages(product);
+    const productImages = PRODUCT_SCHEMA_CONFIG.getProductImages(product);
     const description = PRODUCT_SCHEMA_CONFIG.getProductDescription(product);
-    const rating = reviews_summary?.average_ratings || 1;
-    const reviewCount = reviews_summary?.reviews_count || 1;
+    const rating = reviews_summary?.average_ratings;
+    const reviewCount = reviews_summary?.reviews_count;
 
     return {
         "@context": SCHEMA_BASE.context,
@@ -152,7 +151,8 @@ export function getProductJsonLd(product) {
         "@id": `${SITE_CONFIG.domain}/products/${slug}`,
         "name": title,
         "description": description,
-        "image": image,
+        "url": `${SITE_CONFIG.domain}/products/${slug}`,
+        "image": productImages.length ? productImages : [`${SITE_CONFIG.domain}/placeholder.jpg`],
         "sku": id.toString(),
         "mpn": id.toString(),
         "gtin13": id.toString().padStart(13, '0'),
@@ -166,7 +166,8 @@ export function getProductJsonLd(product) {
             "url": SITE_CONFIG.domain
         },
         "category": category?.title,
-        ...(subcategory && { "additionalType": subcategory.title }),
+        ...(category?.title && { "category": category.title }),
+        ...(subcategory?.title && { "additionalType": subcategory.title }),
         "url": `${SITE_CONFIG.domain}/products/${slug}`,
 
         // Enhanced offer information
@@ -196,7 +197,7 @@ export function getProductJsonLd(product) {
         },
 
         // Aggregate rating
-        ...(rating > 0 && reviewCount > 0 && {
+        ...(rating && reviewCount && {
             "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": rating.toFixed(1),
@@ -218,18 +219,18 @@ export function getProductJsonLd(product) {
                 },
                 "author": {
                     "@type": "Person",
-                    "name": `Customer ${review.user_id}`
+                    "name": review.user?.full_name ?? "Customer"
                 },
                 "reviewBody": review.comment,
-                "datePublished": review.created_at
+                "datePublished": new Date(review.created_at).toISOString(),
             }))
         }),
 
         // Additional product details
         ...(ingredients && { "material": ingredients }),
         ...(pack_size && { "size": pack_size }),
-        "datePublished": created_at,
-        "releaseDate": created_at
+        "datePublished": new Date(created_at).toISOString(),
+        "releaseDate": new Date(created_at).toISOString()
     };
 }
 
@@ -341,7 +342,7 @@ export function getArticleJsonLd(article) {
         "headline": article.title,
         "description": article.excerpt || article.description,
         "image": article.image,
-        "datePublished": article.published_at || article.created_at,
+        "datePublished": new Date(article.published_at || article.created_at).toISOString(),
         "dateModified": article.updated_at || article.created_at,
         "author": {
             "@type": "Person",
