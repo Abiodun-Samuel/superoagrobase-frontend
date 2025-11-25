@@ -34,12 +34,12 @@ export default function Breadcrumb({ breadcrumbItems = [], className = '' }) {
                             {!isLast ? (
                                 <>
                                     <Link
-                                        href={item.href}
+                                        href={item?.url}
                                         className="flex items-center gap-1.5 text-gray-600 hover:text-green-600 transition-colors duration-200"
                                         itemProp="item"
                                     >
                                         {index === 0 && <Home className="w-4 h-4" />}
-                                        <span itemProp="name">{item.label}</span>
+                                        <span itemProp="name">{item.name}</span>
                                     </Link>
                                     <meta itemProp="position" content={position.toString()} />
                                     <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -50,7 +50,7 @@ export default function Breadcrumb({ breadcrumbItems = [], className = '' }) {
                                         className="text-gray-900 font-medium"
                                         itemProp="name"
                                     >
-                                        {item.label}
+                                        {item.name}
                                     </span>
                                     <meta itemProp="position" content={position.toString()} />
                                 </>
