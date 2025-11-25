@@ -114,6 +114,7 @@ export default function ProductImageGallery({ product }) {
 
             {/* SEO */}
             <meta itemProp="name" content={product.title} />
+            <meta itemProp="image" content={product.image} />
             <meta itemProp="description" content={product.description} />
         </div>
     );

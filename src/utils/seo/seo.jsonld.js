@@ -138,7 +138,6 @@ export function getProductJsonLd(product) {
         reviews,
         reviews_summary,
         created_at,
-        image
     } = product;
 
     const productImages = PRODUCT_SCHEMA_CONFIG.getProductImages(product);
@@ -152,7 +151,7 @@ export function getProductJsonLd(product) {
         "@id": `${SITE_CONFIG.domain}/products/${slug}`,
         "name": title,
         "description": description,
-        "image": image,
+        "image": productImages,
         "sku": id.toString(),
         "mpn": id.toString(),
         "gtin13": id.toString().padStart(13, '0'),
