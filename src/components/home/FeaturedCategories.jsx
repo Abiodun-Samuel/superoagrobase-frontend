@@ -92,7 +92,7 @@ export default function FeaturedCategories() {
     const handlePrevSlide = useCallback(() => swiperRef?.slidePrev(), [swiperRef]);
     const handleNextSlide = useCallback(() => swiperRef?.slideNext(), [swiperRef]);
 
-    const hasCategories = categories.length > 0;
+    const hasCategories = categories?.length > 0;
     const showNavigation = hasCategories && !isLoading && isClient;
 
     useEffect(() => {

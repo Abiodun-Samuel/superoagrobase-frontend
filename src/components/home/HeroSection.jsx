@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { ShoppingCart, Leaf, TrendingUp, ArrowRight, Star, Package } from 'lucide-react';
+import { ShoppingCart, TrendingUp, ArrowRight, Star, Package, HeadphonesIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import IconBadge from '../ui/IconBadge';
@@ -70,7 +70,7 @@ const ProductSlide = ({ product, isActive, isFirst }) => (
                         className="relative transform hover:scale-105 transition-transform duration-500"
                         aria-label={`View ${product.title}`}
                     >
-                        <div className="relative w-80 h-80 lg:w-96 lg:h-96">
+                        <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
                             <Image
                                 fill
                                 src={product.image}
@@ -89,7 +89,7 @@ const ProductSlide = ({ product, isActive, isFirst }) => (
 );
 
 const SlideIndicators = ({ total, current, onSelect }) => (
-    <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+    <div className="absolute w-72 sm:w-80 lg:w-96 bottom-6 justify-center left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         {Array.from({ length: total }, (_, index) => (
             <button
                 key={`indicator-${index}`}
@@ -174,7 +174,7 @@ export default function HeroSection({
                                 <Button
                                     href="/contact"
                                     variant="outline"
-                                    startIcon={<Leaf className="w-5 h-5 text-green-600" />}
+                                    startIcon={<HeadphonesIcon className="w-5 h-5 text-green-600" />}
                                     endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
                                 >
                                     Contact Us

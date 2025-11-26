@@ -26,7 +26,7 @@ const useScrollPosition = () => {
     return isScrolled;
 };
 
-const Navbar = () => {
+const Header = () => {
     useMe()
     const pathname = usePathname();
     const isScrolled = useScrollPosition();
@@ -99,4 +99,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Header;

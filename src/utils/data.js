@@ -20,7 +20,6 @@ import {
   Package,
   Search,
   ShoppingCart,
-  WheatIcon,
   PhoneIcon,
 } from 'lucide-react';
 
@@ -183,16 +182,16 @@ export const FOOTER_DATA = {
       { label: 'Become a vendor', href: '/become-a-vendor' },
     ],
     customerService: [
-      { label: 'Track Order', href: '/dashboard/orders' },
-      { label: 'Help Center', href: '/customers?tab=help' },
-      { label: 'Returns & Refunds', href: '/customers?tab=returns' },
-      { label: 'FAQs', href: '/customers?tab=faqs' },
+      { label: 'My Orders', href: '/dashboard/orders' },
+      { label: 'My Cart', href: '/cart' },
+      { label: 'My Wishlist', href: '/wishlist' },
+      { label: 'FAQs', href: '/faqs' },
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/legal?tab=privacy' },
-      { label: 'Terms of Service', href: '/legal?tab=terms' },
-      { label: 'Cookie Policy', href: '/legal?tab=cookies' },
-      { label: 'Disclaimer', href: '/legal?tab=disclaimer' }
+      { label: 'Privacy Policy', href: '/legal/privacy-policy' },
+      { label: 'Terms of Service', href: '/legal/terms-of-service' },
+      { label: 'Cookie Policy', href: '/legal/cookie-policy' },
+      { label: 'Disclaimer', href: '/legal/disclaimer' }
     ]
   },
 
