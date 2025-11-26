@@ -130,8 +130,8 @@ const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
                     {/* Left Side - Text */}
                     <div className="flex-1 text-center lg:text-left">
-                        <h3 className="text-2xl lg:text-3xl font-bold text-white mb-2 flex items-center justify-center lg:justify-start gap-2">
-                            <Mail className="text-[#7CB342]" size={32} />
+                        <h3 className="text-xl font-bold text-white mb-2 flex items-center justify-center lg:justify-start gap-2">
+                            <Mail className="text-[#7CB342]" size={25} />
                             Subscribe to Our Newsletter
                         </h3>
                         <p className="text-gray-400 text-sm lg:text-base">
@@ -148,13 +148,13 @@ const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 onKeyPress={handleKeyPress}
                                 placeholder="Enter your email address"
-                                className="w-full px-6 py-4 pr-32 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-[#7CB342] focus:ring-2 focus:ring-[#7CB342]/20 transition-all duration-300"
+                                className="w-full px-6 py-3.5 pr-32 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-[#7CB342] focus:ring-2 focus:ring-[#7CB342]/20 transition-all duration-300"
                                 required
                             />
                             <button
                                 type="submit"
                                 disabled={isSubmitted}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2.5 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#7CB342]/30 transition-all duration-300 disabled:opacity-70 flex items-center space-x-2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#7CB342]/30 transition-all duration-300 disabled:opacity-70 flex items-center space-x-2"
                             >
                                 {isSubmitted ? (
                                     <>
@@ -232,23 +232,38 @@ const FooterColumn = ({ title, links }) => (
         <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-6 pb-2 border-b border-gray-700">
             {title}
         </h4>
+
         <ul className="space-y-3">
-            {links.map((link) => (
-                <li key={link.href}>
-                    <Link
-                        href={link.href}
-                        className="text-gray-400 hover:text-[#7CB342] text-sm transition-colors duration-200 flex items-center group"
-                    >
-                        <ChevronRight
-                            size={14}
-                            className="mr-1 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200"
-                        />
-                        <span className="group-hover:translate-x-1 transition-transform duration-200">
-                            {link.label}
-                        </span>
-                    </Link>
-                </li>
-            ))}
+            {links.map((link) => {
+                const Icon = link.icon;
+
+                return (
+                    <li key={link.href}>
+                        <Link
+                            href={link.href}
+                            className="text-gray-400 hover:text-[#7CB342] text-sm transition-colors duration-200 flex items-center group"
+                        >
+                            {/* existing animated chevron */}
+                            <ChevronRight
+                                size={14}
+                                className="mr-1 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-200"
+                            />
+
+                            {/* new icon (does NOT alter design) */}
+                            {Icon && (
+                                <Icon
+                                    size={14}
+                                    className="mr-2 text-gray-500 group-hover:text-[#7CB342] transition-colors duration-200"
+                                />
+                            )}
+
+                            <span className="group-hover:translate-x-1 transition-transform duration-200">
+                                {link.label}
+                            </span>
+                        </Link>
+                    </li>
+                );
+            })}
         </ul>
     </div>
 );

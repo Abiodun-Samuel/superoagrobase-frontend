@@ -1,5 +1,6 @@
 // seo.meta.js
 import { generateMetadata } from "../config/seo.config";
+import { SITE_DATA } from "../data";
 import { formatPrice } from "../helper";
 
 export function getHomeMetadata() {
@@ -144,6 +145,153 @@ export function getProductMetadata(product) {
                 title: title,
                 statusBarStyle: 'default',
                 capable: true
+            }
+        }
+    });
+}
+
+export function getFAQsMetadata() {
+    return generateMetadata({
+        pageType: 'website',
+        title: 'Frequently Asked Questions (FAQs) - Agricultural Products & Services',
+        description: 'Get answers to common questions about buying agricultural products, delivery, payments, returns, and more. Learn about our quality assurance, nationwide delivery across Nigeria, and customer support.',
+        path: '/faqs',
+        keywords: [
+            'FAQs agriculture Nigeria',
+            'agricultural products questions',
+            'farm supplies help',
+            'delivery questions Nigeria',
+            'payment methods agriculture',
+            'return policy farm products',
+            'customer support agriculture'
+        ],
+        additionalMetadata: {
+            openGraph: {
+                type: 'website'
+            },
+            other: {
+                'article:section': 'Customer Support',
+                'article:tag': 'FAQs, Help, Customer Service'
+            }
+        }
+    });
+}
+
+export function getPrivacyPolicyMetadata() {
+    return generateMetadata({
+        pageType: 'website',
+        title: 'Privacy Policy - Data Protection & NDPR Compliance',
+        description: `Learn how ${SITE_DATA.name} collects, uses, and protects your personal information. Our privacy policy complies with Nigeria Data Protection Regulation (NDPR) and ensures your data security.`,
+        path: '/privacy-policy',
+        keywords: [
+            'privacy policy Nigeria',
+            'NDPR compliance',
+            'data protection Nigeria',
+            'personal information security',
+            'Nigeria Data Protection Regulation',
+            'customer data privacy',
+            'secure shopping Nigeria'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website'
+            },
+            other: {
+                'article:section': 'Legal',
+                'article:tag': 'Privacy, Data Protection, NDPR, Legal',
+                'article:modified_time': new Date().toISOString()
+            }
+        }
+    });
+}
+
+export function getTermsOfServiceMetadata() {
+    return generateMetadata({
+        pageType: 'website',
+        title: 'Terms of Service - User Agreement & Policies',
+        description: `Read our terms of service governing the use of ${SITE_DATA.name}. Understand your rights, responsibilities, purchase terms, delivery policies, and dispute resolution procedures.`,
+        path: '/terms-of-service',
+        keywords: [
+            'terms of service Nigeria',
+            'user agreement agriculture',
+            'terms and conditions',
+            'purchase policies Nigeria',
+            'delivery terms',
+            'refund policy',
+            'legal agreement ecommerce'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website'
+            },
+            other: {
+                'article:section': 'Legal',
+                'article:tag': 'Terms, Conditions, Agreement, Legal',
+                'article:modified_time': new Date().toISOString()
+            }
+        }
+    });
+}
+
+export function getCookiePolicyMetadata() {
+    return generateMetadata({
+        pageType: 'website',
+        title: 'Cookie Policy - How We Use Cookies & Tracking',
+        description: `Understand how ${SITE_DATA.name} uses cookies and tracking technologies to improve your browsing experience. Learn about cookie types, third-party cookies, and how to manage your preferences.`,
+        path: '/cookie-policy',
+        keywords: [
+            'cookie policy Nigeria',
+            'cookies tracking',
+            'browser cookies',
+            'privacy cookies',
+            'tracking technologies',
+            'cookie management',
+            'website cookies Nigeria'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website'
+            },
+            other: {
+                'article:section': 'Legal',
+                'article:tag': 'Cookies, Privacy, Tracking, Legal',
+                'article:modified_time': new Date().toISOString()
+            }
+        }
+    });
+}
+
+export function getDisclaimerMetadata() {
+    return generateMetadata({
+        pageType: 'website',
+        title: 'Disclaimer - Limitations of Liability & Product Information',
+        description: `Important disclaimer about product information, pricing, agricultural advice, and limitations of liability for ${SITE_DATA.name}. Understand our terms before making purchases.`,
+        path: '/disclaimer',
+        keywords: [
+            'disclaimer Nigeria',
+            'liability limitations',
+            'product disclaimer agriculture',
+            'agricultural advice disclaimer',
+            'legal disclaimer ecommerce',
+            'warranty disclaimer',
+            'agricultural products liability'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website'
+            },
+            other: {
+                'article:section': 'Legal',
+                'article:tag': 'Disclaimer, Liability, Legal, Warranty',
+                'article:modified_time': new Date().toISOString()
             }
         }
     });

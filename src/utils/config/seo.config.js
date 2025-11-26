@@ -1,7 +1,6 @@
 // seo.config.js
 
-import { SITE_DATA } from "../data";
-
+import { FAQ_DATA, SITE_DATA } from "../data";
 
 export function generateMetadata(options = {}) {
     const {
@@ -29,7 +28,7 @@ export function generateMetadata(options = {}) {
     const pageUrl = canonical || `${SITE_DATA.domain}${path}`;
 
     const fullTitle = title
-        ? `${title} | ${SITE_DATA.name}`
+        ? `${SITE_DATA.name} | ${title} `
         : `${SITE_DATA.name} - ${SITE_DATA.tagline}`;
 
     const fullDescription = description || SITE_DATA.descriptions.medium;
@@ -204,11 +203,6 @@ export const PRODUCT_SCHEMA_CONFIG = {
                 ? img
                 : `${SITE_DATA.domain}${img}`
         );
-        // const images = [
-        //     product.image,
-        //     ...(product.images ? JSON.parse(product.images) : [])
-        // ].filter(Boolean);
-        // return images;
     },
 
     // Product description generator
@@ -276,34 +270,7 @@ export const PRODUCT_SCHEMA_CONFIG = {
 };
 
 export const FAQ_CONFIG = {
-    homeFAQs: [
-        {
-            question: `What products does ${SITE_DATA.name} sell?`,
-            answer: `${SITE_DATA.name} offers a wide range of agricultural products including seeds, fertilizers, pesticides, herbicides, fungicides, farm equipment, irrigation systems, animal feed, and other farming supplies for Nigerian farmers. We provide quality agricultural inputs, farm management services, and agricultural laboratory services.`
-        },
-        {
-            question: "Do you deliver nationwide in Nigeria?",
-            answer: "Yes, we deliver to all 36 states in Nigeria. Delivery typically takes 1-3 business days depending on your location. We partner with reliable logistics companies to ensure your products arrive safely and on time."
-        },
-        {
-            question: "Are the products genuine and quality assured?",
-            answer: `Absolutely! All products sold on ${SITE_DATA.name} are 100% genuine and sourced directly from reputable manufacturers and authorized distributors. ${SITE_DATA.legalName} leverages in-depth research and development to guarantee quality and authenticity for all agricultural products.`
-        },
-        {
-            question: "What payment methods do you accept?",
-            answer: "We accept multiple payment methods including bank transfers, debit cards, credit cards, USSD, and mobile money transfers. All transactions are secure and encrypted for your safety."
-        },
-        {
-            question: "Can I return a product if I'm not satisfied?",
-            answer: "Yes, we have a 7-day return policy for unopened products in their original packaging. If you receive a damaged or wrong product, contact us immediately for a free replacement or full refund."
-        },
-        {
-            question: `Where is ${SITE_DATA.name} located?`,
-            answer: `We are located at ${SITE_DATA.address.full}. You can contact us via phone at ${SITE_DATA.phone}, email at ${SITE_DATA.email}, or through WhatsApp for immediate assistance.`
-        }
-    ],
-
-    // Product FAQ generators
+    homeFAQs: FAQ_DATA.homeFAQs || [],
     getProductFAQs: (product) => [
         {
             question: `What is ${product.title}?`,
@@ -327,7 +294,8 @@ export const FAQ_CONFIG = {
             question: "Do you deliver nationwide?",
             answer: "Yes, we deliver nationwide across Nigeria within 1-3 business days."
         }
-    ]
+    ],
+    faqsPAGE: FAQ_DATA?.faqsPAGE || []
 };
 
 export const OFFER_CATALOG_CONFIG = {
@@ -369,37 +337,6 @@ export const OFFER_CATALOG_CONFIG = {
         {
             name: "Agricultural Services",
             description: "Farm management, consultancy, and laboratory services for Nigerian farmers"
-        }
-    ]
-};
-
-export const SERVICE_CONFIG = {
-    name: "Agricultural Products Delivery & Support Services",
-    serviceType: "Agricultural Supply Services",
-    services: [
-        {
-            name: "Nationwide Delivery",
-            description: "Fast and reliable delivery of agricultural products across all 36 states in Nigeria"
-        },
-        {
-            name: "Agricultural Consulting",
-            description: "Expert advice on crop management, farm inputs, and agricultural best practices"
-        },
-        {
-            name: "Farm Management Services",
-            description: "Comprehensive farm management solutions for optimal productivity"
-        },
-        {
-            name: "Agricultural Laboratory Services",
-            description: "Soil testing, product analysis, and quality assurance services"
-        },
-        {
-            name: "Bulk Order Support",
-            description: "Special pricing and dedicated support for large farm operations and cooperatives"
-        },
-        {
-            name: "Technical Support & Training",
-            description: "Product usage training and ongoing technical support for farmers"
         }
     ]
 };

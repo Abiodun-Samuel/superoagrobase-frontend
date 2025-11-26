@@ -1,19 +1,8 @@
 // seo.jsonld.js
-
-import {
-    SCHEMA_BASE,
-    PRODUCT_SCHEMA_CONFIG,
-    FAQ_CONFIG,
-    OFFER_CATALOG_CONFIG,
-    SERVICE_CONFIG,
-    toJsonLd
-} from "../config/seo.config";
+import { SCHEMA_BASE, PRODUCT_SCHEMA_CONFIG, FAQ_CONFIG, OFFER_CATALOG_CONFIG, toJsonLd } from "../config/seo.config";
 import { SITE_DATA } from "../data";
 
-/**
- * Generate Organization JSON-LD
- * Global schema that appears on all pages via root layout
- */
+// Home Layout
 export function getOrganizationJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -33,10 +22,7 @@ export function getOrganizationJsonLd() {
     };
 }
 
-/**
- * Generate WebSite JSON-LD with SearchAction
- * Global schema for site-wide search functionality
- */
+// Home Layout
 export function getWebSiteJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -59,43 +45,7 @@ export function getWebSiteJsonLd() {
     };
 }
 
-/**
- * Generate LocalBusiness JSON-LD
- * Use on contact page or location-specific pages
- */
-export function getLocalBusinessJsonLd() {
-    return {
-        "@context": SCHEMA_BASE.context,
-        "@type": "LocalBusiness",
-        "name": SCHEMA_BASE.organization.name,
-        "image": SCHEMA_BASE.logo.url,
-        "telephone": SITE_DATA.phone,
-        "email": SITE_DATA.email,
-        "address": toJsonLd(SCHEMA_BASE.address),
-        "geo": toJsonLd(SCHEMA_BASE.geo),
-        "url": SCHEMA_BASE.organization.url,
-        "priceRange": SITE_DATA.business.priceRange,
-        "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "500",
-            "bestRating": "5",
-            "worstRating": "1"
-        }
-    };
-}
-
-/**
- * Generate Breadcrumb JSON-LD
- * @param {Array} items - Array of breadcrumb items with name and url
- * @example
- * getBreadcrumbJsonLd([
- *   { name: "Home", url: "https://..." },
- *   { name: "Products", url: "https://..." },
- *   { name: "Seeds", url: "https://..." }
- * ])
- */
+// Product page
 export function getBreadcrumbJsonLd(items) {
     if (!items || items.length === 0) return null;
 
@@ -115,11 +65,7 @@ export function getBreadcrumbJsonLd(items) {
     };
 }
 
-/**
- * Generate Product JSON-LD Schema
- * Comprehensive product structured data for e-commerce
- * @param {Object} product - Product object with all details
- */
+// Product page
 export function getProductJsonLd(product) {
     if (!product) return null;
 
@@ -234,11 +180,7 @@ export function getProductJsonLd(product) {
     };
 }
 
-/**
- * Generate Product FAQPage JSON-LD
- * Common questions for product pages to get featured snippets
- * @param {Object} product - Product object
- */
+// Product page
 export function getProductFAQJsonLd(product) {
     if (!product) return null;
 
@@ -258,10 +200,7 @@ export function getProductFAQJsonLd(product) {
     };
 }
 
-/**
- * Generate WebPage JSON-LD for Homepage
- * Specific schema for the homepage/landing page
- */
+// Home page
 export function getHomePageJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -294,10 +233,7 @@ export function getHomePageJsonLd() {
     };
 }
 
-/**
- * Generate FAQPage JSON-LD for Homepage
- * Common questions that help with featured snippets
- */
+// Home page
 export function getHomeFAQJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -313,10 +249,7 @@ export function getHomeFAQJsonLd() {
     };
 }
 
-/**
- * Generate OfferCatalog JSON-LD for Homepage
- * Shows product categories in search results
- */
+// Home page
 export function getOfferCatalogJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -331,132 +264,18 @@ export function getOfferCatalogJsonLd() {
     };
 }
 
-/**
- * Generate Article JSON-LD for Blog Posts
- * @param {Object} article - Article data with title, description, author, etc.
- */
-export function getArticleJsonLd(article) {
-    return {
-        "@context": SCHEMA_BASE.context,
-        "@type": "Article",
-        "headline": article.title,
-        "description": article.excerpt || article.description,
-        "image": article.image,
-        "datePublished": new Date(article.published_at || article.created_at).toISOString(),
-        "dateModified": article.updated_at || article.created_at,
-        "author": {
-            "@type": "Person",
-            "name": article.author || `${SITE_DATA.name} Team`
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": SITE_DATA.name,
-            "logo": toJsonLd(SCHEMA_BASE.logo)
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": `${SITE_DATA.domain}/blog/${article.slug}`
-        },
-        "keywords": article.tags?.join(", ") || "",
-        "articleSection": article.category || "Agriculture"
-    };
-}
-
-/**
- * Generate CollectionPage JSON-LD for Category Pages
- * @param {Object} category - Category data with title, description, slug
- * @param {number} productCount - Number of products in category (optional)
- */
-export function getCollectionPageJsonLd(category, productCount = 0) {
-    return {
-        "@context": SCHEMA_BASE.context,
-        "@type": "CollectionPage",
-        "name": category.title,
-        "description": category.description || `Browse ${category.title} products at ${SITE_DATA.name}`,
-        "url": `${SITE_DATA.domain}/products/categories/${category.slug}`,
-        ...(productCount > 0 && {
-            "numberOfItems": productCount
-        }),
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": SITE_DATA.name,
-            "url": SITE_DATA.domain
-        }
-    };
-}
-
-/**
- * Generate Service JSON-LD for Services Page
- */
-export function getServiceJsonLd() {
-    return {
-        "@context": SCHEMA_BASE.context,
-        "@type": "Service",
-        "name": SERVICE_CONFIG.name,
-        "provider": {
-            "@type": "Organization",
-            "name": SITE_DATA.name,
-            "url": SITE_DATA.domain
-        },
-        "serviceType": SERVICE_CONFIG.serviceType,
-        "description": SITE_DATA.descriptions.long,
-        "areaServed": toJsonLd(SCHEMA_BASE.areaServed),
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Agricultural Services",
-            "itemListElement": SERVICE_CONFIG.services.map(service => ({
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "Service",
-                    "name": service.name,
-                    "description": service.description
-                }
-            }))
-        }
-    };
-}
-
-/**
- * Generate FAQPage JSON-LD with Dynamic Questions
- * @param {Array} faqs - Array of FAQ objects with question and answer
- */
-export function getFAQPageJsonLd(faqs) {
-    if (!faqs || faqs.length === 0) return null;
-
+// Faq page
+export function getFAQPageJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
         "@type": "FAQPage",
-        "mainEntity": faqs.map(faq => ({
+        "mainEntity": FAQ_CONFIG?.faqsPAGE?.map(faq => ({
             "@type": "Question",
             "name": faq.question,
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": faq.answer
             }
-        }))
-    };
-}
-
-/**
- * Generate ItemList JSON-LD for Product Listings
- * Use on category pages, search results, etc.
- * @param {Array} products - Array of product objects
- * @param {string} listName - Name of the list (e.g., "Best Selling Products")
- */
-export function getItemListJsonLd(products, listName = "Products") {
-    if (!products || products.length === 0) return null;
-
-    return {
-        "@context": SCHEMA_BASE.context,
-        "@type": "ItemList",
-        "name": listName,
-        "numberOfItems": products.length,
-        "itemListElement": products.map((product, index) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "url": `${SITE_DATA.domain}/products/${product.slug}`,
-            "name": product.title,
-            "image": product.image
         }))
     };
 }

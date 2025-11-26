@@ -21,6 +21,12 @@ import {
   Search,
   ShoppingCart,
   PhoneIcon,
+  Boxes,
+  Newspaper,
+  HelpCircle,
+  FileText,
+  Cookie,
+  AlertTriangle, CreditCard, MapPin, CheckCircle, AlertCircle
 } from 'lucide-react';
 
 export const SITE_DATA = {
@@ -176,23 +182,23 @@ export const FOOTER_DATA = {
 
   links: {
     quickLinks: [
-      { label: 'Products', href: '/products' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'Blogs', href: '/blogs' },
-      { label: 'Become a vendor', href: '/become-a-vendor' },
+      { label: 'Products', href: '/products', icon: Boxes },
+      { label: 'Contact', href: '/contact', icon: Mail },
+      { label: 'Blogs', href: '/blogs', icon: Newspaper },
+      { label: 'Become a vendor', href: '/become-a-vendor', icon: Store },
     ],
     customerService: [
-      { label: 'My Orders', href: '/dashboard/orders' },
-      { label: 'My Cart', href: '/cart' },
-      { label: 'My Wishlist', href: '/wishlist' },
-      { label: 'FAQs', href: '/faqs' },
+      { label: 'My Orders', href: '/dashboard/orders', icon: ShoppingBag },
+      { label: 'My Cart', href: '/cart', icon: ShoppingCart },
+      { label: 'My Wishlist', href: '/wishlist', icon: Heart },
+      { label: 'FAQs', href: '/faqs', icon: HelpCircle },
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/privacy-policy' },
-      { label: 'Terms of Service', href: '/terms-of-service' },
-      { label: 'Cookie Policy', href: '/cookie-policy' },
-      { label: 'Disclaimer', href: '/disclaimer' }
-    ]
+      { label: 'Privacy Policy', href: '/privacy-policy', icon: ShieldCheck },
+      { label: 'Terms of Service', href: '/terms-of-service', icon: FileText },
+      { label: 'Cookie Policy', href: '/cookie-policy', icon: Cookie },
+      { label: 'Disclaimer', href: '/disclaimer', icon: AlertTriangle },
+    ],
   },
 
   social: [
@@ -543,5 +549,230 @@ export const FEATURES = [
     description: "Save money with wholesale pricing on bulk orders, transparent costs, and no hidden charges. Earn rewards through our farmer loyalty program with exclusive discounts, seasonal promotions, and special member benefits.",
     badge: "Best Value",
     color: "orange"
+  }
+];
+
+export const FAQ_DATA = {
+  homeFAQs: [
+    {
+      question: `What products does ${SITE_DATA.name} sell?`,
+      answer: `${SITE_DATA.name} offers a wide range of agricultural products including seeds, fertilizers, pesticides, herbicides, fungicides, farm equipment, irrigation systems, animal feed, and other farming supplies for Nigerian farmers. We provide quality agricultural inputs, farm management services, and agricultural laboratory services.`
+    },
+    {
+      question: "Do you deliver nationwide in Nigeria?",
+      answer: "Yes, we deliver to all 36 states in Nigeria. Delivery typically takes 1-3 business days depending on your location. We partner with reliable logistics companies to ensure your products arrive safely and on time."
+    },
+    {
+      question: "Are the products genuine and quality assured?",
+      answer: `Absolutely! All products sold on ${SITE_DATA.name} are 100% genuine and sourced directly from reputable manufacturers and authorized distributors. ${SITE_DATA.legalName} leverages in-depth research and development to guarantee quality and authenticity for all agricultural products.`
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer: "We accept multiple payment methods including bank transfers, debit cards, credit cards, USSD, and mobile money transfers. All transactions are secure and encrypted for your safety."
+    },
+    {
+      question: "Can I return a product if I'm not satisfied?",
+      answer: "Yes, we have a 7-day return policy for unopened products in their original packaging. If you receive a damaged or wrong product, contact us immediately for a free replacement or full refund."
+    },
+    {
+      question: `Where is ${SITE_DATA.name} located?`,
+      answer: `We are located at ${SITE_DATA.address.full}. You can contact us via phone at ${SITE_DATA.phone}, email at ${SITE_DATA.email}, or through WhatsApp for immediate assistance.`
+    }
+  ],
+  faqsPAGE: [
+    // Ordering & Account FAQs
+    {
+      faqType: 'ordering',
+      icon: ShoppingCart,
+      question: 'How do I place an order on SuperoAgrobase?',
+      answer: 'Ordering from SuperoAgrobase is simple and straightforward:\n\n1. Browse our extensive catalog of agricultural products including seeds, fertilizers, pesticides, herbicides, and farm equipment\n2. Add your desired items to cart by clicking the "Add to Cart" button\n3. Review your cart and proceed to checkout\n4. Fill in your delivery address and contact information\n5. Choose your preferred payment method\n6. Confirm your order and receive an order confirmation via email or SMS\n\nYou can also place orders via WhatsApp at {phone} or call us directly for personalized assistance.'
+    },
+    {
+      faqType: 'ordering',
+      icon: FileText,
+      question: 'Do I need to create an account to place an order?',
+      answer: 'While you can browse our products without an account, we recommend creating one for a better shopping experience. With an account, you can track your orders, save your delivery addresses, access exclusive deals, view your purchase history, and enjoy faster checkout on future orders. Registration is quick, free, and takes less than 2 minutes.'
+    },
+    {
+      faqType: 'ordering',
+      icon: AlertCircle,
+      question: 'What is the minimum order quantity or value?',
+      answer: 'We welcome orders of all sizes at SuperoAgrobase. There is no minimum order quantity for most products. Whether you\'re a smallholder farmer needing a few packets of seeds or a large-scale commercial farmer requiring bulk quantities of fertilizers, we\'re here to serve you. For bulk orders above ₦500,000, please contact us for special pricing and dedicated support.'
+    },
+    {
+      faqType: 'ordering',
+      icon: CheckCircle,
+      question: 'Can I modify or cancel my order after placing it?',
+      answer: 'Yes, you can modify or cancel your order within 2 hours of placing it. Please contact our customer support team immediately via WhatsApp at {phone}, call us at {phone}, or email {email}. Once your order has been processed for dispatch, modifications may not be possible. We\'ll do our best to accommodate your request whenever feasible.'
+    },
+
+    // Payment & Billing FAQs
+    {
+      faqType: 'payment',
+      icon: CreditCard,
+      question: 'What payment methods do you accept?',
+      answer: 'SuperoAgrobase offers multiple secure payment options for your convenience:\n\n• Bank Transfer: Direct transfer to our company account\n• Online Payment: Pay with your debit or credit card (Visa, Mastercard, Verve)\n• Mobile Money: Payment via mobile wallets and USSD codes\n• Payment on Delivery: Available for select locations (Lagos and Ogun State)\n• POS Payment: Pay with your card upon delivery (where available)\n\nAll online transactions are secured with industry-standard encryption to protect your financial information.'
+    },
+    {
+      faqType: 'payment',
+      icon: Shield,
+      question: 'Is it safe to pay online on your website?',
+      answer: 'Absolutely! Your security is our top priority. We use advanced SSL encryption and partner with trusted payment gateways to ensure your financial information is completely secure. We never store your complete card details on our servers. All transactions are processed through PCI-DSS compliant payment processors. You can shop with confidence knowing your data is protected at every step.'
+    },
+    {
+      faqType: 'payment',
+      icon: FileText,
+      question: 'Will I receive a receipt or invoice for my purchase?',
+      answer: 'Yes, you will receive a detailed invoice for every purchase. An electronic invoice will be sent to your registered email address immediately after payment confirmation. For corporate customers requiring official receipts for accounting purposes, we can provide stamped company invoices upon request. All invoices include product details, quantities, prices, tax information, and our company details.'
+    },
+    {
+      faqType: 'payment',
+      icon: Clock,
+      question: 'How long does it take to confirm my payment?',
+      answer: 'Online card payments are confirmed instantly. For bank transfers, confirmation typically takes between 10 minutes to 2 hours during banking hours (Monday to Friday, 8:00 AM - 5:00 PM). To speed up the process, please send your payment receipt via WhatsApp to {phone} or email it to {email} with your order number. Weekend or holiday transfers may take slightly longer to reflect.'
+    },
+
+    // Delivery & Shipping FAQs
+    {
+      faqType: 'delivery',
+      icon: Truck,
+      question: 'Which locations do you deliver to?',
+      answer: 'SuperoAgrobase provides fast nationwide delivery across all 36 states in Nigeria and the FCT. We have partnerships with reliable logistics companies to ensure your agricultural products reach you safely, whether you\'re in Lagos, Abuja, Port Harcourt, Kano, Ibadan, Kaduna, Onitsha, or any other location in Nigeria. Delivery times vary by location, with urban areas typically receiving orders faster than remote rural areas.'
+    },
+    {
+      faqType: 'delivery',
+      icon: Clock,
+      question: 'How long will it take to receive my order?',
+      answer: 'Delivery times depend on your location:\n\n• Lagos & Ogun State: 1-3 business days\n• Major cities (Abuja, Port Harcourt, Ibadan, Kano): 3-5 business days\n• Other states: 5-7 business days\n• Remote locations: 7-10 business days\n\nOrders placed before 2:00 PM on weekdays are typically processed the same day. Weekend orders are processed on the next business day. You\'ll receive tracking information once your order is dispatched.'
+    },
+    {
+      faqType: 'delivery',
+      icon: Package,
+      question: 'How much does delivery cost?',
+      answer: 'Delivery fees are calculated based on your location and the weight/size of your order. Rates start from as low as ₦1,500 for intra-city delivery in Lagos. The exact delivery cost will be displayed at checkout before you complete your order. We offer FREE DELIVERY on orders above ₦50,000 to select locations. For bulk orders, please contact us for special delivery rates and arrangements.'
+    },
+    {
+      faqType: 'delivery',
+      icon: MapPin,
+      question: 'Can I track my order?',
+      answer: 'Yes! Once your order is dispatched, you\'ll receive a tracking number via SMS and email. You can use this number to monitor your delivery status in real-time. You can also check your order status by logging into your account on our website. For immediate assistance with tracking, contact our customer support team via WhatsApp at {phone}.'
+    },
+    {
+      faqType: 'delivery',
+      icon: AlertCircle,
+      question: 'What happens if I\'m not available to receive my delivery?',
+      answer: 'Our delivery partner will call you 30 minutes to 1 hour before arrival. If you\'re unavailable, you can arrange for someone else to receive the order on your behalf (please inform us in advance). Alternatively, we can reschedule delivery for another convenient day. Please note that additional delivery charges may apply for multiple delivery attempts. We recommend providing accurate contact information and being available on your chosen delivery date.'
+    },
+
+    // Products & Quality FAQs
+    {
+      faqType: 'product',
+      icon: Shield,
+      question: 'Are all your products genuine and of good quality?',
+      answer: 'Absolutely! At SuperoAgrobase, we guarantee 100% genuine products. All our agricultural inputs—including seeds, fertilizers, pesticides, herbicides, and equipment—are sourced directly from authorized manufacturers and certified distributors. We work with leading global and local brands to ensure you receive only authentic, high-quality products that meet international standards. Every product undergoes quality checks before dispatch. Your success as a farmer is our priority.'
+    },
+    {
+      faqType: 'product',
+      icon: Package,
+      question: 'Do you sell both local and imported agricultural products?',
+      answer: 'Yes, we offer a comprehensive selection of both locally-produced and imported agricultural products. Our inventory includes trusted Nigerian brands as well as internationally recognized products from leading manufacturers worldwide. Whether you prefer local varieties adapted to Nigerian conditions or specialized imported inputs for specific crops, we have you covered. All imported products meet Nigerian regulatory standards and have proper NAFDAC or regulatory approvals.'
+    },
+    {
+      faqType: 'product',
+      icon: FileText,
+      question: 'Can I get technical advice on which products to use for my farm?',
+      answer: 'Yes! SuperoAgrobase offers free agricultural consultancy services to help you make informed decisions. Our team of experienced agronomists can provide recommendations on the best seeds, fertilizers, pesticides, and herbicides for your specific crops, soil type, and farming conditions. Contact us via WhatsApp at {phone}, call {phone}, or email {email} to speak with our agricultural experts. We\'re committed to supporting your farming success beyond just selling products.'
+    },
+    {
+      faqType: 'product',
+      icon: CheckCircle,
+      question: 'Do your products come with usage instructions?',
+      answer: 'Yes, all our products come with detailed usage instructions and application guidelines. For pesticides, herbicides, and fertilizers, we provide clear dosage recommendations, safety precautions, and application methods. Seeds come with planting instructions including spacing, depth, and growing conditions. For any questions about product usage, our agricultural experts are always available to provide guidance and support. Safety first—always read and follow product labels.'
+    },
+
+    // Returns & Refunds FAQs
+    {
+      faqType: 'return',
+      icon: Shield,
+      question: 'What is your return and refund policy?',
+      answer: 'We want you to be completely satisfied with your purchase. Our return policy includes:\n\n• Products can be returned within 7 days of delivery if unused and in original packaging\n• Damaged or defective products are eligible for immediate replacement or full refund\n• Wrong items delivered will be replaced at no extra cost to you\n• Perishable items like seeds must be reported within 24 hours of delivery\n\nTo initiate a return, contact our customer support with your order number and photos of the product. Approved returns are processed within 7-14 business days.'
+    },
+    {
+      faqType: 'return',
+      icon: Package,
+      question: 'What should I do if I receive a damaged or wrong product?',
+      answer: 'We sincerely apologize if this happens. Please contact us immediately via WhatsApp at {phone}, call {phone}, or email {email} with your order number and clear photos of the damaged or wrong product. Do not open or use the product. Our team will arrange for collection and send you the correct product or a replacement at no additional cost. Your satisfaction is our priority, and we\'ll resolve the issue promptly.'
+    },
+    {
+      faqType: 'return',
+      icon: CreditCard,
+      question: 'How long does it take to receive a refund?',
+      answer: 'Once your return is approved and we receive the product back, refunds are processed within 7-14 business days. The refund will be credited to the original payment method you used. For bank transfers, the funds will reflect in your account within 3-5 business days after processing. For card payments, it may take 7-14 business days depending on your bank. You\'ll receive a confirmation email once the refund is processed.'
+    },
+
+    // Customer Support FAQs
+    {
+      faqType: 'support',
+      icon: Headphones,
+      question: 'How can I contact customer support?',
+      answer: 'Our dedicated customer support team is here to help you. Contact us through any of these channels:\n\n• WhatsApp: {phone} (Fastest response)\n• Phone: {phone} (Monday to Saturday, 8:00 AM - 6:00 PM)\n• Email: {email} (24/7, response within 24 hours)\n• Visit us: {address}\n\nWe typically respond to WhatsApp messages within minutes during business hours. For urgent matters, calling is recommended.'
+    },
+    {
+      faqType: 'support',
+      icon: Clock,
+      question: 'What are your business hours?',
+      answer: 'SuperoAgrobase operates at the following hours:\n\n• Monday to Friday: 8:00 AM - 6:00 PM\n• Saturday: 9:00 AM - 4:00 PM\n• Sunday: Closed\n\nYou can place orders online 24/7 through our website. Orders placed outside business hours will be processed the next business day. Our WhatsApp line is monitored during business hours for quick responses.'
+    },
+    {
+      faqType: 'support',
+      icon: MapPin,
+      question: 'Can I visit your physical store or warehouse?',
+      answer: 'Yes, you\'re welcome to visit our store in Ikorodu, Lagos! Our address is {address}. You can inspect products, place orders in person, and receive expert advice from our agricultural specialists. We recommend calling ahead at {phone} or sending a WhatsApp message to ensure we have your desired products in stock. Our team will be happy to assist you with all your agricultural needs.'
+    },
+    {
+      faqType: 'support',
+      icon: FileText,
+      question: 'Do you offer bulk purchase discounts for large orders?',
+      answer: 'Yes! We provide attractive discounts for bulk purchases and are committed to supporting large-scale farmers and agro-dealers. The discount rate depends on the quantity and product category. For orders exceeding ₦200,000, please contact our sales team at {phone} or {email} to discuss special pricing, payment terms, and dedicated logistics support. We also offer flexible payment plans for registered commercial farmers and agricultural cooperatives.'
+    }
+  ]
+}
+
+export const FAQ_CATEGORIES = [
+  {
+    key: 'ordering',
+    title: 'Ordering & Account',
+    description: 'Learn how to place orders and manage your account',
+    icon: ShoppingCart
+  },
+  {
+    key: 'payment',
+    title: 'Payment & Billing',
+    description: 'Information about payment methods and security',
+    icon: CreditCard
+  },
+  {
+    key: 'delivery',
+    title: 'Delivery & Shipping',
+    description: 'Everything about our delivery process',
+    icon: Truck
+  },
+  {
+    key: 'product',
+    title: 'Products & Quality',
+    description: 'Information about our agricultural products',
+    icon: Package
+  },
+  {
+    key: 'return',
+    title: 'Returns & Refunds',
+    description: 'Our return policy and refund process',
+    icon: Shield
+  },
+  {
+    key: 'support',
+    title: 'Customer Support',
+    description: 'How to reach us and get help',
+    icon: Headphones
   }
 ];
