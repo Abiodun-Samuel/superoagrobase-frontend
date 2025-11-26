@@ -176,7 +176,7 @@ export const FOOTER_DATA = {
 
   links: {
     quickLinks: [
-      { label: 'All Products', href: '/products' },
+      { label: 'Products', href: '/products' },
       { label: 'Contact', href: '/contact' },
       { label: 'Blogs', href: '/blogs' },
       { label: 'Become a vendor', href: '/become-a-vendor' },
@@ -188,10 +188,10 @@ export const FOOTER_DATA = {
       { label: 'FAQs', href: '/faqs' },
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/legal/privacy-policy' },
-      { label: 'Terms of Service', href: '/legal/terms-of-service' },
-      { label: 'Cookie Policy', href: '/legal/cookie-policy' },
-      { label: 'Disclaimer', href: '/legal/disclaimer' }
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Service', href: '/terms-of-service' },
+      { label: 'Cookie Policy', href: '/cookie-policy' },
+      { label: 'Disclaimer', href: '/disclaimer' }
     ]
   },
 
