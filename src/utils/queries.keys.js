@@ -15,7 +15,11 @@ export const QUERY_KEYS = {
 
   products: {
     all: ['products'],
+    lists: () => [...QUERY_KEYS.products.all, 'lists'],
     featured: () => [...QUERY_KEYS.products.all, 'featured'],
     trending: () => [...QUERY_KEYS.products.all, 'trending'],
+    search: (query,) => [...QUERY_KEYS.products.all, 'search', { query }],
+    byCategory: (categoryId,) => [...QUERY_KEYS.products.all, 'category', categoryId,],
+    bySubcategory: (subcategoryId,) => [...QUERY_KEYS.products.all, 'subcategory', subcategoryId],
   },
 };

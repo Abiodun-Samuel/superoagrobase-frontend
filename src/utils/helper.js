@@ -68,7 +68,7 @@ export function buildBreadcrumb(config) {
       items.push({ name: 'Products', url: '/products' });
       items.push({
         name: data.category?.title,
-        url: `/products/categories/${data.category?.slug}`,
+        url: `/products?category=${data.category?.slug}`,
         current: true
       });
       break;
@@ -77,11 +77,11 @@ export function buildBreadcrumb(config) {
       items.push({ name: 'Products', url: '/products' });
       items.push({
         name: data.category?.title,
-        url: `/products/categories/${data.category.slug}`
+        url: `/products?category/${data.category.slug}`
       });
       items.push({
         name: data.subcategory?.title,
-        url: `/products/categories/${data.category.slug}/${data.subcategory.slug}`,
+        url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
         current: true
       });
       break;
@@ -92,14 +92,14 @@ export function buildBreadcrumb(config) {
       if (data.category) {
         items.push({
           name: data.category.title,
-          url: `/products/categories/${data.category.slug}`
+          url: `/products?category=${data.category.slug}`
         });
       }
 
       if (data.subcategory) {
         items.push({
           name: data.subcategory.title,
-          url: `/products/categories/${data.category.slug}/${data.subcategory.slug}`
+          url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
         });
       }
 

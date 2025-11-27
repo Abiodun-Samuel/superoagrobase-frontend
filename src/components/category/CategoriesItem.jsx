@@ -55,7 +55,7 @@ const CategoriesItem = ({ category }) => {
                                 <div className="flex flex-wrap gap-2">
                                     {displayedSubcategories?.map((sub, idx) => (
                                         <TextBadge
-                                            href={`/products/categories/${category?.slug}/${sub?.slug}`}
+                                            href={`/products?category=${category?.slug}&subcategory=${sub?.slug}`}
                                             key={idx}
                                             variant="light"
                                             color="blue"
@@ -108,8 +108,10 @@ const CategoriesItem = ({ category }) => {
 
                     {/* CTA Button */}
                     <Button
-                        href={`/products/categories/${category?.slug}`}
+                        href={`/products?category=${category?.slug}`}
                         color="green"
+                        className='w-full'
+                        startIcon={<Briefcase />}
                     >
                         <span>Explore Collection</span>
                         <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />

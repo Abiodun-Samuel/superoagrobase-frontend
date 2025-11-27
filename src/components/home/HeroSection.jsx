@@ -163,15 +163,17 @@ export default function HeroSection({
                         </div>
 
                         <div className="flex justify-center lg:justify-start">
-                            <div className='flex flex-col sm:flex-row gap-4 md:max-w-sm max-w-xs w-full'>
+                            <div className='flex flex-col sm:flex-row gap-4 md:max-w-sm max-w-xs'>
                                 <Button
                                     href="/products"
+                                    className='w-3xs'
                                     startIcon={<ShoppingCart className="w-5 h-5" />}
                                     endIcon={<ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />}
                                 >
                                     Shop Now
                                 </Button>
                                 <Button
+                                    className='w-3xs'
                                     href="/contact"
                                     variant="outline"
                                     startIcon={<HeadphonesIcon className="w-5 h-5 text-green-600" />}

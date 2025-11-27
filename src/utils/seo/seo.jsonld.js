@@ -279,3 +279,174 @@ export function getFAQPageJsonLd() {
         }))
     };
 }
+
+export function getProductsListBreadcrumbJsonLd(params = {}) {
+    const { category, subcategory } = params;
+
+    const items = [
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Products',
+            url: `${SITE_DATA.domain}/products`
+        }
+    ];
+
+    if (category) {
+        items.push({
+            name: category,
+            url: `${SITE_DATA.domain}/products?category=${encodeURIComponent(category)}`
+        });
+    }
+
+    if (subcategory) {
+        items.push({
+            name: subcategory,
+            url: `${SITE_DATA.domain}/products?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
+        });
+    }
+
+    return getBreadcrumbJsonLd(items);
+}
+
+export function getProductCollectionJsonLd(params = {}) {
+    const {
+        category,
+        subcategory,
+        search,
+        products = [],
+        totalProducts = 0,
+        page = 1,
+        totalPages = 1,
+        perPage = 50
+    } = params;
+
+    const collectionName = subcategory || category || (search ? `Search: ${search}` : 'All Products');
+    const description = category
+        ? `Browse ${totalProducts} ${category.toLowerCase()} products available for purchase`
+        : `Shop from ${totalProducts} quality agricultural products`;
+
+    // Build base URL
+    const baseUrl = new URL('/products', SITE_DATA.domain);
+    if (category) baseUrl.searchParams.set('category', category);
+    if (subcategory) baseUrl.searchParams.set('subcategory', subcategory);
+    if (search) baseUrl.searchParams.set('search', search);
+
+    // Calculate item positions for current page
+    const startPosition = ((page - 1) * perPage) + 1;
+
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "CollectionPage",
+        "@id": `${baseUrl.toString()}#collection`,
+        "name": `${collectionName}${page > 1 ? ` - Page ${page}` : ''} - ${SITE_DATA.name}`,
+        "description": description,
+        "url": baseUrl.toString(),
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "about": {
+            "@type": "Thing",
+            "name": collectionName,
+            "description": description
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": totalProducts,
+            "itemListElement": products.map((product, index) => ({
+                "@type": "ListItem",
+                "position": startPosition + index,
+                "item": {
+                    "@type": "Product",
+                    "@id": `${SITE_DATA.domain}/products/${product.slug}`,
+                    "name": product.title,
+                    "url": `${SITE_DATA.domain}/products/${product.slug}`,
+                    "image": product.image || `${SITE_DATA.domain}/placeholder.jpg`,
+                    "offers": {
+                        "@type": "Offer",
+                        "price": product.price,
+                        "priceCurrency": "NGN",
+                        "availability": product.stock > 0
+                            ? "https://schema.org/InStock"
+                            : "https://schema.org/OutOfStock",
+                        "url": `${SITE_DATA.domain}/products/${product.slug}`
+                    },
+                    ...(product.brands && {
+                        "brand": {
+                            "@type": "Brand",
+                            "name": product.brands
+                        }
+                    }),
+                    ...(product.reviews_summary?.average_ratings && {
+                        "aggregateRating": {
+                            "@type": "AggregateRating",
+                            "ratingValue": product.reviews_summary.average_ratings.toFixed(1),
+                            "reviewCount": product.reviews_summary.reviews_count || 0
+                        }
+                    })
+                }
+            }))
+        },
+        // Pagination markup for SEO
+        ...(totalPages > 1 && {
+            "pagination": {
+                "@type": "ItemList",
+                "numberOfItems": totalPages,
+                "itemListElement": Array.from({ length: Math.min(totalPages, 10) }, (_, i) => {
+                    const pageNum = i + 1;
+                    const pageUrl = new URL(baseUrl);
+                    if (pageNum > 1) pageUrl.searchParams.set('page', pageNum.toString());
+
+                    return {
+                        "@type": "ListItem",
+                        "position": pageNum,
+                        "url": pageUrl.toString(),
+                        "name": `Page ${pageNum}`
+                    };
+                })
+            }
+        }),
+        // Previous/Next page links
+        ...(page > 1 && {
+            "previousPage": (() => {
+                const prevUrl = new URL(baseUrl);
+                if (page > 2) prevUrl.searchParams.set('page', (page - 1).toString());
+                return prevUrl.toString();
+            })()
+        }),
+        ...(page < totalPages && {
+            "nextPage": (() => {
+                const nextUrl = new URL(baseUrl);
+                nextUrl.searchParams.set('page', (page + 1).toString());
+                return nextUrl.toString();
+            })()
+        })
+    };
+}
+
+export function getSearchResultsJsonLd(params = {}) {
+    const { search, totalProducts = 0, products = [], page = 1 } = params;
+
+    if (!search) return null;
+
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "SearchResultsPage",
+        "@id": `${SITE_DATA.domain}/products?search=${encodeURIComponent(search)}#search`,
+        "name": `Search Results for "${search}"${page > 1 ? ` - Page ${page}` : ''}`,
+        "url": `${SITE_DATA.domain}/products?search=${encodeURIComponent(search)}${page > 1 ? `&page=${page}` : ''}`,
+        "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": totalProducts,
+            "itemListElement": products.map((product, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "url": `${SITE_DATA.domain}/products/${product.slug}`,
+                "name": product.title
+            }))
+        }
+    };
+}

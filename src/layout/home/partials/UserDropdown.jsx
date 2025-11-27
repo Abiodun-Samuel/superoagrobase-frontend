@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import RoleBadge from "@/components/ui/RoleBadge";
 import { useLogout } from "@/queries/auth.query";
 import { isActivePath } from "@/utils/helper";
-import { Briefcase, BriefcaseBusiness, LogOut } from "lucide-react";
+import { BriefcaseBusiness, LogOut } from "lucide-react";
 import Link from "next/link";
 import TextBadge from "@/components/ui/TextBadge";
 
@@ -66,7 +66,7 @@ const UserDropdown = ({ isAuthenticated, user, userMenu, pathname, role, onClose
             {isAuthenticated ?
                 <div className="px-4">
                     <div className="border-t border-gray-100 py-3">
-                        <Button loading={isPending} onClick={handleLogout} color='red' startIcon={<LogOut />}>Logout</Button>
+                        <Button className="w-full" loading={isPending} onClick={handleLogout} color='red' startIcon={<LogOut />}>Logout</Button>
                     </div>
                 </div>
                 : null}

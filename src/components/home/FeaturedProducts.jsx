@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { ChevronRight, Package, Star, ShoppingBag } from "lucide-react";
 import { ProductItemSkeleton } from "../products/ProductItemSkeleton";
-import ProductItem from "../products/ProductItem";
+import ProductCard from "../products/ProductCard";
 import Button from "../ui/Button";
 import { MOCK_PRODUCTS } from "@/utils/data";
 import TextBadge from "../ui/TextBadge";
@@ -47,7 +47,7 @@ const ProductGrid = ({ products, isLoading }) => {
     return (
         <div className={GRID_CLASSES}>
             {products.map((product) => (
-                <ProductItem key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} />
             ))}
         </div>
     );

@@ -232,7 +232,6 @@ const Button = ({
     const currentVariant = currentColor[variant] || currentColor.solid;
 
     const baseClasses = `
-    w-full
     inline-flex
     items-center
     justify-center

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { Star, Heart, Eye, ChevronRight, ShoppingCart } from 'lucide-react';
+import { Heart, Eye, ChevronRight, ShoppingCart } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../ui/Button";
@@ -10,7 +10,7 @@ import { BADGE_COLORS } from "@/utils/data";
 import RatingStars from "./RatingStars";
 import { getPriceValidUntil } from "@/utils/helper";
 
-const ProductItem = ({ product }) => {
+const ProductCard = ({ product }) => {
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [displayBadge, setDisplayBadge] = useState(null);
@@ -78,7 +78,7 @@ const ProductItem = ({ product }) => {
                     </Link>
 
                     {displayBadge && (
-                        <div className="absolute top-3 left-3 z-10">
+                        <div className="absolute top-3 left-3">
                             <TextBadge color={badgeColor} size="sm">
                                 {displayBadge}
                             </TextBadge>
@@ -131,7 +131,7 @@ const ProductItem = ({ product }) => {
                     {product.category && product.subcategory && (
                         <div className="flex flex-wrap items-center gap-1" itemProp="category">
                             <TextBadge
-                                href={`/products/categories/${product.category.slug}`}
+                                href={`/products?category=${product.category.slug}`}
                                 color="green"
                                 size="xs"
                             >
@@ -139,7 +139,7 @@ const ProductItem = ({ product }) => {
                             </TextBadge>
                             <ChevronRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
                             <TextBadge
-                                href={`/products/categories/${product.category.slug}/${product.subcategory.slug}`}
+                                href={`/products?category=${product.category.slug}&subcategory=${product.subcategory.slug}`}
                                 color="white"
                                 size="xs"
                             >
@@ -191,6 +191,7 @@ const ProductItem = ({ product }) => {
                     {/* Add to Cart Button */}
                     <div className="mt-auto pt-2">
                         <Button
+                            className="w-full"
                             disabled={!stockStatus.available}
                             startIcon={<ShoppingCart className="w-5 h-5" />}
                         >
@@ -203,4 +204,4 @@ const ProductItem = ({ product }) => {
     );
 };
 
-export default ProductItem
+export default ProductCard

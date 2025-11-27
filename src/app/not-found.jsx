@@ -1,14 +1,11 @@
-import ProductItem from "@/components/products/ProductItem";
+import ProductCard from "@/components/products/ProductCard";
 import Button from "@/components/ui/Button";
 import IconBadge from "@/components/ui/IconBadge";
-import Footer from "@/layout/home/Footer";
-import Navbar from "@/layout/home/Header";
 import { MOCK_PRODUCTS } from "@/utils/data";
-import { AlertCircle, ChevronRight, Home, RefreshCw, ShoppingBag } from "lucide-react";
+import { AlertCircle, ChevronRight, Home, ShoppingBag } from "lucide-react";
 
 const ErrorPage = () => (
   <>
-    <Navbar />
     <div className="container mx-auto px-3 sm:px-5 lg:px-7 my-2 overflow-x-hidden!">
       {/* SEO Meta Tags would go in Next.js Head component */}
       <main className="flex-1 flex flex-col items-center justify-center py-10">
@@ -75,7 +72,7 @@ const ErrorPage = () => (
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {MOCK_PRODUCTS.map(product => (
-            <ProductItem key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
@@ -92,7 +89,6 @@ const ErrorPage = () => (
         </div>
       </section>
     </div>
-    <Footer />
   </>
 );
 

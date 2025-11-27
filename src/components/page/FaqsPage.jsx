@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { FAQ_CATEGORIES, FAQ_DATA, SITE_DATA } from '@/utils/data';
 import IconBadge from '../ui/IconBadge';
 import { ChevronDown, Headphones, Mail, MapPin, MessageCircle, Phone, Shield, Truck } from 'lucide-react';
+import PageHero from './PageHero';
 
 
 const replacePlaceholders = (text) => {
@@ -140,38 +141,15 @@ export default function FAQPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-            {/* Hero Section - unchanged */}
-            <section className="bg-gradient-to-r from-green-600 to-green-700 text-white py-16 md:py-24 rounded-lg">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="text-center">
-                        <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                            Frequently Asked Questions
-                        </h1>
-                        <p className="text-lg md:text-xl text-green-50 max-w-3xl mx-auto mb-8">
-                            Find answers to common questions about ordering, payment, delivery, products, and more. We're here to help you succeed.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <a
-                                href={SITE_DATA.whatsapp}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 bg-white text-green-600 px-6 py-3 rounded-full font-semibold hover:bg-green-50 transition-colors duration-200"
-                            >
-                                <MessageCircle className="w-5 h-5" />
-                                Chat on WhatsApp
-                            </a>
-                            <a
-                                href={`tel:${SITE_DATA.phone}`}
-                                className="inline-flex items-center gap-2 bg-green-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-900 transition-colors duration-200"
-                            >
-                                <Phone className="w-5 h-5" />
-                                Call Us Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div className="min-h-screen">
+            <PageHero
+                title="Frequently Asked Questions"
+                description="Find answers to common questions about ordering, payment, delivery, products, and more. We're here to help you succeed."
+                badge="Help Center"
+                breadcrumbs={[
+                    { label: 'FAQs', href: '/faqs' }
+                ]}
+            />
 
             {/* FAQ Categories */}
             <section className="max-w-6xl mx-auto py-16 px-4 sm:px-6">

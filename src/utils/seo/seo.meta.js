@@ -296,3 +296,106 @@ export function getDisclaimerMetadata() {
         }
     });
 }
+
+export function getProductsMetadata(params = {}) {
+    const {
+        category,
+        subcategory,
+        search,
+        page = 1,
+        totalProducts = 0,
+        totalPages = 1,
+        perPage = 50,
+        brand
+    } = params;
+
+    // Build dynamic title based on filters
+    const titleParts = [];
+
+    if (search) {
+        titleParts.push(`Search: "${search}"`);
+    } else if (subcategory) {
+        titleParts.push(subcategory);
+    } else if (category) {
+        titleParts.push(category);
+    } else {
+        titleParts.push('All Products');
+    }
+
+    if (brand) titleParts.push(`by ${brand}`);
+    if (page > 1) titleParts.push(`Page ${page}`);
+
+    const title = `${titleParts.join(' • ')} | Agricultural Products Nigeria`;
+
+    // Build dynamic description
+    let description = '';
+
+    if (search) {
+        description = `Found ${totalProducts} products matching "${search}". ${page > 1 ? `Page ${page} of ${totalPages}. ` : ''}Shop quality agricultural supplies with fast delivery across Nigeria.`;
+    } else if (subcategory && category) {
+        description = `Browse ${totalProducts}+ ${subcategory.toLowerCase()} in ${category.toLowerCase()}. ${page > 1 ? `Page ${page} of ${totalPages}. ` : ''}Premium agricultural products with competitive prices and nationwide delivery.`;
+    } else if (category) {
+        description = `Explore ${totalProducts}+ ${category.toLowerCase()} products. ${page > 1 ? `Page ${page} of ${totalPages}. ` : ''}Quality agricultural supplies with fast delivery across Nigeria.`;
+    } else {
+        description = `Browse ${totalProducts}+ agricultural products online. ${page > 1 ? `Page ${page} of ${totalPages}. ` : ''}Seeds, fertilizers, pesticides, farm equipment and more with nationwide delivery.`;
+    }
+
+    // Build keywords
+    const keywords = [
+        'agricultural products Nigeria',
+        'buy farm supplies online',
+        'farming equipment Nigeria',
+        ...(category ? [`${category} Nigeria`, `buy ${category} online`] : []),
+        ...(subcategory ? [`${subcategory}`, `${subcategory} products`] : []),
+        ...(brand ? [`${brand} products`] : []),
+        ...(search ? [`${search} Nigeria`] : [])
+    ].filter(Boolean);
+
+    // Build canonical URL
+    const queryParams = [];
+    if (category) queryParams.push(`category=${encodeURIComponent(category)}`);
+    if (subcategory) queryParams.push(`subcategory=${encodeURIComponent(subcategory)}`);
+    if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
+    if (brand) queryParams.push(`brand=${encodeURIComponent(brand)}`);
+    if (page > 1) queryParams.push(`page=${page}`);
+    if (perPage !== 50) queryParams.push(`per_page=${perPage}`);
+
+    const path = `/products${queryParams.length ? `?${queryParams.join('&')}` : ''}`;
+
+    // Pagination URLs
+    const pagination = {};
+
+    // Previous page link
+    if (page > 1) {
+        const prevParams = queryParams.filter(p => !p.startsWith('page='));
+        if (page > 2) prevParams.push(`page=${page - 1}`);
+        pagination.prev = `/products${prevParams.length ? `?${prevParams.join('&')}` : ''}`;
+    }
+
+    // Next page link
+    if (page < totalPages) {
+        const nextParams = queryParams.filter(p => !p.startsWith('page='));
+        nextParams.push(`page=${page + 1}`);
+        pagination.next = `/products?${nextParams.join('&')}`;
+    }
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description: description.substring(0, 160),
+        path,
+        keywords,
+        pagination,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            other: {
+                'product:category': category || 'All Products',
+                'product:count': totalProducts,
+                'product:page': page,
+                'product:total_pages': totalPages
+            }
+        }
+    });
+}

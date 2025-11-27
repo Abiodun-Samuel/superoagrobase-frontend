@@ -264,7 +264,7 @@ const TestimonialsSkeleton = () => (
 // ============================================
 export default function Testimonials() {
     const { data: reviewsData, isLoading, isError } = useReviews({
-        limit: 10,
+        per_page: 10,
         is_published: true
     });
 

@@ -1,5 +1,5 @@
 import { ProductService } from '@/services/products.service';
-import ProductItem from '@/components/products/ProductItem';
+import ProductCard from '@/components/products/ProductCard';
 import { Sparkles } from 'lucide-react';
 
 /**
@@ -12,7 +12,7 @@ export default async function SimilarProducts({ categorySlug, currentProductId }
     // try {
     //     if (categorySlug) {
     //         const { data } = await ProductService.getProductsByCategory(categorySlug, {
-    //             limit: 5,
+    //             per_page: 5,
     //             exclude: currentProductId
     //         });
     //         similarProducts = data?.products || [];
@@ -39,7 +39,7 @@ export default async function SimilarProducts({ categorySlug, currentProductId }
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
                 {similarProducts.map((product) => (
-                    <ProductItem key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
         </section>
