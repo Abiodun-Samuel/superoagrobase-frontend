@@ -87,10 +87,6 @@ const Header = () => {
                 <MobileMenu
                     isOpen={state.isMobileMenuOpen}
                     items={NAVBAR_DATA.mainNav}
-                    isAuthenticated={isAuthenticated}
-                    user={user}
-                    role={role}
-                    userMenu={NAVBAR_DATA.userMenu}
                     onClose={() => updateState({ isMobileMenuOpen: false })}
                     pathname={pathname}
                 />
