@@ -7,7 +7,6 @@
 //     getOrganizationJsonLd
 // } from '@/utils/seo/seo.jsonld';
 // import ProductsPageDetails from '@/components/products/ProductsPageDetails';
-// import { notFound } from 'next/navigation';
 
 // export const revalidate = 3600;
 
@@ -87,7 +86,6 @@
 
 //     console.log(products, meta, links, success)
 
-//     if (!success) notFound();
 
 //     const jsonLdScripts = generateJsonLdScripts({
 //         category: filters.category,
@@ -138,7 +136,7 @@ const parseSearchParams = async (searchParams) => {
     const perPage = params?.per_page ? parseInt(params.per_page) : 50;
 
     if (page < 1 || isNaN(page)) return null;
-    if (perPage < 1 || perPage > 100 || isNaN(perPage)) return null;
+    if (perPage < 1 || perPage > 200 || isNaN(perPage)) return null;
 
     return {
         category: params?.category || null,
@@ -222,13 +220,14 @@ export async function generateMetadata({ searchParams }) {
 
 const ProductsPage = async ({ searchParams }) => {
     const filters = await parseSearchParams(searchParams);
+    console.log({ filters })
 
     if (!filters) {
         notFound();
     }
 
     const { products, meta, links, success } = await fetchProducts(filters);
-
+    console.log({ success })
     if (!success) {
         notFound();
     }
