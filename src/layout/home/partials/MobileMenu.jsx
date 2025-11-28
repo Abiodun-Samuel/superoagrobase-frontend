@@ -14,7 +14,7 @@ const MENU_CONFIG = {
 };
 
 const VendorCTA = memo(() => (
-    <div className="py-3 my-2 border-t border-b border-gray-100">
+    <div className="py-3 mb-2 border-b border-gray-100">
         <TextBadge
             href="/become-a-vendor"
             className="w-full block"

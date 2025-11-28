@@ -5,16 +5,17 @@ import Button from "@/components/ui/Button";
 import RoleBadge from "@/components/ui/RoleBadge";
 import { useLogout } from "@/queries/auth.query";
 import { isActivePath } from "@/utils/helper";
-import { BriefcaseBusiness, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
-import TextBadge from "@/components/ui/TextBadge";
 
 // User Dropdown
 const UserDropdown = ({ isAuthenticated, user, userMenu, pathname, role, onClose }) => {
     const { mutateAsync, isPending } = useLogout()
     const handleLogout = async () => {
-        await mutateAsync()
-        onClose?.()
+        try {
+            await mutateAsync()
+            onClose?.()
+        } catch (error) { }
     }
     const menuItems = isAuthenticated ? userMenu.authenticated : userMenu.guest;
 
@@ -38,12 +39,8 @@ const UserDropdown = ({ isAuthenticated, user, userMenu, pathname, role, onClose
                 )}
             </div>
 
-            <div className="px-4 py-3 my-2 border-b border-t border-gray-100">
-                <TextBadge href="/become-a-vendor" className="w-full" size="md" color="orange" startIcon={<BriefcaseBusiness />}>Become a Vendor</TextBadge>
-            </div>
-
             {/* Menu Items */}
-            <div className="mb-3">
+            <div className="border-t my-1 py-1">
                 {menuItems.map((item) => {
                     const Icon = item.icon;
                     const isCurrentPath = isActivePath(pathname, item.path);
@@ -64,8 +61,8 @@ const UserDropdown = ({ isAuthenticated, user, userMenu, pathname, role, onClose
             </div>
 
             {isAuthenticated ?
-                <div className="px-4">
-                    <div className="border-t border-gray-100 py-3">
+                <div className="px-4 border-t">
+                    <div className="border-gray-100 py-3">
                         <Button className="w-full" loading={isPending} onClick={handleLogout} color='red' startIcon={<LogOut />}>Logout</Button>
                     </div>
                 </div>

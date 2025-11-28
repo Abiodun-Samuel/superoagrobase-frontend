@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Star, MessageSquare, ThumbsUp, User } from 'lucide-react';
 import RatingStars from '@/components/products/RatingStars';
+import IconBadge from '../ui/IconBadge';
+import Button from '../ui/Button';
 
 /**
  * Product Reviews Section with Add Review Form
@@ -32,28 +34,26 @@ export default function ProductReviews({ product }) {
     };
 
     return (
-        <section className="bg-white rounded-2xl shadow p-5 lg:p-8 mb-8">
+        <section id='review' className="bg-white rounded-2xl shadow p-5 lg:p-8 mb-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
-                        <MessageSquare className="w-5 h-5 text-yellow-600" />
-                    </div>
+                    <IconBadge size='xl' color='orange' icon={<MessageSquare />} />
+
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
+                        <h2 className="text-xl font-semibold text-gray-900">Reviews</h2>
                         {product.reviews_summary && (
-                            <p className="text-sm text-gray-600 mt-1">
+                            <p className="text-sm text-gray-600">
                                 {product.reviews_summary.reviews_count} {product.reviews_summary.reviews_count === 1 ? 'review' : 'reviews'}
                             </p>
                         )}
                     </div>
                 </div>
-                <button
+                <Button
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                    className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors duration-200 shadow-lg shadow-green-600/30"
                 >
                     Write a Review
-                </button>
+                </Button>
             </div>
 
             {/* Review Summary */}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Minus, Plus, ShoppingCart, Heart, Share2 } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, Share2, FileEdit } from 'lucide-react';
 import RatingStars from '@/components/products/RatingStars';
 import Button from '../ui/Button';
 import Toast from '@/lib/toastify';
@@ -11,7 +11,6 @@ import Toast from '@/lib/toastify';
  */
 export default function ProductInfo({ product }) {
     const [quantity, setQuantity] = useState(1);
-    const [isWishlisted, setIsWishlisted] = useState(false);
 
     const handleQuantityChange = (value) => {
         const newValue = parseInt(value) || 1;
@@ -163,34 +162,40 @@ export default function ProductInfo({ product }) {
                     <label className="block text-sm font-semibold text-gray-900 mb-3">
                         Quantity
                     </label>
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center border-2 border-gray-200 rounded-lg overflow-hidden">
+                    <div className="flex items-center" style={{ gap: '0.75rem' }}>
+                        <div className="flex items-center border-2 border-gray-200 rounded-lg overflow-hidden bg-white">
                             <button
                                 onClick={decrementQuantity}
                                 disabled={quantity <= 1}
-                                className="p-3 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="p-3 text-gray-700 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 aria-label="Decrease quantity"
+                                type="button"
                             >
-                                <Minus className="w-5 h-5" />
+                                <Minus className="w-5 h-5" style={{ display: 'block' }} />
                             </button>
+
                             <input
                                 type="number"
                                 min="1"
                                 max={product.stock}
                                 value={quantity}
                                 onChange={(e) => handleQuantityChange(e.target.value)}
-                                className="w-16 text-center font-semibold text-lg border-x-2 border-gray-200 focus:outline-none"
+                                className="w-16 text-center font-semibold text-lg text-gray-900 border-x-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                aria-label="Product quantity"
                             />
+
                             <button
                                 onClick={incrementQuantity}
                                 disabled={quantity >= product.stock}
-                                className="p-3 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="p-3 text-gray-700 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 aria-label="Increase quantity"
+                                type="button"
                             >
-                                <Plus className="w-5 h-5" />
+                                <Plus className="w-5 h-5" style={{ display: 'block' }} />
                             </button>
                         </div>
-                        <span className="text-sm text-gray-500">
+
+                        <span className="text-sm text-gray-600 font-medium">
                             {product.stock} available
                         </span>
                     </div>
@@ -209,13 +214,14 @@ export default function ProductInfo({ product }) {
                     {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </Button>
                 <Button
+                    href={'#review'}
+                    color={'gray'}
+                    title={'Write review '}
                     className="flex-1"
-                    onClick={() => setIsWishlisted(!isWishlisted)}
                     variant='outline'
-                    color={isWishlisted ? 'red' : 'gray'}
-                    aria-label="Add to wishlist"
+                    aria-label="write a for this product"
                 >
-                    <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
+                    <FileEdit className="w-5 h-5" />
                 </Button>
                 <Button
                     className="flex-1"
