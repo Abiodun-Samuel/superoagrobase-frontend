@@ -1,14 +1,11 @@
 'use client'
 
 import { memo, useCallback } from 'react';
-import Link from 'next/link';
-import { BriefcaseBusiness, LogOut } from 'lucide-react';
+import { BriefcaseBusiness } from 'lucide-react';
 
-import { isActivePath } from '@/utils/helper';
 import { useLogout } from '@/queries/auth.query';
 
 import MobileNavItem from './MobileNavItem';
-import Button from '@/components/ui/Button';
 import Animation from '@/components/common/Animation';
 import RoleBadge from '@/components/ui/RoleBadge';
 import Avatar from '@/components/ui/Avatar';
@@ -83,72 +80,6 @@ const NavigationItems = memo(({ items, pathname, onClose }) => {
 
 NavigationItems.displayName = 'NavigationItems';
 
-const UserMenuItem = memo(({ item, pathname, onClose }) => {
-    const Icon = item.icon;
-    const isActive = isActivePath(pathname, item.path);
-
-    const baseClasses = 'flex items-center w-full px-4 py-3 rounded-lg transition-all duration-200';
-    const stateClasses = isActive
-        ? 'bg-gray-100 text-green-600'
-        : 'hover:bg-gray-100 hover:text-green-600';
-
-    return (
-        <Link
-            href={item.path}
-            onClick={onClose}
-            className={`${baseClasses} ${stateClasses}`}
-            aria-current={isActive ? 'page' : undefined}
-            style={{ gap: '0.75rem' }}
-        >
-            <Icon size={20} aria-hidden="true" />
-            <span className="font-medium">{item.label}</span>
-        </Link>
-    );
-});
-
-UserMenuItem.displayName = 'UserMenuItem';
-
-const UserMenu = memo(({ isAuthenticated, userMenu, pathname, onClose }) => {
-    const menuItems = isAuthenticated ? userMenu.authenticated : userMenu.guest;
-
-    if (!menuItems || menuItems.length === 0) return null;
-
-    return (
-        <div className="border-t border-gray-100 pt-4 mt-4">
-            <div className="flex flex-col" style={{ gap: '0.5rem' }}>
-                {menuItems.map((item) => (
-                    <UserMenuItem
-                        key={item.id}
-                        item={item}
-                        pathname={pathname}
-                        onClose={onClose}
-                    />
-                ))}
-            </div>
-        </div>
-    );
-});
-
-UserMenu.displayName = 'UserMenu';
-
-const LogoutSection = memo(({ onLogout, isPending }) => (
-    <div className="border-t border-gray-100 pt-4 pb-2 mt-4">
-        <Button
-            className="w-full"
-            loading={isPending}
-            onClick={onLogout}
-            color="red"
-            startIcon={<LogOut />}
-            aria-label="Logout from your account"
-        >
-            Logout
-        </Button>
-    </div>
-));
-
-LogoutSection.displayName = 'LogoutSection';
-
-// Main Component
 const MobileMenu = ({
     isOpen,
     items = [],
@@ -170,22 +101,10 @@ const MobileMenu = ({
         }
     }, [logout, onClose]);
 
-    const handleBackdropClick = useCallback(() => {
-        onClose?.();
-    }, [onClose]);
-
     if (!isOpen) return null;
 
     return (
         <>
-            {/* Backdrop Overlay */}
-            <div
-                className="fixed inset-0 bg-black z-40 xl:hidden"
-                style={{ opacity: 0.2 }}
-                onClick={handleBackdropClick}
-                aria-hidden="true"
-            />
-
             {/* Mobile Menu */}
             <Animation
                 animation={MENU_CONFIG.animation}
@@ -196,13 +115,13 @@ const MobileMenu = ({
                 aria-modal="true"
             >
                 <div
-                    className="overflow-y-auto overflow-x-hidden overscroll-contain"
+                    className="overflow-y-auto overflow-x-hidden"
                     style={{
                         maxHeight: 'calc(100vh - 108px)',
                         WebkitOverflowScrolling: 'touch'
                     }}
                 >
-                    <div className="container mx-auto px-4 py-4">
+                    <div className="container mx-auto px-4 pt-4 pb-10">
                         <div className="flex flex-col" style={{ gap: '0.5rem' }}>
                             <UserInfoCard
                                 isAuthenticated={isAuthenticated}
@@ -217,20 +136,6 @@ const MobileMenu = ({
                                 pathname={pathname}
                                 onClose={onClose}
                             />
-
-                            <UserMenu
-                                isAuthenticated={isAuthenticated}
-                                userMenu={userMenu}
-                                pathname={pathname}
-                                onClose={onClose}
-                            />
-
-                            {isAuthenticated && (
-                                <LogoutSection
-                                    onLogout={handleLogout}
-                                    isPending={isPending}
-                                />
-                            )}
                         </div>
                     </div>
                 </div>

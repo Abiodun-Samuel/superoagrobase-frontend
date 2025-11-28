@@ -19,7 +19,7 @@ const UserDropdown = ({ isAuthenticated, user, userMenu, pathname, role, onClose
     const menuItems = isAuthenticated ? userMenu.authenticated : userMenu.guest;
 
     return (
-        <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 pt-2 z-50">
+        <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 pt-2 z-10000">
             {/* Header */}
             <div className="px-4 py-3">
                 {isAuthenticated ? (

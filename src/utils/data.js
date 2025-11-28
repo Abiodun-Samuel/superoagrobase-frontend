@@ -190,7 +190,6 @@ export const FOOTER_DATA = {
     customerService: [
       { label: 'My Orders', href: '/dashboard/orders', icon: ShoppingBag },
       { label: 'My Cart', href: '/cart', icon: ShoppingCart },
-      { label: 'My Wishlist', href: '/wishlist', icon: Heart },
       { label: 'FAQs', href: '/faqs', icon: HelpCircle },
     ],
     legal: [

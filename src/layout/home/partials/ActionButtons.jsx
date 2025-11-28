@@ -34,12 +34,6 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
     return (
         <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
 
-            {/* Wishlist */}
-            <Link href="/wishlist" className={iconButtonClass} aria-label="Wishlist">
-                <Heart size={20} className="w-5.5 h-5.5 text-gray-700 group-hover:text-green-600" />
-                <span className={badgeClass}>{user?.wishlistCount || 0}</span>
-            </Link>
-
             {/* Cart */}
             <Link href="/cart" className={iconButtonClass} aria-label="Cart">
                 <ShoppingCart size={20} className="w-5.5 h-5.5 text-gray-700 group-hover:text-green-600" />
@@ -47,7 +41,7 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
             </Link>
 
             {/* User Menu */}
-            <div className="relative hidden md:block" ref={userMenuRef}>
+            <div className="relative md:block" ref={userMenuRef}>
                 <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-[#F5F5F5] transition-all duration-200"
