@@ -19,18 +19,19 @@ const TRANSITION_DURATION = 700;
  * Section Header Component
  */
 const SectionHeader = () => (
-    <header className="text-center mb-12 space-y-4">
+    <header className="text-center">
         <TextBadge
             endIcon={<UserCheck aria-hidden="true" />}
             size='lg'
+            className="mb-4"
             variant='solid'
             color='green'
-            startIcon={<Award className="w-4 h-4" aria-hidden="true" />}
+            startIcon={<Award aria-hidden="true" />}
         >
             <span>Customer Success Stories</span>
         </TextBadge>
 
-        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             What Our{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
                 Customers Say

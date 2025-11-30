@@ -6,13 +6,6 @@ import MobileNavItem from './MobileNavItem';
 import Animation from '@/components/common/Animation';
 import TextBadge from '@/components/ui/TextBadge';
 
-// Constants
-const MENU_CONFIG = {
-    headerHeight: '108px',
-    animation: 'fade-up',
-    zIndex: 'z-50',
-};
-
 const VendorCTA = memo(() => (
     <div className="py-3 mb-2 border-b border-gray-100">
         <TextBadge
@@ -64,21 +57,16 @@ const MobileMenu = ({
         <>
             {/* Mobile Menu */}
             <Animation
-                animation={MENU_CONFIG.animation}
-                className={`xl:hidden bg-white border-t border-gray-100 shadow-lg fixed left-0 right-0 ${MENU_CONFIG.zIndex}`}
-                style={{ top: MENU_CONFIG.headerHeight }}
+                animation={'fade-up'}
+                className={`xl:hidden bg-white border-t border-gray-100 shadow-lg fixed left-0 right-0 z-50`}
                 role="dialog"
                 aria-label="Mobile menu"
                 aria-modal="true"
             >
                 <div
                     className="overflow-y-auto overflow-x-hidden"
-                    style={{
-                        maxHeight: 'calc(100vh - 108px)',
-                        WebkitOverflowScrolling: 'touch'
-                    }}
                 >
-                    <div className="container mx-auto px-4 pt-4 pb-10">
+                    <div className="container mx-auto px-4 pb-8">
                         <div className="flex flex-col" style={{ gap: '0.5rem' }}>
 
                             <VendorCTA />

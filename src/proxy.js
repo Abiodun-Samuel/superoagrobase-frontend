@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAuth } from '@/server/auth.action';
+import { getAuth } from '@/server/auth.server';
 import { getPrimaryRole } from '@/utils/helper';
 
 const ROUTES = {

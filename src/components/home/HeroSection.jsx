@@ -11,14 +11,20 @@ import { MOCK_PRODUCTS, STATS } from '@/utils/data';
 import { HeroSectionImageSkeleton } from '../skeletonloader';
 
 const SLIDE_INTERVAL = 5000;
-
 const AnimatedBackground = () => (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-lime-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
+
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
+
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-3000" />
+
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000" />
+
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-lime-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-5000" />
     </div>
 );
+
 
 const StatsGrid = ({ stats }) => (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
@@ -132,13 +138,13 @@ export default function HeroSection({
     }, [products.length]);
 
     return (
-        <div className="bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden">
+        <div className="bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden rounded-lg">
             <AnimatedBackground />
 
-            <div className="relative mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="relative mx-auto px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-[90px] items-center">
                     {/* Left Content */}
-                    <div className="p-3 text-center lg:text-left space-y-8">
+                    <div className="text-center lg:text-left space-y-8">
                         <TextBadge
                             size="md"
                             startIcon={<TrendingUp className="w-4 h-4 text-green-600" />}

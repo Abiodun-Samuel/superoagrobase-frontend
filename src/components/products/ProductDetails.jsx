@@ -3,16 +3,12 @@ import ProductInfo from '@/components/products/ProductInfo';
 import ProductReviews from '@/components/products/ProductReviews';
 import ProductSpecifications from '@/components/products/ProductSpecifications';
 import SimilarProducts from '@/components/products/SimilarProducts';
-import React from 'react'
-import Breadcrumb from '../common/Breadcrumb';
 
 
 const ProductDetails = ({ product, breadcrumbItems }) => {
 
     return (
         <main className="min-h-screen">
-            {/* Breadcrumb Navigation */}
-            <Breadcrumb breadcrumbItems={breadcrumbItems} />
 
             {/* Product Detail Section */}
             <div className="bg-white rounded-2xl shadow overflow-hidden mb-8">

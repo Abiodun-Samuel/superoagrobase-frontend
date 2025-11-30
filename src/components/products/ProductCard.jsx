@@ -9,9 +9,13 @@ import TextBadge from "../ui/TextBadge";
 import { BADGE_COLORS } from "@/utils/data";
 import RatingStars from "./RatingStars";
 import { getPriceValidUntil } from "@/utils/helper";
+import { useAddToCart } from "@/queries/cart.query";
+import useAuth from "@/hooks/useAuth";
 
 const ProductCard = ({ product }) => {
-    const [isWishlisted, setIsWishlisted] = useState(false);
+    const { sessionId, user } = useAuth();
+
+    const { mutate, isPending } = useAddToCart()
     const [isHovered, setIsHovered] = useState(false);
     const [displayBadge, setDisplayBadge] = useState(null);
 
@@ -22,6 +26,17 @@ const ProductCard = ({ product }) => {
             minimumFractionDigits: 0
         }).format(price);
     }, []);
+
+    const handleAddToCart = () => {
+        const payload = {
+            user_id: user?.id,
+            product_id: product?.id,
+            quantity: 1,
+            price: product?.price,
+            session_id: sessionId,
+        }
+        mutate(payload)
+    }
 
     useEffect(() => {
         if (product.badges && product.badges.length > 0) {
@@ -34,12 +49,6 @@ const ProductCard = ({ product }) => {
     const badgeColor = useMemo(() => {
         return BADGE_COLORS[displayBadge] || 'green';
     }, [displayBadge]);
-
-    // Toggle wishlist
-    const handleWishlistToggle = useCallback((e) => {
-        e.preventDefault();
-        setIsWishlisted(prev => !prev);
-    }, []);
 
     // Calculate stock status
     const stockStatus = useMemo(() => {
@@ -90,17 +99,6 @@ const ProductCard = ({ product }) => {
                         className={`absolute top-3 right-3 flex flex-col space-y-2 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
                             }`}
                     >
-                        <button
-                            onClick={handleWishlistToggle}
-                            className={`w-10 h-10 rounded-full backdrop-blur-md flex items-center justify-center shadow-lg transition-all duration-300 ${isWishlisted
-                                ? 'bg-red-500 text-white scale-110'
-                                : 'bg-white/90 text-gray-700 hover:bg-red-500 hover:text-white hover:scale-110'
-                                }`}
-                            aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                        >
-                            <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
-                        </button>
-
                         <Link
                             href={`/products/${product.slug}`}
                             className="w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 hover:text-white hover:scale-110 transition-all duration-300"
@@ -124,7 +122,7 @@ const ProductCard = ({ product }) => {
                         href={`/products/${product.slug}`}
                         className="text-lg font-bold text-gray-900 hover:text-green-600 transition-colors duration-300 line-clamp-2"
                     >
-                        {product.title}
+                        {product.title} - <span className="font-normal text-base">({product?.pack_size})</span>
                     </Link>
 
                     {/* Category Breadcrumb */}
@@ -191,7 +189,9 @@ const ProductCard = ({ product }) => {
                     {/* Add to Cart Button */}
                     <div className="mt-auto pt-2">
                         <Button
+                            onClick={handleAddToCart}
                             className="w-full"
+                            loading={isPending}
                             disabled={!stockStatus.available}
                             startIcon={<ShoppingCart className="w-5 h-5" />}
                         >

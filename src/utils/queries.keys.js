@@ -1,3 +1,6 @@
+// ============================================
+// utils/queries.keys.js
+// ============================================
 export const QUERY_KEYS = {
   auth: {
     me: () => ['auth', 'me'],
@@ -18,8 +21,10 @@ export const QUERY_KEYS = {
     lists: () => [...QUERY_KEYS.products.all, 'lists'],
     featured: () => [...QUERY_KEYS.products.all, 'featured'],
     trending: () => [...QUERY_KEYS.products.all, 'trending'],
-    search: (query,) => [...QUERY_KEYS.products.all, 'search', { query }],
-    byCategory: (categoryId,) => [...QUERY_KEYS.products.all, 'category', categoryId,],
-    bySubcategory: (subcategoryId,) => [...QUERY_KEYS.products.all, 'subcategory', subcategoryId],
+  },
+
+  cart: {
+    all: ['cart'],
+    detail: (sessionId, userId) => [...QUERY_KEYS.cart.all, 'detail', sessionId, ...(userId ? [userId] : [])],
   },
 };

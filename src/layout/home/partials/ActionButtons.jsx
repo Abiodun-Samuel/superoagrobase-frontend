@@ -1,12 +1,14 @@
 'use client'
 
-import { ChevronDown, Heart, ShoppingCart } from "lucide-react";
+import { ChevronDown, ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import UserDropdown from "./UserDropdown";
 import Link from "next/link";
 import Avatar from "@/components/ui/Avatar";
+import { useCart } from "@/queries/cart.query";
 
 const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
+    const { data: cartData } = useCart();
 
     const useClickOutside = (handler) => {
         const ref = useRef(null);
@@ -37,7 +39,7 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
             {/* Cart */}
             <Link href="/cart" className={iconButtonClass} aria-label="Cart">
                 <ShoppingCart size={20} className="w-5.5 h-5.5 text-gray-700 group-hover:text-green-600" />
-                <span className={badgeClass}>{user?.cartCount || 0}</span>
+                <span className={badgeClass}>{cartData?.summary?.item_count || 0}</span>
             </Link>
 
             {/* User Menu */}

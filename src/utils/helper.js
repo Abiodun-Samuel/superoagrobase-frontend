@@ -1,4 +1,4 @@
-import { RoleEnum } from "./constant";
+import { ROLE_ENUM } from "./constant";
 
 export const formatErrorMessage = (error) => {
   if (error?.response) {
@@ -15,7 +15,7 @@ export const formatErrorMessage = (error) => {
 };
 
 export function getPrimaryRole(roles = []) {
-  const ROLE_HIERARCHY = Object.keys(RoleEnum);
+  const ROLE_HIERARCHY = Object.keys(ROLE_ENUM);
 
   if (!Array.isArray(roles) || roles.length === 0) return "user";
 
@@ -138,9 +138,16 @@ export function buildBreadcrumb(config) {
   return items;
 }
 
-
 export const getPriceValidUntil = () => {
   const date = new Date();
   date.setFullYear(date.getFullYear() + 1);
   return date.toISOString().split('T')[0];
 };
+
+export function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}

@@ -1,56 +1,113 @@
+// 'use client';
+
+// import { useMutation, useQueryClient } from '@tanstack/react-query';
+// import { useRouter } from 'next/navigation';
+// import { useCallback } from 'react';
+// import { setAuth, clearAuth } from '@/server/auth.server';
+// import { AuthService } from '@/services/auth.service';
+// import { formatErrorMessage } from '@/utils/helper';
+// import Toast from '@/lib/toastify';
+// import { QUERY_KEYS } from '@/utils/queries.keys';
+// import useAuth from '@/hooks/useAuth';
+// import { DEFAULT_AUTH_STATE } from '@/utils/constant';
+
+// export const useLogin = (options = {}) => {
+//   const { setAuth: updateAuthState } = useAuth();
+//   const router = useRouter();
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: AuthService.login,
+//     onSuccess: async (response, variables) => {
+//       const { data } = response;
+//       const { user, token } = data;
+
+//       if (!token || !user) {
+//         Toast.error('Invalid login response');
+//         return;
+//       }
+
+//       try {
+//         const authState = await setAuth({ token, user });
+//         updateAuthState(authState);
+
+//         Toast.success(`Welcome back, ${user?.first_name || 'User'}!`);
+//         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.detail() });
+
+//         await options.onSuccess?.(response, variables);
+
+//         const redirectTo = options.redirectTo || '/';
+//         router.replace(redirectTo);
+//       } catch (error) {
+//         Toast.error('Login successful but session setup failed', error);
+//       }
+//     },
+//     onError: (error, variables) => {
+//       const message = formatErrorMessage(error);
+//       Toast.error(message);
+//       options.onError?.(error, variables);
+//     },
+//     ...options,
+//   });
+// };
+
+// export const useLogout = (options = {}) => {
+//   const router = useRouter();
+//   const queryClient = useQueryClient();
+//   const { auth, setAuth: updateAuthState } = useAuth();
+
+
+//   const performCleanup = useCallback(async () => {
+//     try {
+//       await clearAuth();
+//       updateAuthState({ ...auth, ...DEFAULT_AUTH_STATE })
+//       queryClient.removeQueries({ queryKey: QUERY_KEYS.auth.me() });
+//       queryClient.clear();
+//     } catch (error) {
+//       queryClient.clear();
+//     }
+//   }, [queryClient, updateAuthState]);
+
+//   return useMutation({
+//     mutationFn: AuthService.logout,
+//     onSuccess: async (response, variables) => {
+//       await performCleanup();
+//       Toast.success('Logged out successfully');
+//       await options.onSuccess?.(response, variables);
+//       router.replace('/');
+//     },
+//     onError: async (error, variables) => {
+//       await performCleanup();
+//       const message = formatErrorMessage(error);
+//       Toast.error(message);
+//       await options.onError?.(error, variables);
+//       router.replace('/');
+//     },
+//     onSettled: () => {
+//       router.replace('/');
+//     },
+//     ...options,
+//   });
+// };
+
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { setAuth, clearAuth, getAuth } from '@/server/auth.action';
+import { setAuth, clearAuth, getSessionId } from '@/server/auth.server';
 import { AuthService } from '@/services/auth.service';
 import { formatErrorMessage } from '@/utils/helper';
 import Toast from '@/lib/toastify';
 import { QUERY_KEYS } from '@/utils/queries.keys';
 import useAuth from '@/hooks/useAuth';
-
-// ============================================================================
-// HOOK: useMe - Fetch and manage authenticated user
-// ============================================================================
-
-export const useMe = (options = {}) => {
-  const { setAuth: updateAuthState } = useAuth();
-  return useQuery({
-    queryKey: QUERY_KEYS.auth.me(),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-    retry: 0,
-
-    queryFn: async () => {
-      const { isAuthenticated, token } = await getAuth();
-
-      if (!isAuthenticated || !token) {
-        await clearAuth();
-        updateAuthState(null)
-        throw new Error('Session expired');
-      }
-
-      const response = await AuthService.getMe();
-      const user = response?.data?.user;
-
-      const authState = await setAuth({ token, user });
-      updateAuthState(authState);
-      return user
-    },
-    ...options,
-  });
-};
-
-// ============================================================================
-// HOOK: useLogin - Handle user authentication
-// ============================================================================
+import { DEFAULT_AUTH_STATE } from '@/utils/constant';
 
 export const useLogin = (options = {}) => {
   const { setAuth: updateAuthState } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: AuthService.login,
     onSuccess: async (response, variables) => {
@@ -67,17 +124,17 @@ export const useLogin = (options = {}) => {
         updateAuthState(authState);
 
         Toast.success(`Welcome back, ${user?.first_name || 'User'}!`);
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.detail() });
+
         await options.onSuccess?.(response, variables);
 
         const redirectTo = options.redirectTo || '/';
         router.replace(redirectTo);
       } catch (error) {
-        console.log('login', error)
         Toast.error('Login successful but session setup failed', error);
       }
     },
     onError: (error, variables) => {
-      console.log('error', error)
       const message = formatErrorMessage(error);
       Toast.error(message);
       options.onError?.(error, variables);
@@ -86,20 +143,16 @@ export const useLogin = (options = {}) => {
   });
 };
 
-// ============================================================================
-// HOOK: useLogout - Handle user logout
-// ============================================================================
-
 export const useLogout = (options = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { setAuth: updateAuthState } = useAuth();
 
-
   const performCleanup = useCallback(async () => {
     try {
       await clearAuth();
-      updateAuthState(null)
+      const sessionId = await getSessionId();
+      updateAuthState({ ...DEFAULT_AUTH_STATE, sessionId });
       queryClient.removeQueries({ queryKey: QUERY_KEYS.auth.me() });
       queryClient.clear();
     } catch (error) {

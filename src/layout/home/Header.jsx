@@ -1,35 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { NAVBAR_DATA } from '@/utils/data';
-import TopBar from './partials/TopBar';
 import Logo from './partials/Logo';
 import DesktopNavigation from './partials/DesktopNavigation';
 import ActionButtons from './partials/ActionButtons';
 import MobileMenuButton from './partials/MobileMenuButton';
 import MobileMenu from './partials/MobileMenu';
-import { NAVBAR_CONFIG } from '@/utils/constant';
-import { useMe } from '@/queries/auth.query';
 import useAuth from '@/hooks/useAuth';
 
 
-const useScrollPosition = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    return isScrolled;
-};
-
 const Header = () => {
-    useMe()
     const pathname = usePathname();
-    const isScrolled = useScrollPosition();
     const { user, isAuthenticated, role } = useAuth();
 
     const [state, setState] = useState({
@@ -39,22 +22,16 @@ const Header = () => {
 
     const updateState = (updates) => setState(prev => ({ ...prev, ...updates }));
 
-    const navHeight = isScrolled
-        ? NAVBAR_CONFIG.heights.topBar + NAVBAR_CONFIG.heights.mainNavScrolled
-        : NAVBAR_CONFIG.heights.topBar + NAVBAR_CONFIG.heights.mainNav;
-
     return (
         <>
             {/* Spacer for fixed navbar */}
-            <div style={{ height: `${navHeight}px` }} />
+            <div className='h-20' />
 
             <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-                <TopBar data={NAVBAR_DATA.topBar} />
 
                 {/* Main Navigation Bar */}
                 <div
-                    className={`transition-all duration-300 bg-white border-b border-gray-100 ${isScrolled ? 'h-18' : 'h-22'
-                        }`}
+                    className={`transition-all duration-300 bg-white border-b border-gray-100 h-20`}
                 >
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
                         <div className="flex items-center justify-between h-full gap-2 sm:gap-4">

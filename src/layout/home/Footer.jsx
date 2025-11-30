@@ -9,48 +9,33 @@ import {
     MapPin,
     Send,
     ChevronRight,
-    CheckCircle,
     ArrowUp,
-    Heart
+    Heart,
+    Loader
 } from 'lucide-react';
 import { FOOTER_DATA } from '@/utils/data';
 import useAuth from '@/hooks/useAuth';
+import { useNewsletterSubscribe } from '@/queries/newsletter.query';
+import Alert from '@/components/common/Alert';
 
 const Footer = () => {
     const { user } = useAuth();
-    const [email, setEmail] = useState('');
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const { mutate, isPending, isError, error } = useNewsletterSubscribe();
+    const [email, setEmail] = useState(user?.email || '');
     const [showScrollTop, setShowScrollTop] = useState(false);
 
-    // Sync email with user data
-    useEffect(() => {
-        if (user?.email) {
-            setEmail(user.email);
-        }
-    }, [user?.email]);
-
-    // Handle scroll visibility for scroll-to-top button
     useEffect(() => {
         const handleScroll = () => {
             setShowScrollTop(window.scrollY > 500);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const handleNewsletterSubmit = (e) => {
         e.preventDefault();
-
         if (!email.trim()) return;
-
-        setIsSubmitted(true);
-
-        // Reset after 3 seconds
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setEmail('');
-        }, 3000);
+        mutate({ email });
     };
 
     const scrollToTop = () => {
@@ -63,7 +48,9 @@ const Footer = () => {
             <NewsletterSection
                 email={email}
                 setEmail={setEmail}
-                isSubmitted={isSubmitted}
+                isPending={isPending}
+                isError={isError}
+                error={error}
                 onSubmit={handleNewsletterSubmit}
             />
 
@@ -117,7 +104,7 @@ const Footer = () => {
 };
 
 // Newsletter Section Component
-const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
+const NewsletterSection = ({ email, setEmail, isPending, onSubmit, isError, error }) => {
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             onSubmit(e);
@@ -127,7 +114,7 @@ const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
     return (
         <div className="border-b border-gray-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-                <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+                <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
                     {/* Left Side - Text */}
                     <div className="flex-1 text-center lg:text-left">
                         <h3 className="text-xl font-bold text-white mb-2 flex items-center justify-center lg:justify-start gap-2">
@@ -153,13 +140,12 @@ const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
                             />
                             <button
                                 type="submit"
-                                disabled={isSubmitted}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#7CB342]/30 transition-all duration-300 disabled:opacity-70 flex items-center space-x-2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#7CB342]/30 transition-all duration-300 disabled:opacity-70 flex items-center justify-center space-x-2"
                             >
-                                {isSubmitted ? (
+                                {isPending ? (
                                     <>
-                                        <CheckCircle size={18} />
-                                        <span className="hidden sm:inline">Subscribed!</span>
+                                        <Loader size={18} className='animate-spin' />
+                                        <span className="hidden sm:inline">Subscribing...</span>
                                     </>
                                 ) : (
                                     <>
@@ -172,6 +158,8 @@ const NewsletterSection = ({ email, setEmail, isSubmitted, onSubmit }) => {
                         <p className="text-xs text-gray-500 mt-3 text-center lg:text-left">
                             🔒 We respect your privacy. Unsubscribe anytime.
                         </p>
+                        {isError && <Alert className='mt-2' error={error} />}
+
                     </div>
                 </div>
             </div>
@@ -202,26 +190,37 @@ const CompanyInfo = ({ data }) => (
                 Contact Us
             </h4>
 
-            <a
+            <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 href={`mailto:${data.contact.email}`}
                 className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
             >
                 <Mail size={18} className="mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="text-sm">{data.contact.email}</span>
-            </a>
+            </Link>
 
-            <a
+            <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 href={`tel:${data.contact.phone}`}
                 className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
             >
                 <Phone size={18} className="mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="text-sm">{data.contact.phone}</span>
-            </a>
+            </Link>
 
-            <div className="flex items-start space-x-3 text-gray-400">
+            <Link
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.contact.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Our office is located at: ${data.contact.address}`}
+                title={`Our office is located at: ${data.contact.address}`}
+                className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
+            >
                 <MapPin size={18} className="mt-1 flex-shrink-0" />
                 <span className="text-sm">{data.contact.address}</span>
-            </div>
+            </Link>
         </div>
     </div>
 );

@@ -18,7 +18,6 @@ export default async function SimilarProducts({ categorySlug, currentProductId }
     //         similarProducts = data?.products || [];
     //     }
     // } catch (error) {
-    //     console.error('Error fetching similar products:', error);
     // }
 
     if (!similarProducts || similarProducts.length === 0) {

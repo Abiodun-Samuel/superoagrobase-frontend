@@ -5,9 +5,9 @@ import { SidebarProvider } from '@/context/SidebarContext';
 import NextTopLoader from 'nextjs-toploader';
 import { loadingIndicatorProperties } from '@/utils/config/lib.config';
 import { Toaster } from 'react-hot-toast';
-import { TanstackQueryProvider } from '@/components/provider/TanstackQueryProvider';
+import { QueryProvider } from '@/components/provider/QueryProvider';
 import { AuthProvider } from '@/components/provider/AuthProvider';
-import { getAuth } from '@/server/auth.action';
+import { getAuth } from '@/server/auth.server';
 import { getOrganizationJsonLd, getWebSiteJsonLd } from '@/utils/seo/seo.jsonld';
 import { getRootLayoutViewport, getRootLayoutMetadata } from '@/utils/seo/seo.layout';
 
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body className={`${outfit.className}`}>
-        <TanstackQueryProvider>
+        <QueryProvider>
           <Toaster />
           <NextTopLoader {...loadingIndicatorProperties} />
           <SidebarProvider>
@@ -54,7 +54,7 @@ export default async function RootLayout({ children }) {
               {children}
             </AuthProvider>
           </SidebarProvider>
-        </TanstackQueryProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -44,10 +44,10 @@ const TopBar = ({ data }) => {
                         <Link
                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
                             target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex truncate items-center space-x-0 sm:space-x-2 hover:text-[#9CCC65] transition-colors group"
                             aria-label={`Our office is located at: ${address}`}
                             title={`Our office is located at: ${address}`}
+                            rel="noopener noreferrer"
+                            className="flex truncate items-center space-x-0 sm:space-x-2 hover:text-[#9CCC65] transition-colors group"
                         >
                             <MapPin size={14} className="flex-shrink-0" />
                             <span className="hidden sm:inline truncate">

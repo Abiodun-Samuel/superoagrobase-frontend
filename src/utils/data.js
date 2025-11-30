@@ -26,7 +26,8 @@ import {
   HelpCircle,
   FileText,
   Cookie,
-  AlertTriangle, CreditCard, MapPin, CheckCircle, AlertCircle
+  AlertTriangle, CreditCard, MapPin, CheckCircle, AlertCircle,
+  UserPenIcon
 } from 'lucide-react';
 
 export const SITE_DATA = {
@@ -188,8 +189,9 @@ export const FOOTER_DATA = {
       { label: 'Become a vendor', href: '/become-a-vendor', icon: Store },
     ],
     customerService: [
-      { label: 'My Orders', href: '/dashboard/orders', icon: ShoppingBag },
-      { label: 'My Cart', href: '/cart', icon: ShoppingCart },
+      { label: 'Orders', href: '/dashboard/orders', icon: ShoppingBag },
+      { label: 'Profile', href: '/dashboard/profile', icon: UserPenIcon },
+      { label: 'Cart', href: '/cart', icon: ShoppingCart },
       { label: 'FAQs', href: '/faqs', icon: HelpCircle },
     ],
     legal: [
@@ -774,4 +776,21 @@ export const FAQ_CATEGORIES = [
     description: 'How to reach us and get help',
     icon: Headphones
   }
+];
+
+export const SORT_OPTIONS = [
+  { value: 'newest', label: 'Newest First', icon: '🆕' },
+  { value: 'oldest', label: 'Oldest First', icon: '📅' },
+  { value: 'price_asc', label: 'Price: Low to High', icon: '💰' },
+  { value: 'price_desc', label: 'Price: High to Low', icon: '💎' },
+  { value: 'name_asc', label: 'Name: A to Z', icon: '🔤' },
+  { value: 'name_desc', label: 'Name: Z to A', icon: '🔡' },
+  { value: 'popular', label: 'Most Popular', icon: '🔥' }
+];
+
+export const PER_PAGE_OPTIONS = [
+  { value: 20, label: '20' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
+  { value: 150, label: '150' }
 ];

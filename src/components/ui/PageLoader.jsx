@@ -17,7 +17,7 @@ const PageLoader = ({ text = 'Loading page...' }) => {
             />
 
             {/* Content Container */}
-            <div className="relative z-10 flex flex-col items-center gap-6 animate-fadeIn">
+            <div className="relative z-10 flex flex-col items-center gap-2 animate-fadeIn">
                 {/* Logo Container with Pulse Animation */}
                 <div className="relative">
                     {/* Glow Effect */}
@@ -39,13 +39,13 @@ const PageLoader = ({ text = 'Loading page...' }) => {
                 </div>
 
                 {/* Loading Message */}
-                <div className="bg-white rounded-lg shadow-xl px-6 py-3 flex items-center gap-3 animate-slideUp">
+                <div className="bg-white py-1 px-2 rounded-lg flex items-center gap-3 animate-slideUp">
                     <Loader
-                        className="text-green-500 w-5 h-5 animate-spin shrink-0"
+                        className="text-gray-900 w-4 h-4 animate-spin shrink-0"
                         strokeWidth={2.5}
                         aria-hidden="true"
                     />
-                    <span className="text-sm sm:text-base font-medium text-gray-700">
+                    <span className="text-sm sm:text-base font-medium text-gray-900">
                         {text}
                     </span>
                 </div>

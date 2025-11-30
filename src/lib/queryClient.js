@@ -20,13 +20,14 @@ export function makeQueryClient() {
   });
 }
 
-let browserQueryClient;
+let browserQueryClient = undefined;
 
-export const getQueryClient = cache(() => {
+export function getQueryClient() {
   if (typeof window === 'undefined') {
     return makeQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
   }
-})
+  if (!browserQueryClient) {
+    browserQueryClient = makeQueryClient();
+  }
+  return browserQueryClient;
+}

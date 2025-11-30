@@ -1,27 +1,19 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
-import Breadcrumb from '../common/Breadcrumb';
+import { useTransition } from 'react';
 import ContentPlaceholder from '../common/ContentPlaceholder';
 import Paginator from '../common/Paginator';
-import Button from '../ui/Button';
-import ProductFilters from './ProductFilters';
 import ProductCard from './ProductCard';
-import { Filter } from 'lucide-react';
 import PageLoader from '../ui/PageLoader';
+import PageHero from '../page/PageHero';
+import ProductFilters from './ProductFilters';
 
-export default function ProductsPageDetails({
-    products = [],
-    filters = {},
-    meta = {},
-    links = []
-}) {
+export default function ProductsPageDetails({ products = [], filters = {}, meta = {}, links = [] }) {
+
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
-
     const { category, subcategory, search } = filters;
 
     /**
@@ -29,44 +21,74 @@ export default function ProductsPageDetails({
      */
     const getPageTitle = () => {
         if (search) return `Search Results for "${search}"`;
-        if (subcategory) return subcategory;
-        if (category) return category;
+        if (subcategory) return subcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        if (category) return category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return 'All Products';
+    };
+
+    /**
+     * Build page description based on active filters
+     */
+    const getPageDescription = () => {
+        const productCount = meta.total?.toLocaleString() || '0';
+        if (search) {
+            return `Found ${productCount} products matching your search. Browse our quality agricultural products and solutions.`;
+        }
+        if (subcategory || category) {
+            return `Explore ${productCount} premium products in our ${subcategory || category} collection. Quality guaranteed for your agricultural needs.`;
+        }
+        return `Discover ${productCount} premium agricultural products. From seeds to tools, find everything you need for successful farming.`;
     };
 
     /**
      * Build breadcrumb navigation
      */
     const breadcrumbItems = [
-        { name: 'Home', url: '/' },
-        { name: 'Products', url: '/products' },
+        { label: 'Products', href: '/products' },
         ...(category ? [{
-            name: category,
-            url: `/products?category=${encodeURIComponent(category)}`
+            label: category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            href: `/products?category=${encodeURIComponent(category)}`
         }] : []),
         ...(subcategory ? [{
-            name: subcategory,
-            url: `/products?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
+            label: subcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            href: `/products?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
         }] : [])
     ];
 
     /**
      * Update URL with new query params - wrapped in transition for loading state
      */
-    const updateUrlParams = (updates) => {
+    const updateUrlParams = (updates, resetPage) => {
         const params = new URLSearchParams(searchParams);
 
-        Object.entries(updates).forEach(([key, value]) => {
-            if (value !== null && value !== undefined && value !== '') {
-                params.set(key, value);
-            } else {
-                params.delete(key);
-            }
-        });
+        const filterKeys = [
+            'category', 'subcategory', 'search', 'sort',
+            'per_page', 'brand', 'minPrice', 'maxPrice', 'inStock'
+        ];
+
+        if (resetPage) {
+            filterKeys.forEach(key => params.delete(key));
+            params.delete('page');
+        } else {
+            Object.entries(updates).forEach(([key, value]) => {
+                if (value !== null && value !== undefined && value !== '') {
+                    params.set(key, value);
+                } else {
+                    params.delete(key);
+                }
+            });
+        }
 
         startTransition(() => {
             router.push(`/products?${params.toString()}`);
         });
+    };
+
+    /**
+    * Handle filter changes from ProductFilters component
+    */
+    const handleFilterChange = (newFilters, resetPage) => {
+        updateUrlParams({ ...newFilters }, resetPage);
     };
 
     /**
@@ -78,107 +100,83 @@ export default function ProductsPageDetails({
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    /**
-     * Handle filter changes from ProductFilters component
-     */
-    const handleFilterChange = (newFilters) => {
-        updateUrlParams({ ...newFilters, page: null }); // Reset to page 1
-        setIsFilterOpen(false); // Close mobile filter
-    };
-
     const hasProducts = products.length > 0;
     const showPagination = hasProducts && meta.last_page > 1;
 
     return (
-        <main className="container mx-auto px-4 py-8">
-            <Breadcrumb breadcrumbItems={breadcrumbItems} />
+        <>
+            {/* Page Hero */}
+            <PageHero
+                title={getPageTitle()}
+                description={getPageDescription()}
+                badge={search ? '🔍 Search Results' : category ? 'Category' : 'Products'}
+                breadcrumbs={breadcrumbItems}
+            />
 
-            {/* Header Section */}
-            <div className="mb-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            {getPageTitle()}
-                        </h1>
+            <main className="pb-8">
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Sidebar - Filter Component */}
+                    <aside className="w-full lg:w-80 flex-shrink-0">
+                        <ProductFilters
+                            currentFilters={filters}
+                            onFilterChange={handleFilterChange}
+                            isLoading={isPending}
+                        />
+                    </aside>
+
+                    {/* Main Content Area */}
+                    <div className="flex-1 min-w-0">
+                        {/* Results Summary */}
                         {hasProducts && (
-                            <p className="text-sm text-gray-600">
-                                Showing {meta.from} - {meta.to} of {meta.total?.toLocaleString()} products
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Mobile Filter Toggle */}
-                    <Button
-                        variant="outline"
-                        color="gray"
-                        onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        startIcon={<Filter />}
-                        className="lg:hidden"
-                    >
-                        Filters & Sort
-                    </Button>
-                </div>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex flex-col lg:flex-row gap-8">
-                {/* Filters Sidebar - Sticky */}
-                <aside className={`
-                    lg:w-80 lg:flex-shrink-0
-                    ${isFilterOpen ? 'fixed inset-0 z-50 bg-black/50 lg:relative lg:bg-transparent' : 'hidden lg:block'}
-                `}>
-                    <ProductFilters
-                        currentFilters={filters}
-                        onFilterChange={handleFilterChange}
-                        onClose={() => setIsFilterOpen(false)}
-                        isLoading={isPending}
-                        isOpen={isFilterOpen}
-                    />
-                </aside>
-
-                {/* Products Grid */}
-                <div className="flex-1">
-                    {!hasProducts ? (
-                        <div className="text-center">
-                            <ContentPlaceholder
-                                color="red"
-                                className='w-full'
-                                title="No products found"
-                                description="Try adjusting your filters or search criteria"
-                            />
-                        </div>
-                    ) : (
-                        <>
-                            {/* Loading Overlay */}
-                            {isPending && (
-                                <PageLoader text='Loading products...' />
-                            )}
-
-                            {/* Products Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 relative">
-                                {products.map((product) => (
-                                    <ProductCard
-                                        key={product.id}
-                                        product={product}
-                                    />
-                                ))}
-                            </div>
-
-                            {/* Pagination */}
-                            {showPagination && (
-                                <div className="mt-8">
-                                    <Paginator
-                                        paginationData={meta}
-                                        links={links}
-                                        setPage={handlePageChange}
-                                        limit={3}
-                                    />
+                            <div className="mb-6 flex items-center justify-between bg-white rounded-xl border border-gray-200 px-6 py-4 shadow-sm">
+                                <div>
+                                    <p className="text-sm text-gray-600">
+                                        Showing <span className="font-bold text-gray-900">{meta.from}</span> - <span className="font-bold text-gray-900">{meta.to}</span> of <span className="font-bold text-gray-900">{meta.total?.toLocaleString()}</span> products
+                                    </p>
                                 </div>
+                            </div>
+                        )}
+
+                        {/* Main Content with Loading State */}
+                        <div className="relative">
+                            {/* Loading Overlay */}
+                            {isPending && <PageLoader text='Loading products...' />}
+
+                            {!hasProducts ? (
+                                <ContentPlaceholder
+                                    color='red'
+                                    title="No products found"
+                                    description="Try adjusting your filters or search criteria to find what you're looking for"
+                                />
+                            ) : (
+                                <>
+                                    {/* Products Grid */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                                        {products.map((product) => (
+                                            <ProductCard
+                                                key={product.id}
+                                                product={product}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {/* Pagination */}
+                                    {showPagination && (
+                                        <div className="mt-8">
+                                            <Paginator
+                                                paginationData={meta}
+                                                links={links}
+                                                setPage={handlePageChange}
+                                                limit={3}
+                                            />
+                                        </div>
+                                    )}
+                                </>
                             )}
-                        </>
-                    )}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 }

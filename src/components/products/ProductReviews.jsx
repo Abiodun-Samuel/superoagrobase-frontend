@@ -20,7 +20,6 @@ export default function ProductReviews({ product }) {
     const handleSubmitReview = (e) => {
         e.preventDefault();
         // Submit review logic here
-        console.log('Submitting review:', newReview);
         setShowReviewForm(false);
         setNewReview({ rating: 5, comment: '', name: '' });
     };

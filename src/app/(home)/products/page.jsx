@@ -1,121 +1,3 @@
-// import { ProductService } from '@/services/products.service';
-// import { getProductsMetadata } from '@/utils/seo/seo.meta';
-// import {
-//     getProductCollectionJsonLd,
-//     getProductsListBreadcrumbJsonLd,
-//     getSearchResultsJsonLd,
-//     getOrganizationJsonLd
-// } from '@/utils/seo/seo.jsonld';
-// import ProductsPageDetails from '@/components/products/ProductsPageDetails';
-
-// export const revalidate = 3600;
-
-// const parseSearchParams = async (searchParams) => {
-//     const params = await searchParams;
-//     return {
-//         category: params?.category,
-//         subcategory: params?.subcategory,
-//         search: params?.search,
-//         sort: params?.sort ?? 'newest',
-//         per_page: params?.per_page ? parseInt(params.per_page) : 50,
-//         page: params?.page ? parseInt(params.page) : 1
-//     };
-// };
-
-// const fetchProducts = async (filters) => {
-//     try {
-//         const response = await ProductService.getProducts(filters);
-//         return {
-//             products: response?.data ?? [],
-//             meta: response?.meta ?? {},
-//             links: response?.links ?? {},
-//             success: true
-//         };
-//     } catch (error) {
-//         return { products: [], meta: {}, links: [], success: false };
-//     }
-// };
-
-// const generateJsonLdScripts = ({ category, subcategory, search, products, totalProducts }) => {
-//     return [
-//         getOrganizationJsonLd(),
-//         getProductsListBreadcrumbJsonLd({ category, subcategory }),
-//         getProductCollectionJsonLd({
-//             category,
-//             subcategory,
-//             search,
-//             products,
-//             totalProducts
-//         }),
-//         search && getSearchResultsJsonLd({
-//             search,
-//             totalProducts,
-//             products
-//         })
-//     ].filter(Boolean);
-// };
-
-// const JsonLdScripts = ({ scripts }) => (
-//     <>
-//         {scripts.map((jsonLd, idx) => (
-//             <script
-//                 key={`jsonld-${idx}`}
-//                 type="application/ld+json"
-//                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-//             />
-//         ))}
-//     </>
-// );
-
-// export async function generateMetadata({ searchParams }) {
-//     const filters = await parseSearchParams(searchParams);
-//     const { products } = await fetchProducts(filters);
-
-//     return getProductsMetadata({
-//         category: filters.category,
-//         subcategory: filters.subcategory,
-//         search: filters.search,
-//         sort: filters.sort,
-//         totalProducts: products.length
-//     });
-// }
-
-// const ProductsPage = async ({ searchParams }) => {
-//     const filters = await parseSearchParams(searchParams);
-//     const { products, meta, links, success } = await fetchProducts(filters);
-
-//     console.log(products, meta, links, success)
-
-
-//     const jsonLdScripts = generateJsonLdScripts({
-//         category: filters.category,
-//         subcategory: filters.subcategory,
-//         search: filters.search,
-//         products,
-//         totalProducts: meta.total ?? products.length
-//     });
-
-//     return (
-//         <>
-//             <JsonLdScripts scripts={jsonLdScripts} />
-
-//             <ProductsPageDetails
-//                 products={products}
-//                 meta={meta}
-//                 links={links}
-//                 filters={{
-//                     category: filters.category,
-//                     subcategory: filters.subcategory,
-//                     search: filters.search,
-//                     sort: filters.sort,
-//                 }}
-//             />
-//         </>
-//     );
-// };
-
-// export default ProductsPage;
-
 // app/products/page.js
 import { ProductService } from '@/services/products.service';
 import { getProductsMetadata } from '@/utils/seo/seo.meta';
@@ -220,14 +102,12 @@ export async function generateMetadata({ searchParams }) {
 
 const ProductsPage = async ({ searchParams }) => {
     const filters = await parseSearchParams(searchParams);
-    console.log({ filters })
 
     if (!filters) {
         notFound();
     }
 
     const { products, meta, links, success } = await fetchProducts(filters);
-    console.log({ success })
     if (!success) {
         notFound();
     }
