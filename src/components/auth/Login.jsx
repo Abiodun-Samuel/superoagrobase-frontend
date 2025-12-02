@@ -11,6 +11,13 @@ import InputForm from "../form/InputForm";
 import Alert from "../common/Alert";
 import { useSearchParams } from "next/navigation";
 
+function LoginFormWrapper() {
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams?.get('redirect');
+
+    return <Login redirectTo={redirectTo} />;
+}
+
 const Login = () => {
     const searchParams = useSearchParams()
     const redirectTo = searchParams?.get('redirect');
@@ -113,4 +120,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginFormWrapper;
