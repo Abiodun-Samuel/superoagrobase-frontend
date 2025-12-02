@@ -1,14 +1,10 @@
 // app/products/page.js
 import { ProductService } from '@/services/products.service';
 import { getProductsMetadata } from '@/utils/seo/seo.meta';
-import {
-    getProductCollectionJsonLd,
-    getProductsListBreadcrumbJsonLd,
-    getSearchResultsJsonLd,
-    getOrganizationJsonLd
-} from '@/utils/seo/seo.jsonld';
+import { getProductCollectionJsonLd, getProductsListBreadcrumbJsonLd, getSearchResultsJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
 import ProductsPageDetails from '@/components/products/ProductsPageDetails';
 import { notFound } from 'next/navigation';
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
 
 export const revalidate = 3600;
 
@@ -34,7 +30,6 @@ const parseSearchParams = async (searchParams) => {
     };
 };
 
-
 const fetchProducts = async (filters) => {
     try {
         const response = await ProductService.getProducts(filters);
@@ -52,32 +47,10 @@ const fetchProducts = async (filters) => {
     }
 };
 
-
 const validatePagination = (page, totalPages) => {
     if (totalPages === 0) return true;
     return page <= totalPages;
 };
-
-const generateJsonLdScripts = ({ category, subcategory, search, products, totalProducts, page, totalPages, perPage }) => {
-    return [
-        getOrganizationJsonLd(),
-        getProductsListBreadcrumbJsonLd({ category, subcategory }),
-        getProductCollectionJsonLd({ category, subcategory, search, products, totalProducts, page, totalPages, perPage }),
-        search && getSearchResultsJsonLd({ search, totalProducts, products, page })
-    ].filter(Boolean);
-};
-
-const JsonLdScripts = ({ scripts }) => (
-    <>
-        {scripts.map((jsonLd, idx) => (
-            <script
-                key={`jsonld-${idx}`}
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-        ))}
-    </>
-);
 
 export async function generateMetadata({ searchParams }) {
     const filters = await parseSearchParams(searchParams);
@@ -108,31 +81,23 @@ const ProductsPage = async ({ searchParams }) => {
     }
 
     const { products, meta, links, success } = await fetchProducts(filters);
-    if (!success) {
-        notFound();
-    }
+    if (!success) notFound();
 
     const currentPage = meta.current_page || filters.page;
     const totalPages = meta.last_page || 1;
 
-    if (!validatePagination(currentPage, totalPages)) {
-        notFound();
-    }
-
-    const jsonLdScripts = generateJsonLdScripts({
-        category: filters.category,
-        subcategory: filters.subcategory,
-        search: filters.search,
-        products,
-        totalProducts: meta.total || 0,
-        page: currentPage,
-        totalPages,
-        perPage: filters.per_page
-    });
+    if (!validatePagination(currentPage, totalPages)) notFound();
 
     return (
         <>
-            <JsonLdScripts scripts={jsonLdScripts} />
+            <JsonLdScripts
+                generators={[
+                    getOrganizationJsonLd,
+                    { fn: getProductsListBreadcrumbJsonLd, params: { category: filters.category, subcategory: filters.subcategory } },
+                    { fn: getProductCollectionJsonLd, params: { category: filters.category, subcategory: filters.subcategory, search: filters.search, products, totalProducts: meta.total || 0, page: currentPage, totalPages, perPage: filters.per_page } },
+                    filters.search && { fn: getSearchResultsJsonLd, params: { search: filters.search, totalProducts: meta.total || 0, products, page: currentPage } }
+                ]}
+            />
 
             <ProductsPageDetails
                 products={products}

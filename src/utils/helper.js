@@ -1,4 +1,5 @@
 import { ROLE_ENUM } from "./constant";
+import { SHIPPING_RATES } from "./data";
 
 export const formatErrorMessage = (error) => {
   if (error?.response) {
@@ -33,22 +34,6 @@ export const isActivePath = (pathname, itemPath) => {
   return pathname === itemPath || pathname?.startsWith(itemPath + '/');
 };
 
-export function formatPrice(price) {
-  if (!price) return null
-  return new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: 'NGN',
-    minimumFractionDigits: 0
-  }).format(price);
-}
-
-/**
- * @param {Object} config - Breadcrumb configuration
- * @param {string} config.page - Type of page: 
- *    'allProducts' | 'category' | 'subcategory' | 'product' | 'about' | 'contact' | 'services' | 'singleService'
- * @param {Object} [config.data] - Optional data depending on page type
- * @returns {Array<{label: string, href: string, current?: boolean}>}
- */
 export function buildBreadcrumb(config) {
   const { page, data = {} } = config;
   const items = [];
@@ -151,3 +136,54 @@ export function generateUUID() {
     return v.toString(16);
   });
 }
+
+export const formatCurrency = (amount) => {
+  if (!amount) return 0
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 0
+  }).format(amount);
+};
+
+
+const normalizeString = (str) => {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+    .replace(/[^\w\s]/g, ''); // Remove special characters
+};
+
+export const findShippingRate = (state, city) => {
+  if (!state || !city) return null;
+
+  const normalizedState = normalizeString(state);
+  const normalizedCity = normalizeString(city);
+
+  // Try exact match first
+  const exactMatch = SHIPPING_RATES.find(
+    rate =>
+      normalizeString(rate.state) === normalizedState &&
+      normalizeString(rate.city) === normalizedCity
+  );
+
+  if (exactMatch) return exactMatch.amount;
+
+  const partialMatch = SHIPPING_RATES.find(
+    rate => {
+      const rateState = normalizeString(rate.state);
+      const rateCity = normalizeString(rate.city);
+
+      return (
+        rateState === normalizedState &&
+        (rateCity.includes(normalizedCity) || normalizedCity.includes(rateCity))
+      );
+    }
+  );
+
+  if (partialMatch) return partialMatch.amount;
+  return null;
+};
+

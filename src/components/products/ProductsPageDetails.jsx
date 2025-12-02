@@ -126,17 +126,6 @@ export default function ProductsPageDetails({ products = [], filters = {}, meta 
 
                     {/* Main Content Area */}
                     <div className="flex-1 min-w-0">
-                        {/* Results Summary */}
-                        {hasProducts && (
-                            <div className="mb-6 flex items-center justify-between bg-white rounded-xl border border-gray-200 px-6 py-4 shadow-sm">
-                                <div>
-                                    <p className="text-sm text-gray-600">
-                                        Showing <span className="font-bold text-gray-900">{meta.from}</span> - <span className="font-bold text-gray-900">{meta.to}</span> of <span className="font-bold text-gray-900">{meta.total?.toLocaleString()}</span> products
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-
                         {/* Main Content with Loading State */}
                         <div className="relative">
                             {/* Loading Overlay */}
@@ -152,10 +141,11 @@ export default function ProductsPageDetails({ products = [], filters = {}, meta 
                                 <>
                                     {/* Products Grid */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-                                        {products.map((product) => (
+                                        {products.map((product, index) => (
                                             <ProductCard
                                                 key={product.id}
                                                 product={product}
+                                                priority={index < 4}
                                             />
                                         ))}
                                     </div>

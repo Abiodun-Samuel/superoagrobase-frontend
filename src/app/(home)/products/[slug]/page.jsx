@@ -1,4 +1,5 @@
 import ProductDetails from '@/components/products/ProductDetails';
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
 import { ProductService } from '@/services/products.service';
 import { buildBreadcrumb } from '@/utils/helper';
 import { getProductJsonLd, getProductFAQJsonLd, getBreadcrumbJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
@@ -21,42 +22,26 @@ export async function generateMetadata({ params }) {
     }
 }
 
-/**
- * Product detail page component
- */
 export default async function ProductPage({ params }) {
     try {
         const { slug } = await params;
         if (!slug) notFound();
 
-        const { data: product } = await ProductService.getProductBySlug(slug, {
-            incrementView: true
-        });
+        const { data: product } = await ProductService.getProductBySlug(slug, { incrementView: true });
 
         if (!product) notFound()
-
-        const breadcrumbItems = buildBreadcrumb({
-            page: 'product',
-            data: product,
-        });
-
-        const jsonLdScripts = [
-            getProductJsonLd(product),
-            getBreadcrumbJsonLd([...breadcrumbItems]),
-            getOrganizationJsonLd(),
-            getProductFAQJsonLd(product)
-        ];
+        const breadcrumbItems = buildBreadcrumb({ page: 'product', data: product });
 
         return (
             <>
-                {jsonLdScripts.map((jsonLd, idx) => (
-                    <script
-                        key={idx}
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                    />
-                ))}
-
+                <JsonLdScripts
+                    generators={[
+                        getOrganizationJsonLd,
+                        { fn: getProductJsonLd, params: product },
+                        { fn: getBreadcrumbJsonLd, params: [...breadcrumbItems] },
+                        { fn: getProductFAQJsonLd, params: product }
+                    ]}
+                />
                 <ProductDetails product={product} breadcrumbItems={breadcrumbItems} />
             </>
         );

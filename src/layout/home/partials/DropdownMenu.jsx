@@ -32,10 +32,10 @@ const DropdownMenu = ({ items, pathname }) => {
                         ) : (
                             <Link
                                 href={item.path}
-                                className={`flex items-center space-x-3 px-4 py-3 transition-all duration-200 group ${isCurrentPath ? 'bg-[#F5F5F5] text-[#7CB342]' : 'hover:bg-[#F5F5F5] hover:text-[#7CB342]'
+                                className={`text-gray-600 flex items-center space-x-3 px-4 py-3 transition-all duration-200 group ${isCurrentPath ? 'bg-[#F5F5F5] text-green-500' : 'hover:bg-[#F5F5F5] hover:text-green-500'
                                     }`}
                             >
-                                <Icon size={18} className={`group-hover:scale-110 transition-all ${isCurrentPath ? 'text-[#7CB342]' : 'text-gray-400 group-hover:text-[#7CB342]'}`} />
+                                <Icon size={18} className={`group-hover:scale-110 transition-all ${isCurrentPath ? 'text-green-500' : 'text-gray-600 group-hover:text-green-500'}`} />
                                 <span className="font-medium">{item.label}</span>
                             </Link>
                         )}

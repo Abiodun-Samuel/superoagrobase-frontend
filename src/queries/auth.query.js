@@ -93,15 +93,16 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { setAuth, clearAuth, getSessionId } from '@/server/auth.server';
-import { AuthService } from '@/services/auth.service';
 import { formatErrorMessage } from '@/utils/helper';
 import Toast from '@/lib/toastify';
 import { QUERY_KEYS } from '@/utils/queries.keys';
-import useAuth from '@/hooks/useAuth';
 import { DEFAULT_AUTH_STATE } from '@/utils/constant';
+import { AuthService } from '@/services/auth.service';
+import useAuth from '@/hooks/useAuth';
+
 
 export const useLogin = (options = {}) => {
   const { setAuth: updateAuthState } = useAuth();
@@ -123,13 +124,14 @@ export const useLogin = (options = {}) => {
         const authState = await setAuth({ token, user });
         updateAuthState(authState);
 
+        const redirectTo = options.redirectTo || '/';
+        router.replace(redirectTo);
+
         Toast.success(`Welcome back, ${user?.first_name || 'User'}!`);
         queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.detail() });
 
         await options.onSuccess?.(response, variables);
 
-        const redirectTo = options.redirectTo || '/';
-        router.replace(redirectTo);
       } catch (error) {
         Toast.error('Login successful but session setup failed', error);
       }
@@ -143,8 +145,10 @@ export const useLogin = (options = {}) => {
   });
 };
 
+
 export const useLogout = (options = {}) => {
   const router = useRouter();
+  const pathname = usePathname();
   const queryClient = useQueryClient();
   const { setAuth: updateAuthState } = useAuth();
 
@@ -160,23 +164,40 @@ export const useLogout = (options = {}) => {
     }
   }, [queryClient, updateAuthState]);
 
+  const handleNavigation = useCallback(() => {
+    const protectedRoutes = ['/dashboard', '/checkout'];
+    const isOnProtectedRoute = protectedRoutes.some(route => pathname?.startsWith(route));
+
+    if (isOnProtectedRoute) {
+      router.push('/');
+      router.refresh();
+    } else {
+      router.refresh();
+    }
+  }, [router, pathname]);
+
   return useMutation({
     mutationFn: AuthService.logout,
+    onMutate: async () => {
+      const sessionId = await getSessionId();
+      updateAuthState({ ...DEFAULT_AUTH_STATE, sessionId });
+    },
     onSuccess: async (response, variables) => {
-      await performCleanup();
+
+      handleNavigation();
+      performCleanup();
+
       Toast.success('Logged out successfully');
       await options.onSuccess?.(response, variables);
-      router.replace('/');
     },
     onError: async (error, variables) => {
-      await performCleanup();
+
+      handleNavigation();
+      performCleanup();
+
       const message = formatErrorMessage(error);
       Toast.error(message);
       await options.onError?.(error, variables);
-      router.replace('/');
-    },
-    onSettled: () => {
-      router.replace('/');
     },
     ...options,
   });

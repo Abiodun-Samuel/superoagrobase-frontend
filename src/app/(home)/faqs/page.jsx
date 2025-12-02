@@ -1,17 +1,14 @@
 import FAQPage from "@/components/page/FaqsPage"
+import JsonLdScripts from "@/components/provider/JsonLdScripts";
 import { getFAQPageJsonLd } from "@/utils/seo/seo.jsonld";
 import { getFAQsMetadata } from "@/utils/seo/seo.meta";
 
 export const metadata = getFAQsMetadata();
 
 const FaqsPage = () => {
-    const faqSchema = getFAQPageJsonLd()
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-            />
+            <JsonLdScripts generators={[getFAQPageJsonLd]} />
             <FAQPage />
         </>
     )

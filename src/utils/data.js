@@ -27,7 +27,8 @@ import {
   FileText,
   Cookie,
   AlertTriangle, CreditCard, MapPin, CheckCircle, AlertCircle,
-  UserPenIcon
+  UserPenIcon,
+  Building2
 } from 'lucide-react';
 
 export const SITE_DATA = {
@@ -736,6 +737,40 @@ export const FAQ_DATA = {
       question: 'Do you offer bulk purchase discounts for large orders?',
       answer: 'Yes! We provide attractive discounts for bulk purchases and are committed to supporting large-scale farmers and agro-dealers. The discount rate depends on the quantity and product category. For orders exceeding ₦200,000, please contact our sales team at {phone} or {email} to discuss special pricing, payment terms, and dedicated logistics support. We also offer flexible payment plans for registered commercial farmers and agricultural cooperatives.'
     }
+  ],
+  aboutFAQs: [
+    {
+      question: `What is ${SITE_DATA.name}?`,
+      answer: `${SITE_DATA.name} is a leading agricultural products supplier in Nigeria, providing quality seeds, fertilizers, pesticides, and farm equipment to farmers nationwide. We are committed to supporting Nigerian agriculture through reliable products and expert guidance.`
+    },
+    {
+      question: "When was your company founded?",
+      answer: `We were founded in ${SITE_DATA.business.founded} with a mission to provide Nigerian farmers with access to quality agricultural inputs and support.`
+    },
+    {
+      question: "Where are you located?",
+      answer: `Our headquarters is located at ${SITE_DATA.address.street}, ${SITE_DATA.address.city}, ${SITE_DATA.address.state}, Nigeria. We serve farmers across all states in Nigeria.`
+    },
+    {
+      question: "What products do you offer?",
+      answer: "We offer a comprehensive range of agricultural products including hybrid and improved seeds, organic and chemical fertilizers, pesticides, herbicides, fungicides, farm equipment, irrigation systems, and animal feed. All our products are sourced from trusted manufacturers and meet quality standards."
+    },
+    {
+      question: "Do you deliver nationwide?",
+      answer: "Yes, we provide fast and reliable delivery services to all states across Nigeria. Orders are typically delivered within 1-3 business days depending on your location."
+    },
+    {
+      question: "How can I contact you?",
+      answer: `You can reach us by phone at ${SITE_DATA.phone}, email us at ${SITE_DATA.email}, or visit our office at ${SITE_DATA.address.street}, ${SITE_DATA.address.city}. Our customer service team is available ${SITE_DATA.business.openingHours.weekdays.open} - ${SITE_DATA.business.openingHours.weekdays.close} on weekdays.`
+    },
+    {
+      question: "What makes you different from other agro dealers?",
+      answer: "We stand out through our commitment to quality assurance, competitive pricing, expert agricultural guidance, nationwide reach, genuine products from trusted brands, and exceptional customer support. We understand Nigerian farming needs and tailor our services accordingly."
+    },
+    {
+      question: "Do you provide agricultural advice?",
+      answer: "Yes, we have experienced agricultural experts who provide guidance on product selection, application methods, crop management, and best farming practices. Contact us for personalized agricultural consultancy."
+    }
   ]
 }
 
@@ -793,4 +828,106 @@ export const PER_PAGE_OPTIONS = [
   { value: 50, label: '50' },
   { value: 100, label: '100' },
   { value: 150, label: '150' }
+];
+
+
+export const SHIPPING_RATES = [
+  // Ajah
+  { state: 'Lagos', city: 'Ajah', amount: 4000 },
+
+  // VI/Ikoyi/Obalende
+  { state: 'Lagos', city: 'Victoria Island', amount: 3500 },
+  { state: 'Lagos', city: 'Ikoyi', amount: 3500 },
+  { state: 'Lagos', city: 'Obalende', amount: 3500 },
+
+  // Ikeja/Opebi/Ogba
+  { state: 'Lagos', city: 'Ikeja', amount: 3500 },
+  { state: 'Lagos', city: 'Opebi', amount: 3500 },
+  { state: 'Lagos', city: 'Ogba', amount: 3500 },
+
+  // Gbagada
+  { state: 'Lagos', city: 'Gbagada', amount: 3000 },
+
+  // Yaba/Ebute Metta/Shomolu
+  { state: 'Lagos', city: 'Yaba', amount: 2500 },
+  { state: 'Lagos', city: 'Ebute Metta', amount: 2500 },
+  { state: 'Lagos', city: 'Shomolu', amount: 2500 },
+
+  // Egbeda/Ikotun/Agege
+  { state: 'Lagos', city: 'Egbeda', amount: 3500 },
+  { state: 'Lagos', city: 'Ikotun', amount: 3500 },
+  { state: 'Lagos', city: 'Agege', amount: 3500 },
+
+  // Surulere/Ojuelegba/Aguda
+  { state: 'Lagos', city: 'Surulere', amount: 3000 },
+  { state: 'Lagos', city: 'Ojuelegba', amount: 3000 },
+  { state: 'Lagos', city: 'Aguda', amount: 3000 },
+
+  // Isolo/Mushin/Ajao Estate
+  { state: 'Lagos', city: 'Isolo', amount: 3500 },
+  { state: 'Lagos', city: 'Mushin', amount: 3500 },
+  { state: 'Lagos', city: 'Ajao Estate', amount: 3500 },
+
+  // Ketu/Mile 12/Ojota
+  { state: 'Lagos', city: 'Ketu', amount: 3500 },
+  { state: 'Lagos', city: 'Mile 12', amount: 3500 },
+  { state: 'Lagos', city: 'Ojota', amount: 3500 },
+
+  // Ikorodu/Epe/Ojo
+  { state: 'Lagos', city: 'Ikorodu', amount: 4000 },
+  { state: 'Lagos', city: 'Epe', amount: 4000 },
+  { state: 'Lagos', city: 'Ojo', amount: 4000 },
+
+  // Ipaja/Alagbada
+  { state: 'Lagos', city: 'Ipaja', amount: 4000 },
+  { state: 'Lagos', city: 'Alagbada', amount: 4000 },
+
+  // Bariga
+  { state: 'Lagos', city: 'Bariga', amount: 2500 },
+
+  // Festac/Ago Palace
+  { state: 'Lagos', city: 'Festac', amount: 4000 },
+  { state: 'Lagos', city: 'Ago Palace', amount: 4000 },
+
+  // Onipanu/Fadeyi/Palmgrove/Anthony
+  { state: 'Lagos', city: 'Onipanu', amount: 2500 },
+  { state: 'Lagos', city: 'Fadeyi', amount: 2500 },
+  { state: 'Lagos', city: 'Palmgrove', amount: 2500 },
+  { state: 'Lagos', city: 'Anthony', amount: 2500 },
+];
+
+export const PAYMENT_OPTIONS = [
+  {
+    value: 'online',
+    icon: CreditCard,
+    title: 'Pay Online Now',
+    description: 'Secure card or bank payment',
+    subtext: 'Credit card, debit card, or bank transfer',
+    badge: 'Instant'
+  },
+  {
+    value: 'later',
+    icon: Clock,
+    title: 'Pay Later',
+    description: 'Pay on pickup or delivery',
+    subtext: 'Cash or POS payment upon receipt',
+  }
+];
+
+export const DELIVERY_OPTIONS = [
+  {
+    value: 'waybill',
+    icon: Truck,
+    title: 'Home Delivery',
+    description: 'Get your order delivered to your doorstep',
+    subtext: 'Delivery within 3-5 business days',
+    badge: 'Popular'
+  },
+  {
+    value: 'pickup',
+    icon: Building2,
+    title: 'Office Pickup',
+    description: 'Pick up from our office location',
+    subtext: 'Available same day',
+  }
 ];

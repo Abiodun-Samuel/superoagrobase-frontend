@@ -450,3 +450,282 @@ export function getSearchResultsJsonLd(params = {}) {
         }
     };
 }
+
+export function getCartBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Shopping Cart',
+            url: `${SITE_DATA.domain}/cart`
+        }
+    ]);
+}
+
+export function getCartPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${SITE_DATA.domain}/cart#webpage`,
+        "url": `${SITE_DATA.domain}/cart`,
+        "name": `Shopping Cart - ${SITE_DATA.name}`,
+        "description": "Manage your agricultural products shopping cart",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": SITE_DATA.domain,
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": `${SITE_DATA.domain}/cart`,
+                        "name": "Shopping Cart"
+                    }
+                }
+            ]
+        },
+        "potentialAction": {
+            "@type": "BuyAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": `${SITE_DATA.domain}/checkout`,
+                "actionPlatform": [
+                    "http://schema.org/DesktopWebPlatform",
+                    "http://schema.org/MobileWebPlatform"
+                ]
+            },
+            "seller": {
+                "@type": "Organization",
+                "name": SITE_DATA.name,
+                "url": SITE_DATA.domain
+            }
+        }
+    };
+}
+
+export function getAboutBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'About Us',
+            url: `${SITE_DATA.domain}/about`
+        }
+    ]);
+}
+
+export function getAboutPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "AboutPage",
+        "@id": `${SITE_DATA.domain}/about#aboutpage`,
+        "url": `${SITE_DATA.domain}/about`,
+        "name": `About ${SITE_DATA.name}`,
+        "description": SITE_DATA.descriptions.long,
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "about": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`,
+            "name": SITE_DATA.name,
+            "url": SITE_DATA.domain
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": SITE_DATA.domain,
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": `${SITE_DATA.domain}/about`,
+                        "name": "About Us"
+                    }
+                }
+            ]
+        },
+        "mainEntity": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        }
+    };
+}
+
+export function getAboutOrganizationJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "Organization",
+        "@id": `${SITE_DATA.domain}/#organization`,
+        "name": SCHEMA_BASE.organization.name,
+        "legalName": SCHEMA_BASE.organization.legalName,
+        "alternateName": SCHEMA_BASE.organization.alternateName,
+        "url": SCHEMA_BASE.organization.url,
+        "logo": toJsonLd(SCHEMA_BASE.logo),
+        "description": SCHEMA_BASE.organization.description,
+        "foundingDate": SCHEMA_BASE.organization.foundingDate,
+        "address": toJsonLd(SCHEMA_BASE.address),
+        "geo": toJsonLd(SCHEMA_BASE.geo),
+        "contactPoint": toJsonLd(SCHEMA_BASE.contactPoints),
+        "sameAs": SCHEMA_BASE.sameAs,
+        "areaServed": toJsonLd(SCHEMA_BASE.areaServed),
+        "email": SITE_DATA.email,
+        "telephone": SITE_DATA.phone,
+        "priceRange": SITE_DATA.business.priceRange,
+        "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Agricultural Products & Services",
+            "itemListElement": [
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Seeds",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Agricultural Seeds"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Fertilizers",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Farm Fertilizers"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Pesticides & Herbicides",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Crop Protection Products"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Farm Equipment",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Agricultural Machinery"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "knowsAbout": [
+            "Agriculture",
+            "Farming",
+            "Crop Production",
+            "Agricultural Inputs",
+            "Farm Management",
+            "Sustainable Farming",
+            "Nigerian Agriculture"
+        ],
+        "slogan": SITE_DATA.tagline,
+        "brand": {
+            "@type": "Brand",
+            "name": SITE_DATA.name,
+            "logo": toJsonLd(SCHEMA_BASE.logo)
+        }
+    };
+}
+
+export function getAboutFAQJsonLd() {
+
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "FAQPage",
+        "mainEntity": FAQ_CONFIG?.aboutFAQs?.map(faq => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+            }
+        }))
+    };
+}
+
+export function getLocalBusinessJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "LocalBusiness",
+        "@id": `${SITE_DATA.domain}/#localbusiness`,
+        "name": SITE_DATA.name,
+        "image": toJsonLd(SCHEMA_BASE.logo),
+        "address": toJsonLd(SCHEMA_BASE.address),
+        "geo": toJsonLd(SCHEMA_BASE.geo),
+        "url": SITE_DATA.domain,
+        "telephone": SITE_DATA.phone,
+        "email": SITE_DATA.email,
+        "priceRange": SITE_DATA.business.priceRange,
+        "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Mobile Money"],
+        "currenciesAccepted": "NGN",
+        "areaServed": [
+            {
+                "@type": "Country",
+                "name": "Nigeria"
+            },
+            {
+                "@type": "State",
+                "name": SITE_DATA.address.state
+            }
+        ],
+        ...(SITE_DATA.geo.latitude && SITE_DATA.geo.longitude && {
+            "hasMap": `https://www.google.com/maps?q=${SITE_DATA.geo.latitude},${SITE_DATA.geo.longitude}`
+        }),
+        "description": SITE_DATA.descriptions.medium,
+        "knowsAbout": [
+            "Agricultural Products",
+            "Farm Supplies",
+            "Seeds",
+            "Fertilizers",
+            "Pesticides",
+            "Farm Equipment"
+        ]
+    };
+}

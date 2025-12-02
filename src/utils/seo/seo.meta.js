@@ -1,12 +1,12 @@
 // seo.meta.js
 import { generateMetadata } from "../config/seo.config";
 import { SITE_DATA } from "../data";
-import { formatPrice } from "../helper";
+import { formatCurrency } from "../helper";
 
 export function getHomeMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Buy Quality Agricultural Products in Nigeria - Seeds, Fertilizers & Farm Equipment',
+        title: 'Buy Quality Agricultural Products in Nigeria',
         description: null,
         path: '/',
         keywords: [
@@ -45,7 +45,7 @@ export function getProductMetadata(product) {
         reviews_summary
     } = product;
 
-    const formattedPrice = formatPrice(price);
+    const formattedPrice = formatCurrency(price);
     const rating = reviews_summary?.average_ratings || 0;
     const reviewCount = reviews_summary?.reviews_count || 0;
 
@@ -153,7 +153,7 @@ export function getProductMetadata(product) {
 export function getFAQsMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Frequently Asked Questions (FAQs) - Agricultural Products & Services',
+        title: 'FAQs - Agricultural Products Help Center',
         description: 'Get answers to common questions about buying agricultural products, delivery, payments, returns, and more. Learn about our quality assurance, nationwide delivery across Nigeria, and customer support.',
         path: '/faqs',
         keywords: [
@@ -180,7 +180,7 @@ export function getFAQsMetadata() {
 export function getPrivacyPolicyMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Privacy Policy - Data Protection & NDPR Compliance',
+        title: 'Privacy Policy & NDPR Compliance',
         description: `Learn how ${SITE_DATA.name} collects, uses, and protects your personal information. Our privacy policy complies with Nigeria Data Protection Regulation (NDPR) and ensures your data security.`,
         path: '/privacy-policy',
         keywords: [
@@ -210,7 +210,7 @@ export function getPrivacyPolicyMetadata() {
 export function getTermsOfServiceMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Terms of Service - User Agreement & Policies',
+        title: 'Terms of Service & User Agreement',
         description: `Read our terms of service governing the use of ${SITE_DATA.name}. Understand your rights, responsibilities, purchase terms, delivery policies, and dispute resolution procedures.`,
         path: '/terms-of-service',
         keywords: [
@@ -240,7 +240,7 @@ export function getTermsOfServiceMetadata() {
 export function getCookiePolicyMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Cookie Policy - How We Use Cookies & Tracking',
+        title: 'Cookie Policy & Privacy Settings',
         description: `Understand how ${SITE_DATA.name} uses cookies and tracking technologies to improve your browsing experience. Learn about cookie types, third-party cookies, and how to manage your preferences.`,
         path: '/cookie-policy',
         keywords: [
@@ -270,7 +270,7 @@ export function getCookiePolicyMetadata() {
 export function getDisclaimerMetadata() {
     return generateMetadata({
         pageType: 'website',
-        title: 'Disclaimer - Limitations of Liability & Product Information',
+        title: 'Disclaimer & Liability Information',
         description: `Important disclaimer about product information, pricing, agricultural advice, and limitations of liability for ${SITE_DATA.name}. Understand our terms before making purchases.`,
         path: '/disclaimer',
         keywords: [
@@ -325,7 +325,7 @@ export function getProductsMetadata(params = {}) {
     if (brand) titleParts.push(`by ${brand}`);
     if (page > 1) titleParts.push(`Page ${page}`);
 
-    const title = `${titleParts.join(' • ')} | Agricultural Products Nigeria`;
+    const title = `${titleParts.join(' - ')}`;
 
     // Build dynamic description
     let description = '';
@@ -395,6 +395,87 @@ export function getProductsMetadata(params = {}) {
                 'product:count': totalProducts,
                 'product:page': page,
                 'product:total_pages': totalPages
+            }
+        }
+    });
+}
+
+export function getCartMetadata() {
+    const title = 'Shopping Cart - Secure Checkout';
+    const description = `Review and manage your agricultural products cart. Secure checkout with multiple payment options and fast delivery across Nigeria.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/cart',
+        keywords: [
+            'shopping cart',
+            'checkout Nigeria',
+            'buy agricultural products',
+            'farming supplies cart',
+            'agro products checkout',
+            'secure payment Nigeria',
+            'farm equipment purchase',
+            'online shopping cart Nigeria'
+        ],
+        index: false,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            robots: {
+                index: false,
+                follow: true,
+                nocache: true,
+                noarchive: true
+            }
+        }
+    });
+}
+
+export function getAboutMetadata() {
+    const title = 'About Us - Leading Agricultural Products Supplier';
+    const description = `Discover ${SITE_DATA.name}, Nigeria's trusted agricultural products supplier since ${SITE_DATA.business.founded}. We provide quality seeds, fertilizers, pesticides, and farm equipment to farmers nationwide. Learn about our mission, values, and commitment to supporting Nigerian agriculture with reliable products and expert guidance.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/about',
+        keywords: [
+            'about SuperoAgrobase',
+            'agricultural company Nigeria',
+            'farm supplies Nigeria',
+            'agro dealer Nigeria',
+            'agricultural products supplier',
+            'farming solutions Nigeria',
+            'agribusiness Nigeria',
+            'farm equipment supplier',
+            'quality agricultural inputs',
+            'Nigerian agriculture',
+            'trusted agro dealer',
+            'farming support Nigeria',
+            'agriculture supplier Lagos',
+            'farm products company'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary_large_image',
+            },
+            other: {
+                'article:section': 'Company',
+                'article:tag': 'About, Company, Agriculture, Nigeria',
+                'article:modified_time': new Date().toISOString(),
+                'company:founded': SITE_DATA.business.founded,
+                'company:industry': 'Agriculture',
+                'company:headquarters': `${SITE_DATA.address.city}, ${SITE_DATA.address.state}, ${SITE_DATA.address.country}`
             }
         }
     });

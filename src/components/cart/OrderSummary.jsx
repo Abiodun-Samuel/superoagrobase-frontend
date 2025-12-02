@@ -2,8 +2,10 @@
 
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import Button from "../ui/Button";
+import useAuth from "@/hooks/useAuth";
 
 const OrderSummary = ({ cartSummary, sessionId }) => {
+    const { user } = useAuth()
 
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-6">
@@ -26,29 +28,15 @@ const OrderSummary = ({ cartSummary, sessionId }) => {
                 </div>
             </div>
 
-            <div className="space-y-3">
-                <Button className="w-full" href={`/checkout?sessionId=${sessionId}`} >
-                    <ShoppingBag className="w-5 h-5" />
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-5">
+                <Button startIcon={<ShoppingBag />} className="w-full" href={`/checkout?sessionId=${sessionId}&user_id=${user?.id}`} >
                     Proceed to Checkout
                 </Button>
 
-                <Button className="w-full" href={'/products'} variant="outline" color="gray">
-                    <ArrowLeft className="w-5 h-5" />
+                <Button startIcon={<ArrowLeft />} className="w-full" href={'/products'} variant="outline" color="gray">
                     Continue Shopping
                 </Button>
             </div>
-
-            {/* <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="flex gap-3">
-                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-blue-900">
-                        <p className="font-medium">Free Delivery</p>
-                        <p className="text-blue-700 mt-1">
-                            On orders over ₦30,000
-                        </p>
-                    </div>
-                </div>
-            </div> */}
         </div>
     );
 };

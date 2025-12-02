@@ -24,7 +24,6 @@ const SingleSelectForm = memo(({
     const dropdownContentRef = useRef(null);
     const containerRef = useRef(null);
 
-    // Register with react-hook-form
     useEffect(() => {
         if (register && name) {
             register(name, {
@@ -33,14 +32,12 @@ const SingleSelectForm = memo(({
         }
     }, [register, name, required, label]);
 
-    // Update form value when selection changes
     useEffect(() => {
         if (setValue && name) {
             setValue(name, selectedValue);
         }
     }, [selectedValue, setValue, name]);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -58,14 +55,12 @@ const SingleSelectForm = memo(({
         };
     }, [isOpen]);
 
-    // Focus search input when dropdown opens
     useEffect(() => {
         if (isOpen && searchable && searchInputRef.current) {
             searchInputRef.current.focus();
         }
     }, [isOpen, searchable]);
 
-    // Measure dropdown height and animate parent container
     useEffect(() => {
         if (expandParent) {
             if (isOpen && dropdownContentRef.current) {
@@ -97,7 +92,6 @@ const SingleSelectForm = memo(({
     const selectedOption = options.find((option) => option.value === selectedValue);
     const selectedText = selectedOption?.text || "";
 
-    // Filter options based on search query
     const filteredOptions = searchable && searchQuery
         ? options.filter((option) =>
             option.text.toLowerCase().includes(searchQuery.toLowerCase())
@@ -116,17 +110,15 @@ const SingleSelectForm = memo(({
                 {label && (
                     <label
                         htmlFor={name}
-                        className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200"
+                        className="block text-sm font-medium mb-1 text-gray-700"
                     >
                         {label}
-                        {required && <span className="text-red-500 ml-0.5" aria-label="required">*</span>}
+                        {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
                     </label>
                 )}
 
                 <div className="relative inline-block w-full">
-                    {/* Main Control Wrapper */}
                     <div className="flex items-center gap-2">
-                        {/* Main Select Button */}
                         <button
                             type="button"
                             id={name}
@@ -136,18 +128,18 @@ const SingleSelectForm = memo(({
                             aria-describedby={error ? `${name}-error` : undefined}
                             className={`
                                 flex-1 flex items-center justify-between rounded-lg px-4 py-2.5 text-left
-                                transition-colors duration-200
-                                bg-white dark:bg-gray-800
-                                border focus:outline-none focus:ring-1
+                                transition-all duration-200
+                                bg-white
+                                border-[1.5px] focus:outline-none
                                 ${error
-                                    ? "border-red-500 dark:border-red-400 focus:ring-red-200 dark:focus:ring-red-900"
+                                    ? "border-red-500 focus:border-red-600"
                                     : isOpen
-                                        ? "border-blue-500 dark:border-blue-400 ring-1 ring-blue-200 dark:ring-blue-900"
-                                        : "border-gray-300 dark:border-gray-600 focus:ring-blue-200 dark:focus:ring-blue-900 focus:border-blue-500 dark:focus:border-blue-400"
+                                        ? "border-blue-500"
+                                        : "border-gray-200 focus:border-blue-500"
                                 }
                                 ${disabled
-                                    ? "bg-gray-100 dark:bg-gray-900 cursor-not-allowed opacity-60"
-                                    : "cursor-pointer hover:border-gray-400 dark:hover:border-gray-500"
+                                    ? "bg-gray-100 cursor-not-allowed opacity-60"
+                                    : "cursor-pointer"
                                 }
                             `}
                             aria-haspopup="listbox"
@@ -156,17 +148,15 @@ const SingleSelectForm = memo(({
                         >
                             <span
                                 className={`text-sm font-normal flex-1 truncate ${selectedText
-                                    ? "text-gray-900 dark:text-gray-100"
-                                    : "text-gray-400 dark:text-gray-500"
+                                    ? "text-gray-900"
+                                    : "text-gray-400"
                                     }`}
                             >
                                 {selectedText || placeholder}
                             </span>
 
-                            {/* Dropdown arrow */}
                             <svg
-                                className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
-                                    }`}
+                                className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                                 width="20"
                                 height="20"
                                 viewBox="0 0 20 20"
@@ -183,12 +173,11 @@ const SingleSelectForm = memo(({
                             </svg>
                         </button>
 
-                        {/* Clear Selection Button */}
                         {selectedValue && !disabled && (
                             <button
                                 type="button"
                                 onClick={clearSelection}
-                                className="flex items-center justify-center w-10 h-[2.75rem] rounded-lg border border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 focus:outline-none focus:ring-1 focus:ring-blue-200 dark:focus:ring-blue-900 transition-colors duration-200"
+                                className="flex items-center justify-center w-10 h-[2.75rem] rounded-lg border-[1.5px] border-gray-200 text-gray-500 hover:text-red-500 hover:border-red-300 hover:bg-red-50 focus:outline-none transition-colors duration-200"
                                 aria-label="Clear selection"
                             >
                                 <svg
@@ -210,21 +199,19 @@ const SingleSelectForm = memo(({
                         )}
                     </div>
 
-                    {/* Dropdown Menu */}
                     {isOpen && (
                         <div
                             ref={dropdownContentRef}
-                            className="absolute left-0 z-50 w-full mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-600 overflow-hidden"
+                            className="absolute left-0 z-50 w-full mt-1 bg-white rounded-lg shadow-lg border-[1.5px] border-gray-200 overflow-hidden"
                             role="listbox"
                             aria-labelledby={label ? `${name}-label` : undefined}
                         >
-                            {/* Search Input */}
                             {searchable && (
-                                <div className="p-2 border-b border-gray-200 dark:border-gray-700">
+                                <div className="p-2 border-b border-gray-200">
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
                                             <svg
-                                                className="w-4 h-4 text-gray-400 dark:text-gray-500"
+                                                className="w-4 h-4 text-gray-400"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"
@@ -243,18 +230,14 @@ const SingleSelectForm = memo(({
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             placeholder="Search..."
-                                            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-200 dark:focus:ring-blue-900 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-colors duration-200"
+                                            className="w-full pl-9 pr-3 py-2 text-sm border-[1.5px] border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white text-gray-900 placeholder:text-gray-400 transition-all duration-200"
                                             onClick={(e) => e.stopPropagation()}
                                         />
                                     </div>
                                 </div>
                             )}
 
-                            {/* Options List */}
-                            <div
-                                className="overflow-y-auto py-1"
-                                style={{ maxHeight }}
-                            >
+                            <div className="overflow-y-auto py-1" style={{ maxHeight }}>
                                 {filteredOptions.length > 0 ? (
                                     filteredOptions.map((option, index) => {
                                         const isSelected = option.value === selectedValue;
@@ -264,8 +247,8 @@ const SingleSelectForm = memo(({
                                                 type="button"
                                                 onClick={() => handleSelect(option.value)}
                                                 className={`w-full text-left px-4 py-2.5 text-sm font-normal transition-colors duration-200 ${isSelected
-                                                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                                                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                                    ? "bg-blue-50 text-blue-700"
+                                                    : "text-gray-700 hover:bg-gray-50"
                                                     }`}
                                                 role="option"
                                                 aria-selected={isSelected}
@@ -274,7 +257,7 @@ const SingleSelectForm = memo(({
                                                     <span className="flex-1 truncate">{option.text}</span>
                                                     {isSelected && (
                                                         <svg
-                                                            className="w-4 h-4 text-blue-600 dark:text-blue-400 ml-2 flex-shrink-0"
+                                                            className="w-4 h-4 text-blue-600 ml-2 flex-shrink-0"
                                                             fill="none"
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
@@ -290,9 +273,9 @@ const SingleSelectForm = memo(({
                                         );
                                     })
                                 ) : (
-                                    <div className="px-4 py-6 text-sm text-center text-gray-400 dark:text-gray-500">
+                                    <div className="px-4 py-6 text-sm text-center text-gray-400">
                                         <svg
-                                            className="w-10 h-10 mx-auto mb-2 text-gray-300 dark:text-gray-600"
+                                            className="w-10 h-10 mx-auto mb-2 text-gray-300"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
@@ -314,11 +297,10 @@ const SingleSelectForm = memo(({
                     )}
                 </div>
 
-                {/* Error Message */}
                 {error && (
                     <p
                         id={`${name}-error`}
-                        className="text-red-500 dark:text-red-400 text-xs mt-1"
+                        className="mt-1.5 text-xs text-red-600 font-medium"
                         role="alert"
                     >
                         {error}

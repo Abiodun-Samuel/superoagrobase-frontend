@@ -1,7 +1,8 @@
+import CheckoutPageDetails from "@/components/checkout/CheckoutPageDetails"
 
 const CheckoutPage = () => {
     return (
-        <div>CheckoutPage</div>
+        <><CheckoutPageDetails /></>
     )
 }
 

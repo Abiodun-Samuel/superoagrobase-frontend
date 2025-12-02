@@ -28,7 +28,7 @@ export function generateMetadata(options = {}) {
     const pageUrl = canonical || `${SITE_DATA.domain}${path}`;
 
     const fullTitle = title
-        ? `${SITE_DATA.name} | ${title} `
+        ? `${title}`
         : `${SITE_DATA.name} - ${SITE_DATA.tagline}`;
 
     const fullDescription = description || SITE_DATA.descriptions.medium;
@@ -295,7 +295,8 @@ export const FAQ_CONFIG = {
             answer: "Yes, we deliver nationwide across Nigeria within 1-3 business days."
         }
     ],
-    faqsPAGE: FAQ_DATA?.faqsPAGE || []
+    faqsPAGE: FAQ_DATA?.faqsPAGE || [],
+    aboutFAQs: FAQ_DATA.aboutFAQs || []
 };
 
 export const OFFER_CATALOG_CONFIG = {

@@ -1,12 +1,17 @@
-'use client';
-
+import { getCartMetadata } from '@/utils/seo/seo.meta';
+import { getCartBreadcrumbJsonLd, getCartPageJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
 import CartPageDetails from '@/components/cart/CartPageDetails';
-import { useCart } from '@/queries/cart.query';
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
+
+export async function generateMetadata() { return getCartMetadata(); }
 
 export default function CartPage() {
-    const { data: cartData, isLoading, isError } = useCart();
+    const jsonLdGenerators = [getCartBreadcrumbJsonLd, getCartPageJsonLd, getOrganizationJsonLd];
 
     return (
-        <CartPageDetails isError={isError} cartData={cartData} isLoading={isLoading} />
+        <>
+            <JsonLdScripts generators={jsonLdGenerators} />
+            <CartPageDetails />
+        </>
     );
 }

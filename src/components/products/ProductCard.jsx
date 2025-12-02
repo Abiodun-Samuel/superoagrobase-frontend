@@ -8,24 +8,16 @@ import Button from "../ui/Button";
 import TextBadge from "../ui/TextBadge";
 import { BADGE_COLORS } from "@/utils/data";
 import RatingStars from "./RatingStars";
-import { getPriceValidUntil } from "@/utils/helper";
+import { formatCurrency, getPriceValidUntil } from "@/utils/helper";
 import { useAddToCart } from "@/queries/cart.query";
 import useAuth from "@/hooks/useAuth";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, priority = false }) => {
     const { sessionId, user } = useAuth();
 
     const { mutate, isPending } = useAddToCart()
     const [isHovered, setIsHovered] = useState(false);
     const [displayBadge, setDisplayBadge] = useState(null);
-
-    const formatPrice = useCallback((price) => {
-        return new Intl.NumberFormat('en-NG', {
-            style: 'currency',
-            currency: 'NGN',
-            minimumFractionDigits: 0
-        }).format(price);
-    }, []);
 
     const handleAddToCart = () => {
         const payload = {
@@ -82,6 +74,8 @@ const ProductCard = ({ product }) => {
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                 itemProp="image"
+                                priority={priority}
+                                loading={priority ? "eager" : "lazy"}
                             />
                         </div>
                     </Link>
@@ -163,11 +157,11 @@ const ProductCard = ({ product }) => {
                         <meta itemProp="availability" content={product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"} />
                         <link itemProp="url" href={`https://superoagrobase.com/products/${product.slug}`} />
                         <span className="text-2xl font-black text-gray-900">
-                            {formatPrice(product.price)}
+                            {formatCurrency(product.price)}
                         </span>
                         {product.discount_price && (
                             <span className="text-sm text-gray-500 line-through">
-                                {formatPrice(product.discount_price)}
+                                {formatCurrency(product.discount_price)}
                             </span>
                         )}
                     </div>

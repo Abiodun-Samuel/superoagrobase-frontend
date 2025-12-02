@@ -14,7 +14,7 @@ const Alert = ({
     onClose,
     dismissible = true,
     className = '',
-    action = null,
+    actionButton = null,
     showIcon = true,
 }) => {
     const [isVisible, setIsVisible] = useState(true);
@@ -138,10 +138,10 @@ const Alert = ({
                     </div>
                 )}
 
-                {/* Action button */}
-                {action && (
+                {/* actionButton button */}
+                {actionButton && (
                     <div className="mt-3">
-                        {action}
+                        {actionButton}
                     </div>
                 )}
             </div>

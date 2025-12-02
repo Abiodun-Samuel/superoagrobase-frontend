@@ -116,9 +116,9 @@ const Breadcrumb = memo(({ items }) => {
     return (
         <nav
             aria-label="Breadcrumb"
-            className="relative z-10 bg-white rounded-xl border border-gray-100 shadow"
+            className="relative z-10 bg-white rounded-xl border border-gray-100 sm:inline-flex flex"
         >
-            <div className="px-4 sm:px-6 lg:px-8 py-3">
+            <div className="px-4 sm:pl-8 sm:pr-10 lg:pl-8 lg:pr-10 py-3">
                 <ol
                     className="flex flex-wrap items-center text-xs sm:text-sm"
                     style={{ gap: '0.375rem' }}

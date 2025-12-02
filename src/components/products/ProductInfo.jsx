@@ -6,6 +6,7 @@ import RatingStars from '@/components/products/RatingStars';
 import Button from '../ui/Button';
 import Toast from '@/lib/toastify';
 import TextBadge from '../ui/TextBadge';
+import { formatCurrency } from '@/utils/helper';
 
 // Constants
 const SCHEMA = {
@@ -106,10 +107,6 @@ const ProductRating = memo(({ reviewsSummary }) => {
 ProductRating.displayName = 'ProductRating';
 
 const PriceSection = memo(({ product }) => {
-    const discountPercentage = product.discount_price
-        ? Math.round(((product.discount_price - product.price) / product.discount_price) * 100)
-        : 0;
-
     return (
         <div
             className="pb-6 mb-6 border-b border-gray-200"
@@ -118,7 +115,7 @@ const PriceSection = memo(({ product }) => {
             itemType={SCHEMA.OFFER}
         >
             <meta itemProp="priceCurrency" content="NGN" />
-            <meta itemProp="price" content={product.price} />
+            <meta itemProp="price" content={formatCurrency(product.price)} />
             <meta
                 itemProp="availability"
                 content={product.stock > 0 ? SCHEMA.IN_STOCK : SCHEMA.OUT_OF_STOCK}
@@ -126,18 +123,8 @@ const PriceSection = memo(({ product }) => {
 
             <div className="flex items-baseline flex-wrap mb-2" style={SPACING.gap}>
                 <span className="text-4xl font-bold text-green-600">
-                    ₦{Number(product.price).toLocaleString()}
+                    {formatCurrency(product.price)}
                 </span>
-                {product.discount_price && (
-                    <>
-                        <span className="text-2xl text-gray-400 line-through">
-                            ₦{Number(product.discount_price).toLocaleString()}
-                        </span>
-                        <span className="px-2 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded">
-                            Save {discountPercentage}%
-                        </span>
-                    </>
-                )}
             </div>
 
             {product.pack_size && (

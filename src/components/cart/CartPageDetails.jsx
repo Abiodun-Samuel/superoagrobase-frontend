@@ -1,10 +1,19 @@
+'use client'
+
 import CartItemCard from "./CartItemCard";
-import EmptyCart from "./EmptyCart";
 import OrderSummary from "./OrderSummary";
 import PageHero from "../page/PageHero";
 import { CartPageSkeleton } from "../skeletonloader";
+import { useCart } from "@/queries/cart.query";
+import EmptyState from "../common/EmptyState";
+import { Home, ShoppingBag, ShoppingCart } from "lucide-react";
+import Alert from "../common/Alert";
+import Button from "../ui/Button";
+import IconBadge from "../ui/IconBadge";
 
-const CartPageDetails = ({ cartData, isLoading, isError }) => {
+const CartPageDetails = () => {
+    const { data: cartData, isLoading, isError, error } = useCart();
+
     const hasItems = cartData?.items && cartData.items.length > 0;
     const itemCount = cartData?.items?.length || 0;
 
@@ -22,22 +31,28 @@ const CartPageDetails = ({ cartData, isLoading, isError }) => {
 
         if (isError) {
             return (
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="text-center bg-white rounded-xl p-8 shadow-sm">
-                        <p className="text-red-600 text-lg mb-4">Failed to load your cart</p>
-                        <button
-                            onClick={() => window.location.reload()}
-                            className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
-                        >
-                            Retry
-                        </button>
-                    </div>
-                </div>
+                <Alert error={error} actionButton={<Button href={'/'} startIcon={<Home />}>
+                    Home
+                </Button>} />
             );
         }
 
         if (!hasItems) {
-            return <EmptyCart />;
+            return <EmptyState
+                iconBadge={<IconBadge
+                    className="mb-5"
+                    color={'red'}
+                    size={'2xl'}
+                    shape={'circle'}
+                    icon={<ShoppingCart />}
+                />}
+                title="Your cart is empty"
+                description="Looks like you haven't added any items to your cart yet. Start shopping to fill it up!"
+                iconColor="red"
+                actionButton={<Button href={'/products'} startIcon={<ShoppingBag />}>
+                    Start Shopping
+                </Button>}
+            />;
         }
 
         return (

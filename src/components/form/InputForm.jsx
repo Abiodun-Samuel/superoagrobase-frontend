@@ -44,7 +44,7 @@ const InputForm = memo(
         {label && (
           <label
             htmlFor={name}
-            className="block mb-2 text-sm font-medium text-gray-700"
+            className="block mb-1 text-sm font-medium text-gray-700"
           >
             {label}
             {required && (

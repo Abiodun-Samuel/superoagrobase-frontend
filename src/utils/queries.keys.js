@@ -27,4 +27,9 @@ export const QUERY_KEYS = {
     all: ['cart'],
     detail: (sessionId, userId) => [...QUERY_KEYS.cart.all, 'detail', sessionId, ...(userId ? [userId] : [])],
   },
+
+  order: {
+    all: ['order'],
+    detail: (sessionId, userId) => [...QUERY_KEYS.order.all, 'detail', sessionId, ...(userId ? [userId] : [])],
+  },
 };
