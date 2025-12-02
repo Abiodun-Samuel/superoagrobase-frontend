@@ -32,7 +32,7 @@ export const useCreateOrder = (options = {}) => {
 
             Toast.success(response.message || 'Order has been created successfully.');
 
-            router.push('/');
+            router.push('/dashboard/orders');
 
             options.onSuccess?.(response);
         },
