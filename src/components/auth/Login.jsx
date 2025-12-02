@@ -106,12 +106,12 @@ const Login = () => {
 
                         <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                             <span>Can't remember your password?  </span>
-                            <Link
+                            {/* <Link
                                 href={`/forgot-password?email=${email}`}
                                 className="text-red-600 dark:text-red-400 hover:underline font-medium"
                             >
                                 Forgot password
-                            </Link>
+                            </Link> */}
                         </div>
                     </form>
                 </div>
