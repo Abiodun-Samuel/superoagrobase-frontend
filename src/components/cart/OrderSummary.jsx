@@ -29,7 +29,7 @@ const OrderSummary = ({ cartSummary, sessionId }) => {
             </div>
 
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-5">
-                <Button startIcon={<ShoppingBag />} className="w-full" href={`/checkout?sessionId=${sessionId}&user_id=${user?.id}`} >
+                <Button startIcon={<ShoppingBag />} className="w-full" href={`/checkout`} >
                     Proceed to Checkout
                 </Button>
 

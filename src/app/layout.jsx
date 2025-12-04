@@ -34,7 +34,7 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body className={`${outfit.className}`}>
-        <QueryProvider>
+        <QueryProvider sessionId={auth.sessionId}>
           <Toaster />
           <NextTopLoader {...loadingIndicatorProperties} />
           <SidebarProvider>

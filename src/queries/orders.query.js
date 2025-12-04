@@ -5,31 +5,16 @@ import Toast from '@/lib/toastify';
 import useAuth from '@/hooks/useAuth';
 import { formatErrorMessage } from '@/utils/helper';
 import { OrderService } from '@/services/orders.service';
+import { useClearCart } from './cart.query';
 
 export const useCreateOrder = (options = {}) => {
-    const queryClient = useQueryClient();
     const router = useRouter();
-    const { sessionId, user } = useAuth();
+    const { mutate } = useClearCart()
 
     return useMutation({
         mutationFn: (payload) => OrderService.createOrder(payload),
         onSuccess: (response) => {
-            // Invalidate orders query
-            queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.order.detail()
-            });
-
-            // Clear cart from cache
-            queryClient.setQueryData(
-                QUERY_KEYS.cart.detail(sessionId, user?.id),
-                null
-            );
-
-            // Invalidate cart to trigger refetch
-            queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId, user?.id)
-            });
-
+            mutate()
             Toast.success(response.message || 'Order has been created successfully.');
 
             router.push('/dashboard/orders');

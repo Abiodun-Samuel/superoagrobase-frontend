@@ -56,8 +56,7 @@ const MobileMenu = ({
     return (
         <>
             {/* Mobile Menu */}
-            <Animation
-                animation={'fade-up'}
+            <div
                 className={`xl:hidden bg-white border-t border-gray-100 shadow-lg fixed left-0 right-0 z-50`}
                 role="dialog"
                 aria-label="Mobile menu"
@@ -67,19 +66,17 @@ const MobileMenu = ({
                     className="overflow-y-auto overflow-x-hidden"
                 >
                     <div className="container mx-auto px-4 pb-8">
-                        <div className="flex flex-col" style={{ gap: '0.5rem' }}>
-
+                        <Animation animation={'fade-up'} className="flex flex-col" style={{ gap: '0.5rem' }}>
                             <VendorCTA />
-
                             <NavigationItems
                                 items={items}
                                 pathname={pathname}
                                 onClose={onClose}
                             />
-                        </div>
+                        </Animation>
                     </div>
                 </div>
-            </Animation>
+            </div>
         </>
     );
 };

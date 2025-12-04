@@ -9,7 +9,7 @@ export const useCart = (options = {}) => {
     const { sessionId, user } = useAuth();
 
     return useQuery({
-        queryKey: QUERY_KEYS.cart.detail(sessionId, user?.id),
+        queryKey: QUERY_KEYS.cart.detail(sessionId),
         queryFn: async () => {
             const { data } = await CartService.getCart({ sessionId, userId: user?.id });
             return data;

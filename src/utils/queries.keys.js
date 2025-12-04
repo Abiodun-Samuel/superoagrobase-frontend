@@ -25,7 +25,7 @@ export const QUERY_KEYS = {
 
   cart: {
     all: ['cart'],
-    detail: (sessionId, userId) => [...QUERY_KEYS.cart.all, 'detail', sessionId, ...(userId ? [userId] : [])],
+    detail: (sessionId) => [...QUERY_KEYS.cart.all, 'detail', sessionId],
   },
 
   order: {

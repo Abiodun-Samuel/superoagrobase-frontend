@@ -3,7 +3,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/queryClient';
 
-export const QueryProvider = ({ children }) => {
+export const QueryProvider = ({ children, sessionId }) => {
   const queryClient = getQueryClient();
   return (
     <QueryClientProvider client={queryClient}>
