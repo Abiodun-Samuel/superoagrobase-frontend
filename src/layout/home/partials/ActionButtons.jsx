@@ -30,7 +30,7 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
     const [showUserMenu, setShowUserMenu] = useState(false);
     const userMenuRef = useClickOutside(() => setShowUserMenu(false));
 
-    const iconButtonClass = "relative p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 group";
+    const iconButtonClass = "relative p-2 rounded-xl hover:bg-gray-100 transition-all duration-200 group";
     const badgeClass = "absolute -top-1 -right-1 bg-[#FFA726] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center";
 
     return (
@@ -46,7 +46,7 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
             <div className="relative md:block" ref={userMenuRef}>
                 <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-[#F5F5F5] transition-all duration-200"
+                    className="flex items-center space-x-2 px-3 py-2 rounded-xl hover:bg-[#F5F5F5] transition-all duration-200"
                     aria-expanded={showUserMenu}
                 >
                     <Avatar src={user?.avatar} initials={user?.initials} size="xs" />

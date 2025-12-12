@@ -46,7 +46,7 @@ const DropdownItem = memo(({ item, pathname, onClose }) => {
     const isActive = isActivePath(pathname, item.path);
 
     const linkClasses = [
-        'flex items-center px-4 py-2 rounded-lg text-sm w-full',
+        'flex items-center px-4 py-2 rounded-xl text-sm w-full',
         STYLES.transition,
         isActive ? STYLES.colors.dropdownActive : STYLES.colors.dropdownInactive,
     ].join(' ');
@@ -97,7 +97,7 @@ DropdownMenu.displayName = 'DropdownMenu';
 
 const NavButton = memo(({ item, isActive, isOpen, onClick }) => {
     const buttonClasses = [
-        'flex items-center w-full px-4 py-3 rounded-lg text-left',
+        'flex items-center w-full px-4 py-3 rounded-xl text-left',
         STYLES.transition,
         isActive ? STYLES.colors.active : STYLES.colors.inactive,
     ].join(' ');
@@ -120,7 +120,7 @@ NavButton.displayName = 'NavButton';
 
 const NavLink = memo(({ item, isActive, onClose }) => {
     const linkClasses = [
-        'flex items-center w-full px-4 py-3 rounded-lg',
+        'flex items-center w-full px-4 py-3 rounded-xl',
         STYLES.transition,
         isActive ? STYLES.colors.active : STYLES.colors.inactive,
     ].join(' ');

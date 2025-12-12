@@ -39,7 +39,7 @@ const PageLoader = ({ text = 'Loading page...', showBlur = false }) => {
                 </div>
 
                 {/* Loading Message */}
-                <div className="bg-transparent py-1 px-2 rounded-lg flex items-center gap-3 animate-slideUp">
+                <div className="bg-transparent py-1 px-2 rounded-xl flex items-center gap-3 animate-slideUp">
                     <Loader
                         className="text-gray-900 w-4 h-4 animate-spin shrink-0"
                         strokeWidth={2.5}

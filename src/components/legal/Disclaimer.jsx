@@ -132,7 +132,7 @@ export const Disclaimer = () => {
                 </p>
             </CollapsibleSection>
 
-            <section className="mt-8 p-6 bg-green-50 rounded-lg border border-green-200">
+            <section className="mt-8 p-6 bg-green-50 rounded-xl border border-green-200">
                 <p className="text-gray-700 text-sm italic">
                     By using {SITE_DATA.name}, you acknowledge that you have read, understood, and agree to this disclaimer.
                 </p>

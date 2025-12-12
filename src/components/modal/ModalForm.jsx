@@ -60,7 +60,7 @@ const ModalForm = ({
             <Animated
                 ref={modalRef}
                 animation="zoom-in"
-                className={`relative w-full ${maxWidth} bg-white dark:bg-gray-800 rounded-lg shadow-xl`}
+                className={`relative w-full ${maxWidth} bg-white dark:bg-gray-800 rounded-xl shadow-xl`}
             >
                 <div className="flex items-start gap-2 p-4 border-b shadow border-gray-200 dark:border-gray-700">
                     <div className="flex-1 flex items-center justify-between">

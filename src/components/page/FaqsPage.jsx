@@ -58,7 +58,7 @@ const formatAnswer = (answer) => {
 
 const FAQItem = ({ question, answer, isOpen, onClick, Icon }) => {
     return (
-        <div className="border border-gray-200 rounded-lg overflow-hidden hover:border-green-500 transition-all duration-300">
+        <div className="border border-gray-200 rounded-xl overflow-hidden hover:border-green-500 transition-all duration-300">
             <button
                 onClick={onClick}
                 className="w-full px-6 py-4 flex items-start justify-between bg-white hover:bg-gray-50 transition-colors duration-200"
@@ -106,7 +106,7 @@ const CategorySection = ({ title, description, Icon, children }) => {
 
 const ContactCard = ({ Icon, title, content, link }) => {
     return (
-        <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-all duration-300">
+        <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-green-500 transition-all duration-300">
             <div className="flex items-center text-center flex-col gap-2">
                 {Icon && <IconBadge icon={<Icon />} size='lg' color='green' shape='circle' />}
                 <div>
@@ -175,7 +175,7 @@ export default function FAQPage() {
             </section>
 
             {/* Still Have Questions */}
-            <section className="bg-gradient-to-r from-green-600 to-green-700 text-white py-16 rounded-lg">
+            <section className="bg-gradient-to-r from-green-600 to-green-700 text-white py-16 rounded-xl">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">

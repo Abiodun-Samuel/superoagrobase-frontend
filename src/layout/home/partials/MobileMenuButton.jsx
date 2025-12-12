@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 const MobileMenuButton = ({ isOpen, onClick }) => (
     <button
         onClick={onClick}
-        className="xl:hidden p-2 rounded-lg hover:bg-[#F5F5F5] transition-colors flex-shrink-0"
+        className="xl:hidden p-2 rounded-xl hover:bg-[#F5F5F5] transition-colors flex-shrink-0"
         aria-label="Toggle menu"
         aria-expanded={isOpen}
     >

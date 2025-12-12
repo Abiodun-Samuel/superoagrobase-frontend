@@ -248,7 +248,7 @@ const Button = ({
     sm:text-sm
     md:text-base
     font-semibold
-    rounded-lg
+    rounded-xl
     border-2
     relative
     overflow-hidden

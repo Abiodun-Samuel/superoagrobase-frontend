@@ -184,7 +184,7 @@ const QuantitySelector = memo(({
                 Quantity
             </label>
             <div className="flex items-center" style={SPACING.gap}>
-                <div className="flex items-center border-2 border-gray-200 rounded-lg overflow-hidden bg-white">
+                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden bg-white">
                     <button
                         onClick={onDecrement}
                         disabled={quantity <= 1}

@@ -1,4 +1,5 @@
 import PaymentVerify from "@/components/payment/PaymentVerify";
+import { notFound } from "next/navigation";
 
 export default async function PaymentVerifyPage({ searchParams }) {
     try {

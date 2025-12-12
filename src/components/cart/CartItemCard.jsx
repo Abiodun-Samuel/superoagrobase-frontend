@@ -25,7 +25,7 @@ const CartItemCard = ({ item }) => {
             {/* Mobile: Image + Remove Button Row */}
             <div className="flex sm:block gap-3">
                 {/* Product Image */}
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 bg-gray-50 rounded-xl overflow-hidden">
                     <img
                         src={product.image}
                         alt={product.title}
@@ -45,7 +45,7 @@ const CartItemCard = ({ item }) => {
                     className="
                         sm:hidden
                         ml-auto self-start
-                        p-2 text-red-500 hover:bg-red-50 rounded-lg 
+                        p-2 text-red-500 hover:bg-red-50 rounded-xl 
                         transition-colors disabled:opacity-50
                     "
                     aria-label="Remove item"
@@ -100,7 +100,7 @@ const CartItemCard = ({ item }) => {
                         disabled={isPending}
                         className="
                             hidden sm:block
-                            p-2 text-red-500 hover:bg-red-50 rounded-lg 
+                            p-2 text-red-500 hover:bg-red-50 rounded-xl 
                             transition-colors disabled:opacity-50
                             flex-shrink-0
                         "

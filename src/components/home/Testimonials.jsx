@@ -73,7 +73,7 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
             }}
             aria-label={isClickable ? `View testimonial from ${testimonial.user.full_name}` : undefined}
         >
-            <div className="bg-white mx-5 rounded-lg shadow-2xl p-8 lg:p-10 relative overflow-hidden">
+            <div className="bg-white mx-5 rounded-xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
                 {/* Quote Icon */}
                 <div className="absolute top-6 right-6 opacity-10" aria-hidden="true">
                     <Quote className="w-24 h-24 text-green-600" />
@@ -210,14 +210,14 @@ const TestimonialsSkeleton = () => (
                 <div className="flex justify-center">
                     <div className="h-10 w-64 bg-gray-200 rounded-full animate-pulse"></div>
                 </div>
-                <div className="h-12 w-96 bg-gray-200 rounded-lg mx-auto animate-pulse"></div>
-                <div className="h-6 w-[500px] bg-gray-200 rounded-lg mx-auto animate-pulse"></div>
+                <div className="h-12 w-96 bg-gray-200 rounded-xl mx-auto animate-pulse"></div>
+                <div className="h-6 w-[500px] bg-gray-200 rounded-xl mx-auto animate-pulse"></div>
             </header>
 
             {/* Card Skeleton */}
             <div className="relative h-[500px] lg:h-[450px] flex items-center justify-center">
                 <div className="w-full lg:w-[600px]">
-                    <div className="bg-white mx-5 rounded-lg shadow-2xl p-8 lg:p-10">
+                    <div className="bg-white mx-5 rounded-xl shadow-2xl p-8 lg:p-10">
                         <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
                             {/* Avatar Skeleton */}
                             <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse"></div>

@@ -1,7 +1,7 @@
 const CategoriesSkeleton = () => {
     return (
         <div className="relative max-w-sm">
-            <div className="relative bg-white rounded-lg overflow-hidden shadow animate-pulse">
+            <div className="relative bg-white rounded-xl overflow-hidden shadow animate-pulse">
 
                 {/* IMAGE + OVERLAY AREA */}
                 <div className="relative h-72 bg-gray-200">
@@ -21,7 +21,7 @@ const CategoriesSkeleton = () => {
                         </div>
 
                         {/* Show more button */}
-                        <div className="w-24 h-5 bg-gray-300 rounded-lg" />
+                        <div className="w-24 h-5 bg-gray-300 rounded-xl" />
                     </div>
                 </div>
 

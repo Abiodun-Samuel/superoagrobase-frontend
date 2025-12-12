@@ -70,7 +70,7 @@ const CategoriesItem = ({ category }) => {
                                 {hasMoreSubcategories && (
                                     <button
                                         onClick={toggleSubcategories}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-all duration-200 border border-white/30"
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl transition-all duration-200 border border-white/30"
                                     >
                                         {showAllSubcategories ? (
                                             <>

@@ -55,7 +55,7 @@ export default function ProductImageGallery({ product }) {
                 <button
                     onClick={() => setIsZoomed(true)}
                     aria-label="Zoom image"
-                    className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2.5 rounded-lg shadow-lg opacity-0 
+                    className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2.5 rounded-xl shadow-lg opacity-0 
                                group-hover:opacity-100 transition-opacity duration-200 hover:bg-white"
                 >
                     <ZoomIn className="w-5 h-5 text-gray-700" />
@@ -75,7 +75,7 @@ export default function ProductImageGallery({ product }) {
                         {product.badges.map((badge, index) => (
                             <span
                                 key={index}
-                                className="px-3 py-1.5 bg-green-600 text-white text-xs font-semibold rounded-lg shadow-lg"
+                                className="px-3 py-1.5 bg-green-600 text-white text-xs font-semibold rounded-xl shadow-lg"
                             >
                                 {badge}
                             </span>
@@ -150,7 +150,7 @@ function ThumbnailList({ images, selectedImage, onSelect, title }) {
                     <button
                         key={index}
                         onClick={() => onSelect(index)}
-                        className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 
+                        className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 
                             ${active
                                 ? 'border-green-600 ring-2 ring-green-600 ring-offset-2'
                                 : 'border-gray-200 hover:border-gray-300'
@@ -177,7 +177,7 @@ function ZoomModal({ image, alt, onClose }) {
             onClick={onClose}
         >
             <button
-                className="absolute top-4 right-4 text-white bg-white/10 hover:bg-white/20 p-2 rounded-lg"
+                className="absolute top-4 right-4 text-white bg-white/10 hover:bg-white/20 p-2 rounded-xl"
                 onClick={onClose}
             >
                 <X className="w-6 h-6" />

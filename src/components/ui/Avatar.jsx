@@ -111,7 +111,7 @@ const Avatar = ({
             ? 'bg-gradient-to-br from-green-500 to-emerald-600'
             : 'bg-gradient-to-br from-red-500 to-rose-600'
         }
-    ${shape === 'circle' ? 'rounded-full' : 'rounded-lg'}
+    ${shape === 'circle' ? 'rounded-full' : 'rounded-xl'}
   `;
 
     return (

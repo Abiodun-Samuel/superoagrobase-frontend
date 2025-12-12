@@ -109,7 +109,7 @@ const QuantitySelector = ({ quantity, maxStock, item }) => {
                         className={`
                             xs:w-32 sm:w-32
                             px-5 py-2 h-10 sm:h-10 md:h-11
-                            border rounded-lg
+                            border rounded-xl
                             text-center font-medium text-gray-900 text-sm
                             focus:outline-0 border-gray-300
                             disabled:bg-gray-100 disabled:cursor-not-allowed 

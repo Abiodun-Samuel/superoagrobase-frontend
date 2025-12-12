@@ -3,7 +3,7 @@
 import { Package } from "lucide-react";
 
 export const HeroSectionImageSkeleton = () => (
-    <div className="relative h-[500px] lg:h-[550px] rounded-lg overflow-hidden shadow bg-white">
+    <div className="relative h-[500px] lg:h-[550px] rounded-xl overflow-hidden shadow bg-white">
         <div className="w-full h-full bg-gradient-to-br from-amber-500/20 to-green-600/20 relative animate-pulse">
             <div className="absolute inset-0 opacity-5">
                 <div className="grid grid-cols-6 grid-rows-6 h-full w-full">
@@ -45,10 +45,10 @@ const CartItemSkeleton = () => {
             {/* Mobile: Image + Remove Button Row */}
             <div className="flex sm:block gap-3">
                 {/* Image Skeleton */}
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 bg-gray-200 rounded-lg animate-pulse" />
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 bg-gray-200 rounded-xl animate-pulse" />
 
                 {/* Remove Button Skeleton - Mobile */}
-                <div className="sm:hidden ml-auto self-start w-9 h-9 bg-gray-200 rounded-lg animate-pulse" />
+                <div className="sm:hidden ml-auto self-start w-9 h-9 bg-gray-200 rounded-xl animate-pulse" />
             </div>
 
             {/* Content Skeleton */}
@@ -69,7 +69,7 @@ const CartItemSkeleton = () => {
                     </div>
 
                     {/* Remove Button Skeleton - Desktop */}
-                    <div className="hidden sm:block w-10 h-10 bg-gray-200 rounded-lg animate-pulse flex-shrink-0" />
+                    <div className="hidden sm:block w-10 h-10 bg-gray-200 rounded-xl animate-pulse flex-shrink-0" />
                 </div>
 
                 {/* Price and Quantity Section */}
@@ -83,7 +83,7 @@ const CartItemSkeleton = () => {
                         <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2">
                             {/* Input Skeleton */}
                             <div className="relative flex-shrink-0">
-                                <div className="w-full xs:w-20 sm:w-24 h-10 bg-gray-200 rounded-lg animate-pulse" />
+                                <div className="w-full xs:w-20 sm:w-24 h-10 bg-gray-200 rounded-xl animate-pulse" />
                                 {/* Max stock badge skeleton */}
                                 <div className="absolute -top-2 -right-2 w-8 h-5 bg-gray-200 rounded-full animate-pulse" />
                             </div>
@@ -113,7 +113,7 @@ const OrderSummarySkeleton = () => {
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-6">
             {/* Title */}
-            <div className="h-7 w-40 bg-gray-200 rounded-lg animate-pulse mb-6" />
+            <div className="h-7 w-40 bg-gray-200 rounded-xl animate-pulse mb-6" />
 
             {/* Summary Lines */}
             <div className="space-y-3 mb-6">
@@ -135,12 +135,12 @@ const OrderSummarySkeleton = () => {
 
             {/* Buttons Skeleton */}
             <div className="space-y-3">
-                <div className="w-full h-14 bg-gray-200 rounded-lg animate-pulse" />
-                <div className="w-full h-14 bg-gray-200 rounded-lg animate-pulse" />
+                <div className="w-full h-14 bg-gray-200 rounded-xl animate-pulse" />
+                <div className="w-full h-14 bg-gray-200 rounded-xl animate-pulse" />
             </div>
 
             {/* Free Delivery Info Skeleton */}
-            <div className="mt-6 p-4 bg-gray-100 border border-gray-200 rounded-lg">
+            <div className="mt-6 p-4 bg-gray-100 border border-gray-200 rounded-xl">
                 <div className="flex gap-3">
                     <div className="w-5 h-5 bg-gray-200 rounded animate-pulse flex-shrink-0 mt-0.5" />
                     <div className="flex-1 space-y-2">

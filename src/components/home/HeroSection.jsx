@@ -138,7 +138,7 @@ export default function HeroSection({
     }, [products.length]);
 
     return (
-        <div className="bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden rounded-lg mt-5">
+        <div className="bg-[url('/images/bg/bg.png')] bg-no-repeat sm:bg-bottom bg-center relative bg-gradient-to-br from-slate-50 to-green-50 overflow-hidden rounded-xl mt-5">
             <AnimatedBackground />
 
             <div className="relative mx-auto px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
@@ -195,7 +195,7 @@ export default function HeroSection({
 
                     {/* Right Content - Product Slider */}
                     <div className="relative">
-                        {isLoading ? <HeroSectionImageSkeleton /> : <div className="relative h-[500px] lg:h-[550px] rounded-lg overflow-hidden shadow bg-white">
+                        {isLoading ? <HeroSectionImageSkeleton /> : <div className="relative h-[500px] lg:h-[550px] rounded-xl overflow-hidden shadow bg-white">
                             {products.map((product, index) => (
                                 <ProductSlide
                                     key={`${product.slug}-${product.id}`}
