@@ -41,7 +41,7 @@ export default function ProductSpecifications({ product }) {
     ].filter(spec => spec.show);
 
     return (
-        <section className="bg-white rounded-2xl shadow p-5 lg:p-8 mb-8">
+        <section className="bg-white rounded-xl shadow p-5 lg:p-8 mb-8">
             <div className="flex items-center gap-3 mb-6">
                 <IconBadge size='lg' color='green' icon={<Info className="w-5 h-5 text-green-600" />} />
                 <h2 className="text-2xl font-bold text-gray-900">Product Specifications</h2>

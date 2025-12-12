@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-    CheckCircle2,
-    XCircle,
-    AlertCircle,
-    Info,
-    X
-} from 'lucide-react';
+import { CheckCircle2, XCircle, AlertCircle, Info, X } from 'lucide-react';
 
 const Alert = ({
     variant,
@@ -78,7 +72,7 @@ const Alert = ({
     return (
         <div
             className={`
-                relative flex gap-3 p-4 rounded-lg border
+                relative flex gap-3 p-3 rounded-xl border
                 ${config.container}
                 ${dismissible ? 'pr-10' : ''}
                 ${className}
@@ -125,8 +119,8 @@ const Alert = ({
                             const errorMessages = Array.isArray(messages) ? messages : [messages];
 
                             return errorMessages.map((msg, index) => (
-                                <div key={`${field}-${index}`} className="flex items-center gap-2">
-                                    <span className="shrink-0 w-1 h-1 rounded-full bg-current opacity-60" />
+                                <div key={`${field}-${index}`} className="flex items-start gap-2">
+                                    <span className="shrink-0 w-1 h-1 mt-2 rounded-full bg-current opacity-60" />
                                     <span className="flex-1">
                                         <span className="font-semibold capitalize">{field.replace(/_/g, ' ')}</span>
                                         {': '}

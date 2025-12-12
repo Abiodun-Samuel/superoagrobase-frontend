@@ -30,19 +30,19 @@ const EmptyState = ({
 }) => {
 
     return (
-        <div className={`flex flex-col items-center justify-center py-10 px-4 ${className}`}>
+        <div className={`flex flex-col items-center justify-center my-10 space-y-4 p-4 ${className}`}>
             {iconBadge && (
-                <div className="mt-3">
+                <div>
                     {iconBadge}
                 </div>
             )}
 
-            <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
+            <h2 className="text-xl font-bold text-gray-900 text-center">
                 {title}
             </h2>
 
             <p
-                className="text-gray-500 text-base text-center mb-8"
+                className="text-gray-500 text-base text-center"
                 style={{ maxWidth: `${maxDescriptionWidth}rem` }}
             >
                 {description}
@@ -50,13 +50,13 @@ const EmptyState = ({
 
             {/* Custom children content */}
             {children && (
-                <div className="mb-8 w-full max-w-md">
+                <div className="w-full max-w-md">
                     {children}
                 </div>
             )}
 
             {actionButton && (
-                <div className="mt-3">
+                <div>
                     {actionButton}
                 </div>
             )}

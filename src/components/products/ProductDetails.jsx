@@ -11,7 +11,7 @@ const ProductDetails = ({ product, breadcrumbItems }) => {
         <main className="min-h-screen">
 
             {/* Product Detail Section */}
-            <div className="bg-white rounded-2xl shadow overflow-hidden mb-8">
+            <div className="bg-white rounded-xl shadow overflow-hidden mb-8">
                 <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 p-5 lg:p-8">
                     {/* Product Images */}
                     <ProductImageGallery product={product} />

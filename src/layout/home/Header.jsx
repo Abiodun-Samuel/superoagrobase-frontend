@@ -25,7 +25,7 @@ const Header = () => {
     return (
         <>
             {/* Spacer for fixed navbar */}
-            <div className='h-20' />
+            <div className='h-[70px]' />
 
             <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
 

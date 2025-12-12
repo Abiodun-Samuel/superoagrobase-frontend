@@ -1,24 +1,20 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation'; // or your router
-import { QUERY_KEYS } from '@/utils/queries.keys';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Toast from '@/lib/toastify';
-import useAuth from '@/hooks/useAuth';
 import { formatErrorMessage } from '@/utils/helper';
 import { OrderService } from '@/services/orders.service';
-import { useClearCart } from './cart.query';
+import { QUERY_KEYS } from '@/utils/queries.keys';
+import useAuth from '@/hooks/useAuth';
 
 export const useCreateOrder = (options = {}) => {
-    const router = useRouter();
-    const { mutate } = useClearCart()
+    const queryClient = useQueryClient();
+    const { sessionId } = useAuth();
 
     return useMutation({
         mutationFn: (payload) => OrderService.createOrder(payload),
-        onSuccess: (response) => {
-            mutate()
+        onSuccess: async (response) => {
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.details(sessionId) })
+            window.location.href = response?.data?.redirectUrl;
             Toast.success(response.message || 'Order has been created successfully.');
-
-            router.push('/dashboard/orders');
-
             options.onSuccess?.(response);
         },
         onError: (error) => {
@@ -26,5 +22,18 @@ export const useCreateOrder = (options = {}) => {
             Toast.error(message || 'Failed to create order.');
             options.onError?.(error);
         },
+    });
+};
+
+export const useGetOrderByReference = (params = {}, options = {}) => {
+    return useQuery({
+        queryKey: QUERY_KEYS.order.detail(params),
+        queryFn: async () => {
+            const { data } = await OrderService.getOrderByReference(params);
+            return data;
+        },
+        retry: false,
+        staleTime: 0,
+        ...options,
     });
 };

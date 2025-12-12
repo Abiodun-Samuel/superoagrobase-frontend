@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { FAQ_CATEGORIES, FAQ_DATA, SITE_DATA } from '@/utils/data';
 import IconBadge from '../ui/IconBadge';
 import { ChevronDown, Headphones, Mail, MapPin, MessageCircle, Phone, Shield, Truck } from 'lucide-react';
-import PageHero from './PageHero';
+import PageHero from './PageLayout';
 
 
 const replacePlaceholders = (text) => {

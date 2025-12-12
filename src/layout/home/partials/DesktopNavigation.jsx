@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link";
 import NavItem from "./NavItem";
 
 const DesktopNavigation = ({ items, activeDropdown, onToggleDropdown, pathname }) => (
@@ -13,6 +14,7 @@ const DesktopNavigation = ({ items, activeDropdown, onToggleDropdown, pathname }
                 pathname={pathname}
             />
         ))}
+        <Link href='/become-a-vendor'>Become a Vendor</Link>
     </nav>
 );
 

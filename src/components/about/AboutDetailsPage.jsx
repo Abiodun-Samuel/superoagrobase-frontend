@@ -3,7 +3,7 @@
 import { Users, Target, Award, TrendingUp, Globe, CheckCircle, ArrowRight, Microscope, ShoppingBag, Sprout, Shield, Heart, Sparkles, MapPin } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
 import IconBadge from '../ui/IconBadge';
-import PageHero from '../page/PageHero';
+import PageHero from '../page/PageLayout';
 import CTASection from '../common/CTASection';
 import Link from 'next/link';
 
@@ -26,7 +26,7 @@ const StatCard = ({ icon: Icon, value, label }) => {
 
 const ValueCard = ({ icon: Icon, title, description }) => {
     return (
-        <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
+        <div className="bg-white p-6 rounded-xl shadow border border-gray-100">
             <IconBadge
                 icon={<Icon className="w-7 h-7" />}
                 variant="light"
@@ -44,7 +44,7 @@ const ServiceCard = ({ service }) => {
     const Icon = service.icon;
 
     return (
-        <div className="group bg-white rounded-3xl shadow overflow-hidden border border-gray-100">
+        <div className="group bg-white rounded-xl shadow overflow-hidden border border-gray-100">
             {/* Icon Header */}
             <div className={`bg-gradient-to-br from-green-500 to-emerald-600 p-3.5 relative overflow-hidden`}>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
@@ -142,14 +142,14 @@ const SERVICES_DATA = [
         description: "Protecting farmers from losses due to adulterated and low-quality inputs. We provide quality assurance, testing, and claims support to ensure your investments are protected.",
         icon: Microscope,
         features: ["Soil Analysis", "Water Quality Test", "Nutrient Profiling", "Disease Detection"],
-        link: "/services/agro-input-claims"
+        link: "/services/agro-input"
     }
 ];
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
-export default function AboutPageDetails() {
+export default function AboutDetailsPage() {
 
     return (
         <>
@@ -197,7 +197,7 @@ export default function AboutPageDetails() {
 
                     <div className="grid lg:grid-cols-2 gap-8 mb-12">
                         {/* Mission Card */}
-                        <div className="bg-gradient-to-br from-green-600 to-emerald-700 p-8 rounded-3xl text-white shadow">
+                        <div className="bg-gradient-to-br from-green-600 to-emerald-700 p-8 rounded-xl text-white shadow">
                             <div className="flex items-center gap-4 mb-6">
                                 <IconBadge
                                     icon={<Target className="w-8 h-8" />}
@@ -213,7 +213,7 @@ export default function AboutPageDetails() {
                         </div>
 
                         {/* Vision Card */}
-                        <div className="bg-gradient-to-br border border-green-600 from-green-50 to-emerald-50 p-8 rounded-3xl text-green-600 shadow">
+                        <div className="bg-gradient-to-br border border-green-600 from-green-50 to-emerald-50 p-8 rounded-xl text-green-600 shadow">
                             <div className="flex items-center gap-4 mb-6">
                                 <IconBadge
                                     icon={<Globe className="w-8 h-8" />}

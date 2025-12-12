@@ -89,7 +89,7 @@ const InputForm = memo(
         {error && (
           <p
             id={`${name}-error`}
-            className="mt-1.5 text-xs text-red-600 font-medium"
+            className="mt-1 text-xs text-red-600 font-medium"
             role="alert"
           >
             {error}

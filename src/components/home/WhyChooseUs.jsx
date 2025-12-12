@@ -32,7 +32,7 @@ const SectionHeader = () => (
 );
 
 const TrustIndicatorsBar = ({ indicators }) => (
-    <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-2xl shadow p-6 border border-gray-100">
+    <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-xl shadow p-6 border border-gray-100">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {indicators.map((indicator, index) => {
                 const Icon = indicator.icon;
@@ -69,7 +69,7 @@ const FeatureCard = ({ feature }) => {
             itemScope
             itemType="https://schema.org/Service"
         >
-            <div className="relative h-full bg-white rounded-2xl p-6 shadow hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden">
+            <div className="relative h-full bg-white rounded-xl p-6 shadow hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden">
                 {/* Gradient Background on Hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br from-orange-600 to-amber-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500`} aria-hidden="true" />
 

@@ -1,8 +1,8 @@
-import CheckoutPageDetails from "@/components/checkout/CheckoutPageDetails"
+import CheckoutDetailsPage from "@/components/checkout/CheckoutDetailsPage"
 
 const CheckoutPage = () => {
     return (
-        <><CheckoutPageDetails /></>
+        <><CheckoutDetailsPage /></>
     )
 }
 

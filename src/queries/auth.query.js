@@ -36,12 +36,53 @@ export const useLogin = (options = {}) => {
         router.replace(redirectTo);
 
         Toast.success(`Welcome back, ${user?.first_name || 'User'}!`, { duration: 1000 });
-        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.detail() });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.details() });
 
         await options.onSuccess?.(response, variables);
 
       } catch (error) {
         Toast.error('Login successful but session setup failed', error);
+      }
+    },
+    onError: (error, variables) => {
+      const message = formatErrorMessage(error);
+      Toast.error(message);
+      options.onError?.(error, variables);
+    },
+    ...options,
+  });
+};
+
+export const useRegister = (options = {}) => {
+  const { setAuth: updateAuthState } = useAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: AuthService.register,
+    onSuccess: async (response, variables) => {
+      const { data } = response;
+      const { user, token } = data;
+
+      if (!token || !user) {
+        Toast.error('Invalid register response');
+        return;
+      }
+
+      try {
+        const authState = await setAuth({ token, user });
+        updateAuthState(authState);
+
+        const redirectTo = options.redirectTo || '/';
+        router.replace(redirectTo);
+
+        Toast.success(response?.message, { duration: 1000 });
+        queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.details() });
+
+        await options.onSuccess?.(response, variables);
+
+      } catch (error) {
+        Toast.error('Registration successful but session setup failed', error);
       }
     },
     onError: (error, variables) => {
@@ -60,6 +101,9 @@ export const useLogout = (options = {}) => {
   const { setAuth: updateAuthState } = useAuth();
 
   const performCleanup = useCallback(async () => {
+    const protectedRoutes = ['/dashboard', '/checkout'];
+    const isOnProtectedRoute = protectedRoutes.some(route => pathname?.startsWith(route));
+    if (isOnProtectedRoute) router.replace('/');
     await clearAuth();
     const sessionId = await getSessionId();
     updateAuthState((prevState) => ({ ...DEFAULT_AUTH_STATE, sessionId: sessionId || prevState.sessionId }));
@@ -71,22 +115,15 @@ export const useLogout = (options = {}) => {
         return !keysToKeep.includes(firstKey);
       }
     });
-  }, [queryClient, updateAuthState]);
+  }, [queryClient, updateAuthState, router]);
 
   return useMutation({
     mutationFn: AuthService.logout,
     onSuccess: async (response, variables) => {
-
-      const protectedRoutes = ['/dashboard', '/checkout'];
-      const isOnProtectedRoute = protectedRoutes.some(route => pathname?.startsWith(route));
-      if (isOnProtectedRoute) router.replace('/');
-
       performCleanup();
-
       Toast.success('Logged out successfully', { duration: 1000 });
       await options.onSuccess?.(response, variables);
     },
-
     onError: async (error, variables) => {
       await performCleanup();
       const message = formatErrorMessage(error);

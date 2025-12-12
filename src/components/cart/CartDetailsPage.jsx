@@ -2,7 +2,7 @@
 
 import CartItemCard from "./CartItemCard";
 import OrderSummary from "./OrderSummary";
-import PageHero from "../page/PageHero";
+import PageHero from "../page/PageLayout";
 import { CartPageSkeleton } from "../skeletonloader";
 import { useCart } from "@/queries/cart.query";
 import EmptyState from "../common/EmptyState";
@@ -11,7 +11,7 @@ import Alert from "../common/Alert";
 import Button from "../ui/Button";
 import IconBadge from "../ui/IconBadge";
 
-const CartPageDetails = () => {
+const CartDetailsPage = () => {
     const { data: cartData, isLoading, isError, error } = useCart();
 
     const hasItems = cartData?.items && cartData.items.length > 0;
@@ -40,7 +40,6 @@ const CartPageDetails = () => {
         if (!hasItems) {
             return <EmptyState
                 iconBadge={<IconBadge
-                    className="mb-5"
                     color={'red'}
                     size={'2xl'}
                     shape={'circle'}
@@ -87,4 +86,4 @@ const CartPageDetails = () => {
     );
 };
 
-export default CartPageDetails;
+export default CartDetailsPage;

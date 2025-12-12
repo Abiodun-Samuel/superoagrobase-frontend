@@ -6,11 +6,11 @@ import Link from 'next/link';
 
 // Constants
 const SPACING = {
-    container: 'p-6 sm:p-7 lg:p-8',
-    badge: 'mb-4',
-    title: 'mb-3',
-    description: 'mb-4',
-    divider: 'mb-4',
+    container: 'px-6 py-8 sm:px-7 sm:py-9 lg:px-8 lg:py-10',
+    badge: 'mb-5',
+    title: 'mb-5',
+    description: 'mb-5',
+    divider: 'mb-5',
 };
 
 const ANIMATIONS = {
@@ -159,11 +159,14 @@ HeroBadge.displayName = 'HeroBadge';
 /**
  * HeroTitle - Main title
  */
-const HeroTitle = memo(({ title }) => (
+const HeroTitle = memo(({ title, subtitle = null }) => (
     <div className={SPACING.title}>
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight drop-shadow-lg">
             {title}
         </h1>
+        {subtitle && <h2 className="text-base font-normal text-white">
+            {subtitle}
+        </h2>}
     </div>
 ));
 HeroTitle.displayName = 'HeroTitle';
@@ -191,35 +194,40 @@ const DecorativeDivider = memo(() => (
 DecorativeDivider.displayName = 'DecorativeDivider';
 
 /**
- * PageHero - Dynamic hero section for internal pages
+ * PageLayout - Dynamic hero section for internal pages
  * 
  * @param {string} title - Page title (required)
  * @param {string} description - Page description
  * @param {string} badge - Optional badge text
  * @param {Array} breadcrumbs - Breadcrumb items [{label, href}]
  */
-const PageHero = ({
+const PageLayout = ({
+    subtitle,
     title,
     description,
     badge,
-    breadcrumbs = []
+    breadcrumbs = [],
+    children = null
 }) => {
     return (
-        <section className="relative bg-gradient-to-br from-green-600 via-emerald-700 to-teal-800 overflow-hidden rounded-2xl mb-10">
-            <BackgroundPattern />
+        <>
+            <section className="relative bg-gradient-to-br from-green-600 via-emerald-700 to-teal-800 overflow-hidden rounded-b-2xl">
+                <BackgroundPattern />
+                <div className={`relative ${SPACING.container}`}>
+                    <div className="max-w-4xl">
+                        <HeroBadge badge={badge} />
+                        <HeroTitle title={title} subtitle={subtitle} />
+                        <HeroDescription description={description} />
+                    </div>
 
-            <div className={`relative ${SPACING.container}`}>
-                <div className="max-w-4xl">
-                    <HeroBadge badge={badge} />
-                    <HeroTitle title={title} />
-                    <HeroDescription description={description} />
+                    <DecorativeDivider />
+                    <Breadcrumb items={breadcrumbs} />
                 </div>
-
-                <DecorativeDivider />
-                <Breadcrumb items={breadcrumbs} />
-            </div>
-        </section>
+            </section>
+            <main className="mx-auto my-16 md:my-20 space-y-16 md:space-y-20">
+                {children}
+            </main>
+        </>
     );
 };
-
-export default memo(PageHero);
+export default memo(PageLayout);

@@ -18,7 +18,7 @@ const SearchOverlay = ({ isOpen, onClose, searchQuery, onSearchQueryChange, sear
 
             {/* Search Container */}
             <div className="relative z-10 flex items-start justify-center pt-20 px-4">
-                <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl">
+                <div className="w-full max-w-3xl bg-white rounded-xl shadow-2xl">
                     {/* Search Input */}
                     <div className="p-6 border-b border-gray-100">
                         <div className="flex items-center space-x-4">
@@ -34,7 +34,7 @@ const SearchOverlay = ({ isOpen, onClose, searchQuery, onSearchQueryChange, sear
                             />
                             <button
                                 onClick={onClose}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
+                                className="p-2 rounded-xl hover:bg-gray-100 transition-colors flex-shrink-0"
                                 aria-label="Close search"
                             >
                                 <X size={20} className="text-gray-500" />
@@ -42,7 +42,7 @@ const SearchOverlay = ({ isOpen, onClose, searchQuery, onSearchQueryChange, sear
                         </div>
                         <button
                             onClick={onSearch}
-                            className="mt-4 w-full py-3 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-lg hover:shadow-lg transition-all duration-200 font-semibold"
+                            className="mt-4 w-full py-3 bg-gradient-to-r from-[#7CB342] to-[#558B2F] text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
                         >
                             Search
                         </button>
@@ -60,10 +60,10 @@ const SearchOverlay = ({ isOpen, onClose, searchQuery, onSearchQueryChange, sear
                                         key={result.id}
                                         href={`/product/${result.id}`}
                                         onClick={onClose}
-                                        className="flex items-center justify-between p-4 rounded-lg hover:bg-[#F5F5F5] transition-all duration-200 group"
+                                        className="flex items-center justify-between p-4 rounded-xl hover:bg-[#F5F5F5] transition-all duration-200 group"
                                     >
                                         <div className="flex items-center space-x-4">
-                                            <div className="w-12 h-12 bg-gradient-to-br from-[#F5F5F5] to-[#E8F5E9] rounded-lg flex items-center justify-center">
+                                            <div className="w-12 h-12 bg-gradient-to-br from-[#F5F5F5] to-[#E8F5E9] rounded-xl flex items-center justify-center">
                                                 <Package size={24} className="text-[#7CB342]" />
                                             </div>
                                             <div>

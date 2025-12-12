@@ -1,12 +1,12 @@
 const CheckoutPageSkeleton = () => {
     return (
-        <div className="min-h-screen mx-auto animate-pulse">
+        <div className="min-h-screen mx-auto my-10 animate-pulse">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Main Form Skeleton */}
                 <div className="lg:col-span-2 space-y-6">
 
                     {/* Personal Information Skeleton */}
-                    <div className="bg-white rounded-2xl shadow p-5">
+                    <div className="bg-white rounded-xl shadow p-5">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                             <div className="h-6 bg-gray-200 rounded w-48"></div>
@@ -14,17 +14,17 @@ const CheckoutPageSkeleton = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
-                                <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                <div className="h-11 bg-gray-200 rounded-xl"></div>
                             </div>
                             <div>
                                 <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
-                                <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                <div className="h-11 bg-gray-200 rounded-xl"></div>
                             </div>
                         </div>
                     </div>
 
                     {/* Contact Details Skeleton */}
-                    <div className="bg-white rounded-2xl shadow p-5">
+                    <div className="bg-white rounded-xl shadow p-5">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                             <div className="h-6 bg-gray-200 rounded w-40"></div>
@@ -32,23 +32,23 @@ const CheckoutPageSkeleton = () => {
                         <div className="space-y-4">
                             <div>
                                 <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
-                                <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                <div className="h-11 bg-gray-200 rounded-xl"></div>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <div className="h-4 bg-gray-200 rounded w-28 mb-2"></div>
-                                    <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                    <div className="h-11 bg-gray-200 rounded-xl"></div>
                                 </div>
                                 <div>
                                     <div className="h-4 bg-gray-200 rounded w-36 mb-2"></div>
-                                    <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                    <div className="h-11 bg-gray-200 rounded-xl"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Delivery Address Skeleton */}
-                    <div className="bg-white rounded-2xl shadow p-5">
+                    <div className="bg-white rounded-xl shadow p-5">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                             <div className="h-6 bg-gray-200 rounded w-44"></div>
@@ -56,20 +56,20 @@ const CheckoutPageSkeleton = () => {
                         <div className="space-y-4">
                             <div>
                                 <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
-                                <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                <div className="h-11 bg-gray-200 rounded-xl"></div>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
-                                    <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                    <div className="h-11 bg-gray-200 rounded-xl"></div>
                                 </div>
                                 <div>
                                     <div className="h-4 bg-gray-200 rounded w-16 mb-2"></div>
-                                    <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                    <div className="h-11 bg-gray-200 rounded-xl"></div>
                                 </div>
                                 <div>
                                     <div className="h-4 bg-gray-200 rounded w-14 mb-2"></div>
-                                    <div className="h-11 bg-gray-200 rounded-lg"></div>
+                                    <div className="h-11 bg-gray-200 rounded-xl"></div>
                                 </div>
                             </div>
                             {/* Save shipping toggle skeleton */}
@@ -86,7 +86,7 @@ const CheckoutPageSkeleton = () => {
                     </div>
 
                     {/* Delivery Method Skeleton */}
-                    <div className="bg-white rounded-2xl shadow p-5">
+                    <div className="bg-white rounded-xl shadow p-5">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                             <div className="h-6 bg-gray-200 rounded w-40"></div>
@@ -95,7 +95,7 @@ const CheckoutPageSkeleton = () => {
                             {[1, 2].map((i) => (
                                 <div key={i} className="p-4 rounded-xl border-2 border-gray-200">
                                     <div className="flex items-start gap-3">
-                                        <div className="w-9 h-9 bg-gray-200 rounded-lg"></div>
+                                        <div className="w-9 h-9 bg-gray-200 rounded-xl"></div>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2">
                                                 <div className="h-5 bg-gray-200 rounded w-28"></div>
@@ -111,7 +111,7 @@ const CheckoutPageSkeleton = () => {
                     </div>
 
                     {/* Payment Method Skeleton */}
-                    <div className="bg-white rounded-2xl shadow p-5">
+                    <div className="bg-white rounded-xl shadow p-5">
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
                             <div className="h-6 bg-gray-200 rounded w-40"></div>
@@ -120,7 +120,7 @@ const CheckoutPageSkeleton = () => {
                             {[1, 2].map((i) => (
                                 <div key={i} className="p-4 rounded-xl border-2 border-gray-200">
                                     <div className="flex items-start gap-3">
-                                        <div className="w-9 h-9 bg-gray-200 rounded-lg"></div>
+                                        <div className="w-9 h-9 bg-gray-200 rounded-xl"></div>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2">
                                                 <div className="h-5 bg-gray-200 rounded w-32"></div>
@@ -133,22 +133,23 @@ const CheckoutPageSkeleton = () => {
                                 </div>
                             ))}
                         </div>
+
+                        {/* Submit Button Skeleton */}
+                        <div className="h-12 bg-gray-200 mt-4 rounded-xl"></div>
                     </div>
 
-                    {/* Submit Button Skeleton */}
-                    <div className="h-12 bg-gray-200 rounded-xl"></div>
                 </div>
 
                 {/* Order Summary Sidebar Skeleton */}
                 <div className="lg:col-span-1">
-                    <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
+                    <div className="bg-white rounded-xl shadow p-6 sticky top-6">
                         <div className="h-7 bg-gray-200 rounded w-36 mb-4"></div>
 
                         {/* Cart Items Skeleton */}
                         <div className="space-y-4 mb-6">
                             {[1, 2, 3].map((i) => (
                                 <div key={i} className="flex gap-3 pb-4 border-b border-gray-100">
-                                    <div className="w-16 h-16 bg-gray-200 rounded-lg"></div>
+                                    <div className="w-16 h-16 bg-gray-200 rounded-xl"></div>
                                     <div className="flex-1">
                                         <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
                                         <div className="h-3 bg-gray-200 rounded w-16 mb-2"></div>
@@ -176,7 +177,7 @@ const CheckoutPageSkeleton = () => {
                         </div>
 
                         {/* Security Badge Skeleton */}
-                        <div className="mt-6 p-3 bg-gray-100 rounded-lg">
+                        <div className="mt-6 p-3 bg-gray-100 rounded-xl">
                             <div className="flex items-center gap-2">
                                 <div className="w-5 h-5 bg-gray-200 rounded"></div>
                                 <div className="h-4 bg-gray-200 rounded w-48"></div>

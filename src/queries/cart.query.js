@@ -9,7 +9,7 @@ export const useCart = (options = {}) => {
     const { sessionId, user } = useAuth();
 
     return useQuery({
-        queryKey: QUERY_KEYS.cart.detail(sessionId),
+        queryKey: QUERY_KEYS.cart.details(sessionId),
         queryFn: async () => {
             const { data } = await CartService.getCart({ sessionId, userId: user?.id });
             return data;
@@ -28,9 +28,8 @@ export const useAddToCart = (options = {}) => {
     return useMutation({
         mutationFn: (payload) => CartService.addToCart(payload),
         onSuccess: (response) => {
-            queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
-            });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart.details(sessionId) });
+
             Toast.success(response.message || 'Item added to cart');
             options.onSuccess?.(response);
         },
@@ -53,44 +52,44 @@ export const useUpdateCartItem = (options = {}) => {
                 product_id,
                 session_id: sessionId
             }),
-        onMutate: async ({ cartItemId, quantity }) => {
-            // Cancel outgoing refetches
-            await queryClient.cancelQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
-            });
+        // onMutate: async ({ cartItemId, quantity }) => {
+        //     // Cancel outgoing refetches
+        //     await queryClient.cancelQueries({
+        //         queryKey: QUERY_KEYS.cart.details(sessionId)
+        //     });
 
-            // Snapshot previous value
-            const previousCart = queryClient.getQueryData(
-                QUERY_KEYS.cart.detail(sessionId)
-            );
+        //     // Snapshot previous value
+        //     const previousCart = queryClient.getQueryData(
+        //         QUERY_KEYS.cart.details(sessionId)
+        //     );
 
-            // Optimistically update
-            queryClient.setQueryData(
-                QUERY_KEYS.cart.detail(sessionId),
-                (old) => {
-                    if (!old?.data) return old;
+        //     // Optimistically update
+        //     queryClient.setQueryData(
+        //         QUERY_KEYS.cart.details(sessionId),
+        //         (old) => {
+        //             if (!old?.data) return old;
 
-                    return {
-                        ...old,
-                        data: {
-                            ...old.data,
-                            items: old.data.items.map((item) =>
-                                item.id === cartItemId
-                                    ? { ...item, quantity }
-                                    : item
-                            ),
-                        },
-                    };
-                }
-            );
+        //             return {
+        //                 ...old,
+        //                 data: {
+        //                     ...old.data,
+        //                     items: old.data.items.map((item) =>
+        //                         item.id === cartItemId
+        //                             ? { ...item, quantity }
+        //                             : item
+        //                     ),
+        //                 },
+        //             };
+        //         }
+        //     );
 
-            return { previousCart };
-        },
+        //     return { previousCart };
+        // },
         onError: (error, variables, context) => {
             // Rollback on error
             if (context?.previousCart) {
                 queryClient.setQueryData(
-                    QUERY_KEYS.cart.detail(sessionId),
+                    QUERY_KEYS.cart.details(sessionId),
                     context.previousCart
                 );
             }
@@ -102,9 +101,9 @@ export const useUpdateCartItem = (options = {}) => {
         },
         onSuccess: (response) => {
             // Refetch to ensure data consistency
-            queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
-            });
+            // queryClient.invalidateQueries({
+            //     queryKey: QUERY_KEYS.cart.details(sessionId)
+            // });
 
             Toast.success(response.message || 'Cart updated successfully');
             options.onSuccess?.(response);
@@ -112,7 +111,7 @@ export const useUpdateCartItem = (options = {}) => {
         onSettled: () => {
             // Always refetch after error or success
             queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
         },
     });
@@ -127,17 +126,17 @@ export const useRemoveCartItem = (options = {}) => {
         onMutate: async (cartItemId) => {
             // Cancel outgoing refetches
             await queryClient.cancelQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
 
             // Snapshot previous value
             const previousCart = queryClient.getQueryData(
-                QUERY_KEYS.cart.detail(sessionId)
+                QUERY_KEYS.cart.details(sessionId)
             );
 
             // Optimistically remove item
             queryClient.setQueryData(
-                QUERY_KEYS.cart.detail(sessionId),
+                QUERY_KEYS.cart.details(sessionId),
                 (old) => {
                     if (!old?.data) return old;
 
@@ -159,7 +158,7 @@ export const useRemoveCartItem = (options = {}) => {
             // Rollback on error
             if (context?.previousCart) {
                 queryClient.setQueryData(
-                    QUERY_KEYS.cart.detail(sessionId),
+                    QUERY_KEYS.cart.details(sessionId),
                     context.previousCart
                 );
             }
@@ -172,7 +171,7 @@ export const useRemoveCartItem = (options = {}) => {
         onSuccess: (response) => {
             // Refetch to ensure data consistency
             queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
 
             Toast.success(response.message || 'Item removed from cart');
@@ -180,7 +179,7 @@ export const useRemoveCartItem = (options = {}) => {
         },
         onSettled: () => {
             queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
         },
     });
@@ -195,17 +194,17 @@ export const useClearCart = (options = {}) => {
         onMutate: async () => {
             // Cancel outgoing refetches
             await queryClient.cancelQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
 
             // Snapshot previous value
             const previousCart = queryClient.getQueryData(
-                QUERY_KEYS.cart.detail(sessionId)
+                QUERY_KEYS.cart.details(sessionId)
             );
 
             // Optimistically clear cart
             queryClient.setQueryData(
-                QUERY_KEYS.cart.detail(sessionId),
+                QUERY_KEYS.cart.details(sessionId),
                 (old) => ({
                     ...old,
                     data: {
@@ -221,7 +220,7 @@ export const useClearCart = (options = {}) => {
             // Rollback on error
             if (context?.previousCart) {
                 queryClient.setQueryData(
-                    QUERY_KEYS.cart.detail(sessionId),
+                    QUERY_KEYS.cart.details(sessionId),
                     context.previousCart
                 );
             }
@@ -234,7 +233,7 @@ export const useClearCart = (options = {}) => {
         onSuccess: (response) => {
             // Refetch to ensure data consistency
             queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
 
             Toast.success(response.message || 'Cart cleared successfully');
@@ -242,7 +241,7 @@ export const useClearCart = (options = {}) => {
         },
         onSettled: () => {
             queryClient.invalidateQueries({
-                queryKey: QUERY_KEYS.cart.detail(sessionId)
+                queryKey: QUERY_KEYS.cart.details(sessionId)
             });
         },
     });

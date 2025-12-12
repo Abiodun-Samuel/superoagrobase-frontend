@@ -249,7 +249,7 @@ export const NAVBAR_DATA = {
         {
           id: 'harvest-yield-farm',
           label: 'HarvestYield Farm',
-          path: '/services/harvest-yield-farm',
+          path: '/services/harvestyield-farm',
           icon: Sprout
         },
 

@@ -11,7 +11,7 @@ import { findShippingRate, formatCurrency } from '@/utils/helper';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CheckoutSchema } from '@/validation/schema';
-import PageHero from '../page/PageHero';
+import PageHero from '../page/PageLayout';
 import InputForm from '../form/InputForm';
 import SingleSelectForm from '../form/SingleSelectForm';
 import SwitchForm from '../form/SwitchForm';
@@ -29,10 +29,21 @@ import CheckoutFormSection from './CheckoutFormSection';
 import StockAvailabilityAlert from './StockAvailabilityAlert';
 import { useCreateOrder } from '@/queries/orders.query';
 
-const CheckoutPageDetails = () => {
+const CheckoutDetailsPage = () => {
     const { user, sessionId } = useAuth();
-    const { data: cartData, isLoading, isError, error } = useCart();
+    const { data: cartData, isLoading, isError, error } = useCart({
+        staleTime: 0,
+        refetchOnMount: 'always',
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true
+    });
     const { mutate, isPending } = useCreateOrder()
+
+    // Derived state for UI
+    const hasItems = cartData?.items && cartData.items.length > 0;
+    const hasIssues = cartData?.availability?.has_issues
+    const itemCount = cartData?.items?.length || 0;
+
     const {
         register,
         handleSubmit,
@@ -194,6 +205,7 @@ const CheckoutPageDetails = () => {
     }, [deliveryMethod, shippingInfo.requiresQuote, shippingInfo.hasShippingRate, paymentMethod, setValue]);
 
     const onSubmit = (data) => {
+        if (hasIssues) return
         const orderData = {
             session_id: sessionId,
             delivery_details: {
@@ -209,14 +221,7 @@ const CheckoutPageDetails = () => {
                     country: countries.find(c => c.isoCode === data.country)?.name || data.country,
                 })
             },
-            items: cartData?.items?.map((item) => {
-                return {
-                    product_id: item?.product_id,
-                    quantity: item?.quantity,
-                    price_at_purchase: item?.current_price,
-                    subtotal: item?.itemTotal,
-                }
-            }),
+
             delivery_method: data.delivery_method,
             payment_method: data.payment_method,
             save_delivery_details: data.save_delivery_details,
@@ -232,10 +237,6 @@ const CheckoutPageDetails = () => {
         mutate(orderData)
     };
 
-    // Derived state for UI
-    const hasItems = cartData?.items && cartData.items.length > 0;
-    const hasIssues = cartData?.availability?.has_issues
-    const itemCount = cartData?.items?.length || 0;
     const isPickupMethod = deliveryMethod === 'pickup';
     const isHomeDelivery = deliveryMethod === 'waybill';
 
@@ -270,22 +271,18 @@ const CheckoutPageDetails = () => {
         if (!hasItems) {
             return (
                 <EmptyState
-                    iconBadge={
-                        <IconBadge
-                            className="mb-5"
-                            color="red"
-                            size="2xl"
-                            shape="circle"
-                            icon={<ShoppingCart />}
-                        />
-                    }
+                    iconBadge={<IconBadge
+                        color={'red'}
+                        size={'2xl'}
+                        shape={'circle'}
+                        icon={<ShoppingCart />}
+                    />}
                     title="Your cart is empty"
                     description="Looks like you haven't added any items to your cart yet. Start shopping to fill it up!"
-                    actionButton={
-                        <Button href="/products" startIcon={<ShoppingBag />}>
-                            Start Shopping
-                        </Button>
-                    }
+                    iconColor="red"
+                    actionButton={<Button href={'/products'} startIcon={<ShoppingBag />}>
+                        Start Shopping
+                    </Button>}
                 />
             );
         }
@@ -355,7 +352,7 @@ const CheckoutPageDetails = () => {
                         </CheckoutFormSection>
 
                         {/* Delivery Method - Show before address */}
-                        <div className="bg-white rounded-2xl shadow border p-5">
+                        <div className="bg-white rounded-xl shadow border p-5">
                             <div className="flex items-center gap-3 mb-5">
                                 <IconBadge color="green" size="md" icon={<Truck />} />
                                 <h2 className="text-lg font-semibold text-gray-700">Delivery Method</h2>
@@ -490,7 +487,7 @@ const CheckoutPageDetails = () => {
                         )}
 
                         {/* Payment Method */}
-                        <div className="bg-white border rounded-2xl shadow p-5">
+                        <div className="bg-white border rounded-xl shadow p-5">
                             <div className="flex items-center gap-3 mb-5">
                                 <IconBadge color="green" size="md" icon={<CreditCard />} />
                                 <h2 className="text-lg font-semibold text-gray-700">Payment Method</h2>
@@ -527,23 +524,24 @@ const CheckoutPageDetails = () => {
                                     </div>
                                 </div>
                             )}
-                        </div>
 
-                        {/* Submit Button */}
-                        <Button
-                            loading={isPending}
-                            type="submit"
-                            className="w-full"
-                            startIcon={<Package2Icon />}
-                            endIcon={<ChevronRight />}
-                        >
-                            <span>
-                                {shippingInfo.requiresQuote
-                                    ? 'Complete Order (Shipping TBD)'
-                                    : `Complete Order • ${formatCurrency(calculatedValues.total)}`
-                                }
-                            </span>
-                        </Button>
+                            {/* Submit Button */}
+                            <Button
+                                disabled={hasIssues}
+                                loading={isPending}
+                                type="submit"
+                                className="mt-4 w-full"
+                                startIcon={<Package2Icon />}
+                                endIcon={<ChevronRight />}
+                            >
+                                <span>
+                                    {shippingInfo.requiresQuote
+                                        ? 'Complete Order (Shipping TBD)'
+                                        : `Complete Order • ${formatCurrency(calculatedValues.total)}`
+                                    }
+                                </span>
+                            </Button>
+                        </div>
                     </form>
 
                     {/* Order Summary Sidebar */}
@@ -575,4 +573,4 @@ const CheckoutPageDetails = () => {
     );
 };
 
-export default CheckoutPageDetails;
+export default CheckoutDetailsPage;

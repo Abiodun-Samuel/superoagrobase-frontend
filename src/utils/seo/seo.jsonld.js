@@ -249,7 +249,6 @@ export function getHomeFAQJsonLd() {
     };
 }
 
-// Home page
 export function getOfferCatalogJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -264,7 +263,6 @@ export function getOfferCatalogJsonLd() {
     };
 }
 
-// Faq page
 export function getFAQPageJsonLd() {
     return {
         "@context": SCHEMA_BASE.context,
@@ -726,6 +724,697 @@ export function getLocalBusinessJsonLd() {
             "Fertilizers",
             "Pesticides",
             "Farm Equipment"
+        ]
+    };
+}
+
+export function getAgroInputJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "Service",
+        "@id": `${SITE_DATA.domain}/services/agro-input#service`,
+        "serviceType": "Agricultural Input Quality Assurance & Research",
+        "name": "Agro-Input Products Claims Authentication & Research",
+        "description": "Authentication of manufacturer claims on agro-input products approved by SON and NAFDAC through quality research and promotion to over 10,000 farmers.",
+        "provider": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Nigeria"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Agricultural Input Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Product Claims Authentication",
+                        "description": "Verification of manufacturer claims for SON and NAFDAC approved agricultural products"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Research & Testing",
+                        "description": "Comprehensive testing on 3-hectare research facility under real farming conditions"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Product Promotion",
+                        "description": "Strategic promotion to network of 10,000+ registered farmers"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Distribution Network",
+                        "description": "Nationwide agro-input dealer network for product availability"
+                    }
+                }
+            ]
+        },
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "Small-scale and commercial farmers",
+            "geographicArea": {
+                "@type": "Country",
+                "name": "Nigeria"
+            }
+        }
+    };
+}
+
+export function getAgriCourtVenturesJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "Store",
+        "@id": `${SITE_DATA.domain}/services/agricourt-ventures#store`,
+        "name": "AgriCourt Ventures",
+        "description": "Quality agricultural input products including seeds, fertilizers, irrigation systems, growing media, greenhouses, crop protection, and farm machinery.",
+        "url": `${SITE_DATA.domain}/services/agricourt-ventures`,
+        "parentOrganization": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Agricultural Input Products",
+            "itemListElement": [
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Premium Seeds",
+                    "description": "High-quality certified seeds for maximum germination and yield"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Fertilizers & Nutrition",
+                    "description": "Granular and water-soluble fertilizers for optimal plant growth"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Growing Media",
+                    "description": "Cocopeat, Peat moss, and Worm compost for superior plant health"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Protected Cultivation",
+                    "description": "Greenhouses, net houses, shade nets, and insect protection"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Cultivation Tools",
+                    "description": "Seedling trays, grow bags, mulch film, and drip systems"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Crop Protection",
+                    "description": "Pesticides, herbicides, fungicides, and bio-controls"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Irrigation Systems",
+                    "description": "Drip irrigation, sprinklers, pumps, and controllers"
+                },
+                {
+                    "@type": "OfferCatalog",
+                    "name": "Farm Mechanization",
+                    "description": "Tractors, implements, harvesters, and processing equipment"
+                }
+            ]
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Nigeria"
+        },
+        "priceRange": SITE_DATA.business.priceRange,
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer"]
+    };
+}
+
+export function getHarvestYieldFarmJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": ["Farm", "Service"],
+        "@id": `${SITE_DATA.domain}/services/harvestyield-farm#farm`,
+        "name": "HarvestYield Farm",
+        "description": "10-hectare farm dedicated to premium vegetable production with professional farm management and consultancy services.",
+        "url": `${SITE_DATA.domain}/services/harvestyield-farm`,
+        "parentOrganization": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Nigeria"
+        },
+        "knowsAbout": [
+            "Vegetable Production",
+            "Farm Management",
+            "Agricultural Consultancy",
+            "Soil Analysis",
+            "Crop Nutrition"
+        ],
+        "makesOffer": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Premium Tomatoes",
+                    "description": "High-quality tomatoes grown with precision agriculture"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Fresh Cucumbers",
+                    "description": "Crisp cucumbers cultivated under optimal conditions"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Sweetcorn",
+                    "description": "Sweet, tender corn varieties with superior taste"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Special Watermelon",
+                    "description": "Premium watermelon varieties with exceptional sweetness"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Quality Peppers",
+                    "description": "High-quality pepper varieties for diverse applications"
+                }
+            }
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Farm Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Farm Management Services",
+                        "description": "Professional farm management leveraging best practices and modern techniques"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Agricultural Consultancy",
+                        "description": "Expert guidance on crop selection, planning, and optimization"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Soil Analysis",
+                        "description": "Comprehensive soil testing for nutrient levels and pH balance"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Laboratory Services",
+                        "description": "Fertilizer and manure analysis through reputable laboratory partnerships"
+                    }
+                }
+            ]
+        },
+        "address": toJsonLd(SCHEMA_BASE.address),
+        "geo": toJsonLd(SCHEMA_BASE.geo)
+    };
+}
+
+export function getAgroInputBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Services',
+            url: `${SITE_DATA.domain}/services`
+        },
+        {
+            name: 'Agro-Input Authentication',
+            url: `${SITE_DATA.domain}/services/agro-input`
+        }
+    ]);
+}
+
+export function getAgriCourtVenturesBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Services',
+            url: `${SITE_DATA.domain}/services`
+        },
+        {
+            name: 'AgriCourt Ventures',
+            url: `${SITE_DATA.domain}/services/agricourt-ventures`
+        }
+    ]);
+}
+
+export function getHarvestYieldFarmBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Services',
+            url: `${SITE_DATA.domain}/services`
+        },
+        {
+            name: 'HarvestYield Farm',
+            url: `${SITE_DATA.domain}/services/harvestyield-farm`
+        }
+    ]);
+}
+
+export function getContactBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Contact Us',
+            url: `${SITE_DATA.domain}/contact`
+        }
+    ]);
+}
+
+export function getContactPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "ContactPage",
+        "@id": `${SITE_DATA.domain}/contact#contactpage`,
+        "url": `${SITE_DATA.domain}/contact`,
+        "name": `Contact ${SITE_DATA.name}`,
+        "description": `Get in touch with ${SITE_DATA.name} for agricultural products, farm supplies, and expert advice. Multiple contact options available.`,
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": SITE_DATA.domain,
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": `${SITE_DATA.domain}/contact`,
+                        "name": "Contact Us"
+                    }
+                }
+            ]
+        },
+        "mainEntity": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        }
+    };
+}
+
+export function getContactOrganizationJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "Organization",
+        "@id": `${SITE_DATA.domain}/#organization`,
+        "name": SCHEMA_BASE.organization.name,
+        "url": SCHEMA_BASE.organization.url,
+        "logo": toJsonLd(SCHEMA_BASE.logo),
+        "description": SCHEMA_BASE.organization.description,
+        "address": toJsonLd(SCHEMA_BASE.address),
+        "geo": toJsonLd(SCHEMA_BASE.geo),
+        "telephone": SITE_DATA.phone,
+        "email": SITE_DATA.email,
+        "contactPoint": toJsonLd(SCHEMA_BASE.contactPoints),
+        "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
+        "areaServed": toJsonLd(SCHEMA_BASE.areaServed),
+        "sameAs": SCHEMA_BASE.sameAs,
+        ...(SITE_DATA.geo.latitude && SITE_DATA.geo.longitude && {
+            "hasMap": `https://www.google.com/maps?q=${SITE_DATA.geo.latitude},${SITE_DATA.geo.longitude}`
+        })
+    };
+}
+
+export function getContactLocalBusinessJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "LocalBusiness",
+        "@id": `${SITE_DATA.domain}/#localbusiness`,
+        "name": SITE_DATA.name,
+        "image": toJsonLd(SCHEMA_BASE.logo),
+        "address": toJsonLd(SCHEMA_BASE.address),
+        "geo": toJsonLd(SCHEMA_BASE.geo),
+        "url": SITE_DATA.domain,
+        "telephone": SITE_DATA.phone,
+        "email": SITE_DATA.email,
+        "priceRange": SITE_DATA.business.priceRange,
+        "openingHoursSpecification": toJsonLd(SCHEMA_BASE.openingHours),
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Mobile Money"],
+        "currenciesAccepted": "NGN",
+        "areaServed": [
+            {
+                "@type": "Country",
+                "name": "Nigeria"
+            },
+            {
+                "@type": "State",
+                "name": SITE_DATA.address.state
+            },
+            {
+                "@type": "City",
+                "name": SITE_DATA.address.city
+            }
+        ],
+        ...(SITE_DATA.geo.latitude && SITE_DATA.geo.longitude && {
+            "hasMap": `https://www.google.com/maps?q=${SITE_DATA.geo.latitude},${SITE_DATA.geo.longitude}`
+        }),
+        "description": SITE_DATA.descriptions.medium,
+        "sameAs": SCHEMA_BASE.sameAs
+    };
+}
+
+export function getContactFAQJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are your business hours?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `We are open Monday to Friday from ${SITE_DATA.business.openingHours.weekdays.open} to ${SITE_DATA.business.openingHours.weekdays.close}, and Saturday from ${SITE_DATA.business.openingHours.saturday.open} to ${SITE_DATA.business.openingHours.saturday.close}. We are closed on Sundays and public holidays.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I contact customer service?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `You can reach our customer service team by phone at ${SITE_DATA.phone}, email at ${SITE_DATA.email}, or visit our office at ${SITE_DATA.address.street}, ${SITE_DATA.address.city}, ${SITE_DATA.address.state}. You can also use the contact form on our website for inquiries.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where is your office located?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `Our office is located at ${SITE_DATA.address.street}, ${SITE_DATA.address.city}, ${SITE_DATA.address.state}, ${SITE_DATA.address.country}. We serve customers nationwide across Nigeria with delivery to all states.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How quickly will I get a response?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We strive to respond to all inquiries within 24 hours during business days. For urgent matters, please call our customer service line for immediate assistance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do you provide technical support for products?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we provide technical support and agricultural consultancy for all our products. Our team of experts can help with product selection, usage instructions, and farming best practices. Contact us for personalized assistance."
+                }
+            }
+        ]
+    };
+}
+
+export function getRegisterBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Create Account',
+            url: `${SITE_DATA.domain}/auth/register`
+        }
+    ]);
+}
+
+export function getRegisterPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${SITE_DATA.domain}/auth/register#webpage`,
+        "url": `${SITE_DATA.domain}/auth/register`,
+        "name": `Create Account - ${SITE_DATA.name}`,
+        "description": `Sign up for ${SITE_DATA.name} to access quality agricultural products and exclusive deals`,
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": `${SITE_DATA.domain}/auth/register`,
+                "actionPlatform": [
+                    "http://schema.org/DesktopWebPlatform",
+                    "http://schema.org/MobileWebPlatform"
+                ]
+            },
+            "result": {
+                "@type": "UserAccount",
+                "name": "New User Account"
+            }
+        }
+    };
+}
+
+export function getLoginBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Login',
+            url: `${SITE_DATA.domain}/auth/login`
+        }
+    ]);
+}
+
+export function getLoginPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${SITE_DATA.domain}/auth/login#webpage`,
+        "url": `${SITE_DATA.domain}/auth/login`,
+        "name": `Login - ${SITE_DATA.name}`,
+        "description": "Sign in to your account to access orders, track deliveries, and manage your profile",
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "potentialAction": {
+            "@type": "LoginAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": `${SITE_DATA.domain}/auth/login`,
+                "actionPlatform": [
+                    "http://schema.org/DesktopWebPlatform",
+                    "http://schema.org/MobileWebPlatform"
+                ]
+            }
+        }
+    };
+}
+
+export function getForgotPasswordBreadcrumbJsonLd() {
+    return getBreadcrumbJsonLd([
+        {
+            name: 'Home',
+            url: SITE_DATA.domain
+        },
+        {
+            name: 'Forgot Password',
+            url: `${SITE_DATA.domain}/auth/forgot-password`
+        }
+    ]);
+}
+
+// Forgot Password Page Schema
+export function getForgotPasswordPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${SITE_DATA.domain}/auth/forgot-password#webpage`,
+        "url": `${SITE_DATA.domain}/auth/forgot-password`,
+        "name": `Forgot Password - ${SITE_DATA.name}`,
+        "description": "Reset your account password securely with email verification",
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "mainEntity": {
+            "@type": "HowTo",
+            "name": "How to Reset Your Password",
+            "step": [
+                {
+                    "@type": "HowToStep",
+                    "position": 1,
+                    "name": "Enter Email",
+                    "text": "Enter your registered email address in the form"
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 2,
+                    "name": "Check Email",
+                    "text": "Check your email inbox for the password reset link"
+                },
+                {
+                    "@type": "HowToStep",
+                    "position": 3,
+                    "name": "Create New Password",
+                    "text": "Click the link and create a new secure password"
+                }
+            ]
+        }
+    };
+}
+
+// Verify Email Page Schema
+export function getVerifyEmailPageJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${SITE_DATA.domain}/auth/verify-email#webpage`,
+        "url": `${SITE_DATA.domain}/auth/verify-email`,
+        "name": `Verify Email - ${SITE_DATA.name}`,
+        "description": "Verify your email address to activate your account",
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "potentialAction": {
+            "@type": "ConfirmAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": `${SITE_DATA.domain}/auth/verify-email`
+            }
+        }
+    };
+}
+
+// Authentication FAQ Schema
+export function getAuthFAQJsonLd() {
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I create an account?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `Click on the 'Register' or 'Sign Up' button, fill in your details including name, email, and password. You'll receive a verification email to activate your ${SITE_DATA.name} account. Complete the verification to start shopping.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What if I forgot my password?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Click on 'Forgot Password' on the login page, enter your registered email address, and you'll receive a password reset link. Follow the link to create a new secure password for your account."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I verify my email address?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "After registration, check your email inbox for a verification message from us. Click the verification link in the email to activate your account. If you didn't receive the email, check your spam folder or request a new verification link."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is my account information secure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `Yes, we use industry-standard encryption and security measures to protect your account information. Your password is encrypted, and we comply with Nigeria Data Protection Regulation (NDPR) to ensure your data privacy and security.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I change my password after registration?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, you can change your password anytime from your account settings or profile page. For security, we recommend using a strong password with a mix of letters, numbers, and special characters."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What should I do if I can't login to my account?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": `First, verify you're using the correct email and password. If you forgot your password, use the 'Forgot Password' option. If your account is locked, contact our customer service at ${SITE_DATA.email} or call ${SITE_DATA.phone} for assistance.`
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need an account to make purchases?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While you can browse products without an account, creating an account allows you to track orders, save favorite items, get personalized recommendations, access exclusive deals, and enjoy a faster checkout process."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does the verification link last?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Email verification links typically expire after 24 hours for security reasons. If your link has expired, you can request a new verification email from the resend verification page."
+                }
+            }
         ]
     };
 }

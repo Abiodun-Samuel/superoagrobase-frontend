@@ -1,6 +1,6 @@
 import { CookiePolicy } from "@/components/legal/CookiePolicy"
 import LegalPageLayout from "@/components/legal/LegalPageLayout"
-import PageHero from "@/components/page/PageHero";
+import PageHero from "@/components/page/PageLayout";
 import { getCookiePolicyMetadata } from "@/utils/seo/seo.meta";
 import { Shield } from "lucide-react"
 

@@ -480,3 +480,412 @@ export function getAboutMetadata() {
         }
     });
 }
+
+export function getAgroInputMetadata() {
+    const title = 'Agro-Input Products & Research';
+    const description = `Protecting Nigerian farmers from adulterated agricultural inputs through rigorous research and quality authentication. SON and NAFDAC approved products tested on our 3-hectare research facility. Trusted by 10,000+ farmers nationwide for verified seeds, fertilizers, pesticides, and farm equipment.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/services/agro-input',
+        keywords: [
+            'agro-input authentication Nigeria',
+            'SON approved agricultural products',
+            'NAFDAC certified farm inputs',
+            'agricultural research Nigeria',
+            'verified fertilizers Nigeria',
+            'quality seeds Nigeria',
+            'pesticide testing Nigeria',
+            'farm input quality control',
+            'agricultural laboratory services',
+            'crop protection products Nigeria',
+            'manufacturer claims verification',
+            'adulterated fertilizers prevention',
+            'genuine agricultural inputs',
+            'farm products research facility',
+            'quality assurance agriculture'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            other: {
+                'article:section': 'Services',
+                'article:tag': 'Research, Quality Control, SON, NAFDAC, Agriculture',
+                'service:type': 'Agricultural Research & Quality Assurance',
+                'service:area': 'Nigeria',
+                'service:facility': '3 hectares research facility',
+                'service:network': '10,000+ registered farmers'
+            }
+        }
+    });
+}
+
+export function getAgriCourtVenturesMetadata() {
+    const title = 'AgriCourt Ventures - Quality Agricultural Input Products';
+    const description = `Buy quality agro-input products from AgriCourt Ventures. Premium seeds, granular & water-soluble fertilizers, irrigation systems, cocopeat, peat moss, worm compost, seedling trays, greenhouses, net houses, shade nets, crop protection products, tractors, and farm machinery. Research-backed agricultural supplies with nationwide delivery across Nigeria.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/services/agricourt-ventures',
+        keywords: [
+            'AgriCourt Ventures',
+            'buy agricultural inputs Nigeria',
+            'quality seeds Nigeria',
+            'granular fertilizers',
+            'water soluble fertilizers',
+            'irrigation systems Nigeria',
+            'cocopeat Nigeria',
+            'peat moss suppliers',
+            'worm compost Nigeria',
+            'seedling trays',
+            'mulch film Nigeria',
+            'grow bags Nigeria',
+            'greenhouse systems Nigeria',
+            'net houses Nigeria',
+            'shade nets suppliers',
+            'insect nets agriculture',
+            'crop protection products',
+            'agricultural tractors Nigeria',
+            'farm implements Nigeria',
+            'farm machinery Nigeria',
+            'growing media Nigeria',
+            'locally adapted greenhouses',
+            'agricultural equipment suppliers',
+            'farm inputs dealer Nigeria'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            other: {
+                'article:section': 'Products',
+                'article:tag': 'Agricultural Inputs, Seeds, Fertilizers, Irrigation, Greenhouses, Farm Equipment',
+                'business:type': 'Agricultural Products Supplier',
+                'product:categories': '8',
+                'product:count': '500+',
+                'service:delivery': 'Nationwide Nigeria'
+            }
+        }
+    });
+}
+
+export function getHarvestYieldFarmMetadata() {
+    const title = 'HarvestYield Farm - Premium Vegetable Production & Farm Management';
+    const description = `HarvestYield Farm operates 10 hectares dedicated to premium vegetable production: Tomato, Cucumber, Sweetcorn, Special Watermelon, and Pepper. We provide professional farm management services, agricultural consultancy, soil analysis, fertilizer testing, and laboratory services through partnerships with reputable labs. Science-based farming for consistent quality and superior yields.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/services/harvestyield-farm',
+        keywords: [
+            'HarvestYield Farm Nigeria',
+            'vegetable production Nigeria',
+            'tomato farming Nigeria',
+            'cucumber cultivation',
+            'sweetcorn production',
+            'watermelon farming Nigeria',
+            'pepper cultivation Nigeria',
+            'farm management services Nigeria',
+            'agricultural consultancy Nigeria',
+            'soil analysis Nigeria',
+            'fertilizer analysis services',
+            'manure testing Nigeria',
+            'laboratory services agriculture',
+            'commercial vegetable farming',
+            'farm management consultancy',
+            '10 hectare farm Nigeria',
+            'fresh vegetables suppliers',
+            'premium vegetable crops',
+            'agricultural laboratory Nigeria',
+            'soil testing services',
+            'farm consultancy services'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            other: {
+                'article:section': 'Services',
+                'article:tag': 'Vegetable Production, Farm Management, Consultancy, Laboratory Services',
+                'farm:size': '10 hectares',
+                'farm:crops': '5',
+                'service:types': 'Production, Management, Consultancy, Laboratory',
+                'farm:location': 'Nigeria'
+            }
+        }
+    });
+}
+
+export function getContactMetadata() {
+    const title = 'Contact Us - Get in Touch with Agricultural Experts';
+    const description = `Contact ${SITE_DATA.name} for agricultural products, farm supplies, and expert advice. Visit our office in ${SITE_DATA.address.city}, ${SITE_DATA.address.state} or call ${SITE_DATA.phone}. Email: ${SITE_DATA.email}. Open Monday-Friday ${SITE_DATA.business.openingHours.weekdays.open}-${SITE_DATA.business.openingHours.weekdays.close}, Saturday ${SITE_DATA.business.openingHours.saturday.open}-${SITE_DATA.business.openingHours.saturday.close}. Fast response guaranteed.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/contact',
+        keywords: [
+            'contact SuperoAgrobase',
+            'agricultural supplier contact Nigeria',
+            'farm products contact',
+            'agro dealer contact Lagos',
+            'agricultural products enquiry',
+            'farm supplies customer service',
+            'agribusiness contact Nigeria',
+            'agricultural consultation Nigeria',
+            'farm equipment enquiry',
+            'agro products support',
+            'farming supplies contact',
+            'agriculture customer service Nigeria',
+            `contact ${SITE_DATA.address.city}`,
+            'agricultural company address Nigeria',
+            'farm supplier phone number'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary',
+            },
+            other: {
+                'article:section': 'Contact',
+                'article:tag': 'Contact, Customer Service, Support, Agriculture',
+                'contact:phone': SITE_DATA.phone,
+                'contact:email': SITE_DATA.email,
+                'contact:address': `${SITE_DATA.address.street}, ${SITE_DATA.address.city}, ${SITE_DATA.address.state}`,
+                'contact:country': SITE_DATA.address.country,
+                'business:hours': `Mon-Fri: ${SITE_DATA.business.openingHours.weekdays.open}-${SITE_DATA.business.openingHours.weekdays.close}, Sat: ${SITE_DATA.business.openingHours.saturday.open}-${SITE_DATA.business.openingHours.saturday.close}`
+            }
+        }
+    });
+}
+
+export function getRegisterMetadata() {
+    const title = 'Create Account - Join Our Agricultural Community';
+    const description = `Sign up for ${SITE_DATA.name} and get access to quality agricultural products, exclusive deals, and expert farming advice. Fast registration with email verification. Join 10,000+ Nigerian farmers shopping online.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/auth/register',
+        keywords: [
+            'create account Nigeria',
+            'sign up agricultural products',
+            'register farm supplies',
+            'new customer registration',
+            'agro dealer account Nigeria',
+            'farmer registration Nigeria',
+            'agricultural marketplace signup',
+            'create farming account',
+            'register SuperoAgrobase',
+            'online farm store account'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary',
+            },
+            robots: {
+                index: true,
+                follow: true,
+                noarchive: true
+            },
+            other: {
+                'article:section': 'Authentication',
+                'article:tag': 'Registration, Sign Up, New Account, Authentication'
+            }
+        }
+    });
+}
+
+export function getLoginMetadata() {
+    const title = 'Login - Access Your Agricultural Products Account';
+    const description = `Sign in to your ${SITE_DATA.name} account to manage orders, track deliveries, save favorite products, and access exclusive agricultural deals. Secure login for Nigerian farmers and agribusinesses.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/auth/login',
+        keywords: [
+            'login agricultural account',
+            'sign in farm supplies',
+            'customer login Nigeria',
+            'agro dealer login',
+            'farmer account access',
+            'agricultural products login',
+            'secure login Nigeria',
+            'SuperoAgrobase login',
+            'farm store account login',
+            'member login agriculture'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary',
+            },
+            robots: {
+                index: true,
+                follow: true,
+                noarchive: true,
+                nocache: true
+            },
+            other: {
+                'article:section': 'Authentication',
+                'article:tag': 'Login, Sign In, Account Access, Authentication'
+            }
+        }
+    });
+}
+
+export function getForgotPasswordMetadata() {
+    const title = 'Forgot Password - Reset Your Account Password';
+    const description = `Reset your ${SITE_DATA.name} account password securely. Enter your email to receive password reset instructions. Quick and secure password recovery for your agricultural products account.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/auth/forgot-password',
+        keywords: [
+            'forgot password Nigeria',
+            'reset password agriculture',
+            'password recovery farm account',
+            'recover account access',
+            'forgotten password help',
+            'reset login credentials',
+            'password reset link',
+            'account recovery Nigeria',
+            'SuperoAgrobase password reset',
+            'secure password recovery'
+        ],
+        index: true,
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary',
+            },
+            robots: {
+                index: true,
+                follow: true,
+                noarchive: true,
+                nocache: true
+            },
+            other: {
+                'article:section': 'Authentication',
+                'article:tag': 'Password Reset, Account Recovery, Forgot Password, Authentication'
+            }
+        }
+    });
+}
+
+export function getResetPasswordMetadata() {
+    const title = 'Reset Password - Create New Account Password';
+    const description = `Create a new secure password for your ${SITE_DATA.name} account. Set a strong password to protect your agricultural products orders and personal information. Complete your password reset securely.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/auth/reset-password',
+        keywords: [
+            'reset password Nigeria',
+            'create new password',
+            'change account password',
+            'update login password',
+            'secure password setup',
+            'password reset completion',
+            'new password agricultural account',
+            'update credentials Nigeria',
+            'password change form',
+            'secure account access'
+        ],
+        index: false, // Should not be indexed as it requires token
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            robots: {
+                index: false,
+                follow: true,
+                noarchive: true,
+                nocache: true
+            },
+            other: {
+                'article:section': 'Authentication',
+                'article:tag': 'Password Reset, New Password, Authentication, Security'
+            }
+        }
+    });
+}
+
+// Verify Email Page
+export function getVerifyEmailMetadata() {
+    const title = 'Verify Email Address - Confirm Your Account';
+    const description = `Verify your email address to activate your ${SITE_DATA.name} account. Complete email verification to start shopping for quality agricultural products and enjoy full account benefits.`;
+
+    return generateMetadata({
+        pageType: 'website',
+        title,
+        description,
+        path: '/auth/verify-email',
+        keywords: [
+            'verify email Nigeria',
+            'email confirmation agriculture',
+            'activate account farm supplies',
+            'email verification link',
+            'confirm email address',
+            'account activation Nigeria',
+            'verify registration email',
+            'email authentication',
+            'activate farming account',
+            'confirm account creation'
+        ],
+        index: false, // Should not be indexed as it requires token
+        follow: true,
+        additionalMetadata: {
+            openGraph: {
+                type: 'website',
+            },
+            robots: {
+                index: false,
+                follow: true,
+                noarchive: true,
+                nocache: true
+            },
+            other: {
+                'article:section': 'Authentication',
+                'article:tag': 'Email Verification, Account Activation, Authentication, Confirmation'
+            }
+        }
+    });
+}

@@ -48,7 +48,7 @@ export default function HowItWorks() {
                                 aria-label={step.ariaLabel}
                             >
                                 {/* Step Card */}
-                                <div className="bg-white rounded-2xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-blue-200">
+                                <div className="bg-white rounded-xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-blue-200">
                                     {/* Step Number */}
                                     <div className="flex items-center justify-between mb-6">
                                         <div className="relative">
@@ -60,7 +60,7 @@ export default function HowItWorks() {
                                                 icon={<Icon aria-hidden="true" />}
                                             />
                                             {/* Pulse Effect */}
-                                            <div className="bg-blue-300 absolute inset-0 w-13 h-13 rounded-2xl opacity-20 animate-ping" aria-hidden="true"></div>
+                                            <div className="bg-blue-300 absolute inset-0 w-13 h-13 rounded-xl opacity-20 animate-ping" aria-hidden="true"></div>
                                         </div>
                                         <div className="text-5xl font-bold text-gray-200 group-hover:text-gray-200 transition-colors" aria-hidden="true">
                                             {step.id}

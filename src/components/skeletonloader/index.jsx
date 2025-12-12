@@ -3,7 +3,7 @@
 import { Package } from "lucide-react";
 
 export const HeroSectionImageSkeleton = () => (
-    <div className="relative h-[500px] lg:h-[550px] rounded-3xl overflow-hidden shadow bg-white">
+    <div className="relative h-[500px] lg:h-[550px] rounded-lg overflow-hidden shadow bg-white">
         <div className="w-full h-full bg-gradient-to-br from-amber-500/20 to-green-600/20 relative animate-pulse">
             <div className="absolute inset-0 opacity-5">
                 <div className="grid grid-cols-6 grid-rows-6 h-full w-full">

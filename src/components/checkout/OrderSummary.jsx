@@ -6,7 +6,7 @@ import Button from '../ui/Button'
 const OrderSummary = ({ calculatedValues, items }) => {
 
     return (
-        <div className="bg-white border rounded-2xl shadow p-5 sticky top-6">
+        <div className="bg-white border rounded-xl shadow p-5 sticky top-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
 
             <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
@@ -15,7 +15,7 @@ const OrderSummary = ({ calculatedValues, items }) => {
                         <img
                             src={item?.product?.image}
                             alt={item?.product?.title}
-                            className="w-16 h-16 rounded-lg object-cover"
+                            className="w-16 h-16 rounded-xl object-cover"
                         />
                         <div className="flex-1 min-w-0">
                             <h4 className="font-medium text-gray-900 text-sm truncate">{item?.product?.title}</h4>
@@ -54,7 +54,7 @@ const OrderSummary = ({ calculatedValues, items }) => {
                 </div>
             </div>
 
-            <div className="mt-6 flex items-center gap-2 text-sm text-gray-600 bg-green-50 p-3 rounded-lg">
+            <div className="mt-6 flex items-center gap-2 text-sm text-gray-600 bg-green-50 p-3 rounded-xl">
                 <ShieldCheck className="w-5 h-5 text-green-600 flex-shrink-0" />
                 <span>Secure checkout with encrypted payment</span>
             </div>

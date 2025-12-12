@@ -25,11 +25,24 @@ export const QUERY_KEYS = {
 
   cart: {
     all: ['cart'],
-    detail: (sessionId) => [...QUERY_KEYS.cart.all, 'detail', sessionId],
+    details: (sessionId) => [...QUERY_KEYS.cart.all, 'details', sessionId],
   },
 
   order: {
     all: ['order'],
-    detail: (sessionId, userId) => [...QUERY_KEYS.order.all, 'detail', sessionId, ...(userId ? [userId] : [])],
+    detail: (params) => [...QUERY_KEYS.order.all, 'detail', params],
   },
+
+  transaction: {
+    all: ['transaction'],
+    detail: (params) => [...QUERY_KEYS.transaction.all, 'detail', params],
+  },
+
+  //  transaction: {
+  //       all: ['transactions'],
+  //       lists: () => [...QUERY_KEYS.transaction.all, 'list'],
+  //       list: (filters) => [...QUERY_KEYS.transaction.lists(), filters],
+  //       details: () => [...QUERY_KEYS.transaction.all, 'detail'],
+  //       detail: (params) => [...QUERY_KEYS.transaction.details(), params],
+  //   },
 };

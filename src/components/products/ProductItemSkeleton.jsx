@@ -33,7 +33,7 @@ export const ProductItemSkeleton = () => (
             <div className="h-5 bg-gray-200 rounded w-40" />
 
             {/* Button */}
-            <div className="h-10 bg-gray-200 rounded-lg w-full" />
+            <div className="h-10 bg-gray-200 rounded-xl w-full" />
         </div>
     </div>
 );

@@ -5,7 +5,7 @@ const LegalPageLayout = ({ children, icon: Icon, title }) => {
     return (
         <>
             {/* Content */}
-            <main className="bg-white rounded-2xl shadow">
+            <main className="bg-white rounded-xl shadow">
                 <div className="p-5 md:p-10">
                     {children}
                 </div>
@@ -13,7 +13,7 @@ const LegalPageLayout = ({ children, icon: Icon, title }) => {
 
             {/* Contact Section */}
             <section className="my-10">
-                <div className="bg-white rounded-2xl shadow p-5 md:p-10 border-t-2 border-green-600">
+                <div className="bg-white rounded-xl shadow p-5 md:p-10 border-t-2 border-green-600">
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Contact Information</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -46,7 +46,7 @@ const LegalPageLayout = ({ children, icon: Icon, title }) => {
                                 href={SITE_DATA.whatsapp}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium"
+                                className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition text-sm font-medium"
                             >
                                 Contact via WhatsApp
                             </a>

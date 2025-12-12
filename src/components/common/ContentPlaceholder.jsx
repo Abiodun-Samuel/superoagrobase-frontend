@@ -146,7 +146,7 @@ export const ContentPlaceholder = ({
 
     return (
         <div className={`w-full min-h-[280px] flex items-center justify-center p-3 bg-gradient-to-br ${colorTheme.container} ${className}`}>
-            <div className={`max-w-xl w-full ${colorTheme.card} border backdrop-blur-sm rounded-2xl p-8 text-center transition-all duration-500 hover:scale-[1.02] shadow`}>
+            <div className={`max-w-xl w-full ${colorTheme.card} border backdrop-blur-sm rounded-xl p-8 text-center transition-all duration-500 hover:scale-[1.02] shadow`}>
 
                 {/* Icon with animated rings */}
                 <div className="relative inline-flex items-center justify-center mb-6">
@@ -157,7 +157,7 @@ export const ContentPlaceholder = ({
                         style={{ animationDuration: '3s' }}></div>
 
                     {/* Icon container */}
-                    <div className={`relative w-20 h-20 ${iconVariant.iconBg} ${iconVariant.iconColor} rounded-2xl flex items-center justify-center transform transition-all duration-300 hover:rotate-6 hover:scale-110 shadow`}>
+                    <div className={`relative w-20 h-20 ${iconVariant.iconBg} ${iconVariant.iconColor} rounded-xl flex items-center justify-center transform transition-all duration-300 hover:rotate-6 hover:scale-110 shadow`}>
                         <Icon className="w-10 h-10 animate-float" strokeWidth={1.5} />
                     </div>
                 </div>

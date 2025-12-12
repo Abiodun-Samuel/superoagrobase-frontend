@@ -1,6 +1,6 @@
 import LegalPageLayout from '@/components/legal/LegalPageLayout'
 import { PrivacyPolicy } from '@/components/legal/PrivacyPolicy'
-import PageHero from '@/components/page/PageHero';
+import PageHero from '@/components/page/PageLayout';
 import { getPrivacyPolicyMetadata } from '@/utils/seo/seo.meta';
 import { Shield } from 'lucide-react'
 

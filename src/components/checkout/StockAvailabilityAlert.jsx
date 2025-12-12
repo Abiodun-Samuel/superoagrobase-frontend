@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { AlertTriangle, Package, X, ShoppingCart, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { AlertTriangle, Package, X, ShoppingCart, ArrowLeft, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import Button from '../ui/Button';
 
-const StockAvailabilityAlert = ({ availability, onDismiss, cartUrl = '/cart', productUrlPrefix = '/products' }) => {
+const StockAvailabilityAlert = ({ availability, onDismiss, productUrlPrefix = '/products' }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [height, setHeight] = useState('auto');
     const contentRef = useRef(null);
@@ -11,24 +11,19 @@ const StockAvailabilityAlert = ({ availability, onDismiss, cartUrl = '/cart', pr
     useEffect(() => {
         if (contentRef.current) {
             if (isCollapsed) {
-                // Get the current height before collapsing
                 const currentHeight = contentRef.current.scrollHeight;
                 setHeight(`${currentHeight}px`);
 
-                // Trigger collapse animation
                 requestAnimationFrame(() => {
                     setHeight('0px');
                 });
             } else {
-                // Expand to full height
                 const fullHeight = contentRef.current.scrollHeight;
                 setHeight(`${fullHeight}px`);
 
-                // After animation completes, set to auto for responsive behavior
                 const timer = setTimeout(() => {
                     setHeight('auto');
-                }, 300); // Match transition duration
-
+                }, 300);
                 return () => clearTimeout(timer);
             }
         }
@@ -93,7 +88,7 @@ const StockAvailabilityAlert = ({ availability, onDismiss, cartUrl = '/cart', pr
                                 <Link
                                     key={index}
                                     href={`${productUrlPrefix}/${issue.product_slug}`}
-                                    className="block bg-white rounded-lg p-3 border border-amber-100 hover:border-amber-400 hover:shadow-md transition-all duration-200"
+                                    className="block bg-white rounded-xl p-3 border border-amber-100 hover:border-amber-400 hover:shadow-md transition-all duration-200"
                                 >
                                     <div className="flex gap-3">
                                         {/* Product Image */}
@@ -136,7 +131,7 @@ const StockAvailabilityAlert = ({ availability, onDismiss, cartUrl = '/cart', pr
                         </div>
 
                         {/* Action Message */}
-                        <div className="mt-4 p-3 bg-amber-100 rounded-lg">
+                        <div className="mt-4 p-3 bg-amber-100 rounded-xl">
                             <p className="text-xs text-amber-900">
                                 <strong>What you can do:</strong> Please reduce the quantity for the affected {availability.issues.length === 1 ? 'item' : 'items'} or remove {availability.issues.length === 1 ? 'it' : 'them'} from your cart to proceed with your order.
                             </p>

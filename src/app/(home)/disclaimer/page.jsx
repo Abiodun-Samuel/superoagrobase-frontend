@@ -1,6 +1,6 @@
 import { Disclaimer } from '@/components/legal/Disclaimer'
 import LegalPageLayout from '@/components/legal/LegalPageLayout'
-import PageHero from '@/components/page/PageHero';
+import PageHero from '@/components/page/PageLayout';
 import { getDisclaimerMetadata } from '@/utils/seo/seo.meta';
 import { FileText } from 'lucide-react'
 

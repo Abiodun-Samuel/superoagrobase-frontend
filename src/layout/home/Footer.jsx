@@ -194,9 +194,9 @@ const CompanyInfo = ({ data }) => (
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`mailto:${data.contact.email}`}
-                className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
+                className="flex items-center space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
             >
-                <Mail size={18} className="mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <Mail size={18} className="flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="text-sm">{data.contact.email}</span>
             </Link>
 
@@ -204,9 +204,9 @@ const CompanyInfo = ({ data }) => (
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`tel:${data.contact.phone}`}
-                className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
+                className="flex items-center space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
             >
-                <Phone size={18} className="mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <Phone size={18} className="flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="text-sm">{data.contact.phone}</span>
             </Link>
 
@@ -216,9 +216,9 @@ const CompanyInfo = ({ data }) => (
                 rel="noopener noreferrer"
                 aria-label={`Our office is located at: ${data.contact.address}`}
                 title={`Our office is located at: ${data.contact.address}`}
-                className="flex items-start space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
+                className="flex items-center space-x-3 text-gray-400 hover:text-[#7CB342] transition-colors group"
             >
-                <MapPin size={18} className="mt-1 flex-shrink-0" />
+                <MapPin size={18} className="flex-shrink-0" />
                 <span className="text-sm">{data.contact.address}</span>
             </Link>
         </div>
@@ -307,7 +307,7 @@ const BottomSection = ({ social, paymentMethods, companyName }) => {
                         {paymentMethods.map((method) => (
                             <div key={method.name}>
                                 <div
-                                    className="px-4 py-2 bg-white rounded-lg transition-colors cursor-pointer group inline-block"
+                                    className="px-4 py-2 bg-white rounded-xl transition-colors cursor-pointer group inline-block"
                                     title={method.name}
                                 >
                                     <Image
@@ -315,6 +315,7 @@ const BottomSection = ({ social, paymentMethods, companyName }) => {
                                         src={method.logo}
                                         height={50}
                                         width={100}
+                                        className="h-5 w-auto"
                                     />
                                 </div>
                                 {method?.sub && (

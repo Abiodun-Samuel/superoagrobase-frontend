@@ -95,7 +95,7 @@ export default function BlogSection() {
                 {blogs.map((blog) => (
                     <article
                         key={blog.id}
-                        className="group bg-white rounded-2xl overflow-hidden shadow cursor-pointer"
+                        className="group bg-white rounded-xl overflow-hidden shadow cursor-pointer"
                     >
                         {/* Image Container */}
                         <div className="relative overflow-hidden h-48">

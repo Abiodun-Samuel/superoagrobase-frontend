@@ -15,6 +15,7 @@ export function AuthProvider({ children, initialAuth }) {
         const sessionId = await getSessionId();
         setAuth({ ...DEFAULT_AUTH_STATE, sessionId });
         Toast.error('Your session is invalid or has expired. Please log in.');
+        window?.location?.reload();
     };
 
     useEffect(() => {

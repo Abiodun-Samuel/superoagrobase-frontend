@@ -2,7 +2,7 @@
 import { ProductService } from '@/services/products.service';
 import { getProductsMetadata } from '@/utils/seo/seo.meta';
 import { getProductCollectionJsonLd, getProductsListBreadcrumbJsonLd, getSearchResultsJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
-import ProductsPageDetails from '@/components/products/ProductsPageDetails';
+import ProductsDetailsPage from '@/components/products/ProductsDetailsPage';
 import { notFound } from 'next/navigation';
 import JsonLdScripts from '@/components/provider/JsonLdScripts';
 
@@ -99,7 +99,7 @@ const ProductsPage = async ({ searchParams }) => {
                 ]}
             />
 
-            <ProductsPageDetails
+            <ProductsDetailsPage
                 products={products}
                 meta={meta}
                 links={links}

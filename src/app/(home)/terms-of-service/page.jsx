@@ -1,6 +1,6 @@
 import LegalPageLayout from '@/components/legal/LegalPageLayout'
 import { TermsOfService } from '@/components/legal/TermsOfService'
-import PageHero from '@/components/page/PageHero';
+import PageHero from '@/components/page/PageLayout';
 import { getTermsOfServiceMetadata } from '@/utils/seo/seo.meta';
 import { Scale } from 'lucide-react'
 

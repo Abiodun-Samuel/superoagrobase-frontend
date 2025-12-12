@@ -6,10 +6,10 @@ import ContentPlaceholder from '../common/ContentPlaceholder';
 import Paginator from '../common/Paginator';
 import ProductCard from './ProductCard';
 import PageLoader from '../ui/PageLoader';
-import PageHero from '../page/PageHero';
+import PageHero from '../page/PageLayout';
 import ProductFilters from './ProductFilters';
 
-export default function ProductsPageDetails({ products = [], filters = {}, meta = {}, links = [] }) {
+export default function ProductsDetailsPage({ products = [], filters = {}, meta = {}, links = [] }) {
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -129,7 +129,7 @@ export default function ProductsPageDetails({ products = [], filters = {}, meta 
                         {/* Main Content with Loading State */}
                         <div className="relative">
                             {/* Loading Overlay */}
-                            {isPending && <PageLoader text='Loading products...' />}
+                            {isPending && <PageLoader text='Loading products...' showBlur />}
 
                             {!hasProducts ? (
                                 <ContentPlaceholder
