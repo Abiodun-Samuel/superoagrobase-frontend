@@ -2,8 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { FAQ_CATEGORIES, FAQ_DATA, SITE_DATA } from '@/utils/data';
 import IconBadge from '../ui/IconBadge';
-import { ChevronDown, Headphones, Mail, MapPin, MessageCircle, Phone, Shield, Truck } from 'lucide-react';
-import PageHero from './PageLayout';
+import { ChevronDown, Headphones, Shield, Truck } from 'lucide-react';
 
 
 const replacePlaceholders = (text) => {
@@ -104,23 +103,6 @@ const CategorySection = ({ title, description, Icon, children }) => {
     );
 };
 
-const ContactCard = ({ Icon, title, content, link }) => {
-    return (
-        <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-green-500 transition-all duration-300">
-            <div className="flex items-center text-center flex-col gap-2">
-                {Icon && <IconBadge icon={<Icon />} size='lg' color='green' shape='circle' />}
-                <div>
-                    <h3 className="font-medium text-gray-900">{title}</h3>
-                    {link ? (
-                        <a href={link} className="text-green-600 hover:text-green-700">{content}</a>
-                    ) : (
-                        <p className="text-gray-700">{content}</p>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-};
 
 export default function FAQPage() {
     const [openIndex, setOpenIndex] = useState({});
@@ -141,18 +123,9 @@ export default function FAQPage() {
     }, []);
 
     return (
-        <div className="min-h-screen">
-            <PageHero
-                title="Frequently Asked Questions"
-                description="Find answers to common questions about ordering, payment, delivery, products, and more. We're here to help you succeed."
-                badge="Help Center"
-                breadcrumbs={[
-                    { label: 'FAQs', href: '/faqs' }
-                ]}
-            />
-
+        <div className="min-h-screen space-y-10 my-10">
             {/* FAQ Categories */}
-            <section className="max-w-6xl mx-auto py-16 px-4 sm:px-6">
+            <>
                 {groupedFAQs.map((category) => (
                     <CategorySection
                         key={category.key}
@@ -172,70 +145,25 @@ export default function FAQPage() {
                         ))}
                     </CategorySection>
                 ))}
-            </section>
 
-            {/* Still Have Questions */}
-            <section className="bg-gradient-to-r from-green-600 to-green-700 text-white py-16 rounded-xl">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            Still Have Questions?
-                        </h2>
-                        <p className="text-lg md:text-xl text-green-50 max-w-2xl mx-auto">
-                            Our team is ready to help you. Reach out through any of these channels and we'll respond quickly.
-                        </p>
+                <div className="grid md:grid-cols-3 gap-8 my-20">
+                    <div className="text-center">
+                        <IconBadge className='mb-1' icon={<Shield />} size='xl' shape='circle' color='green' />
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">100% Genuine Products</h3>
+                        <p className="text-gray-600">All products sourced from authorized manufacturers and certified distributors</p>
                     </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <ContactCard
-                            Icon={MessageCircle}
-                            title="WhatsApp"
-                            content="Chat with us instantly"
-                            link={SITE_DATA.whatsapp}
-                        />
-                        <ContactCard
-                            Icon={Phone}
-                            title="Call Us"
-                            content={SITE_DATA.phone}
-                            link={`tel:${SITE_DATA.phone}`}
-                        />
-                        <ContactCard
-                            Icon={Mail}
-                            title="Email"
-                            content={SITE_DATA.email}
-                            link={`mailto:${SITE_DATA.email}`}
-                        />
-                        <ContactCard
-                            Icon={MapPin}
-                            title="Visit Us"
-                            content={`${SITE_DATA.address.city}, ${SITE_DATA.address.state}`}
-                        />
+                    <div className="text-center">
+                        <IconBadge className='mb-1' icon={<Truck />} size='xl' shape='circle' color='green' />
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">Fast Nationwide Delivery</h3>
+                        <p className="text-gray-600">Reliable delivery to all 36 states with tracking support</p>
+                    </div>
+                    <div className="text-center">
+                        <IconBadge className='mb-1' icon={<Headphones />} size='xl' shape='circle' color='green' />
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">Expert Support</h3>
+                        <p className="text-gray-600">Free agricultural consultancy and technical assistance</p>
                     </div>
                 </div>
-            </section>
-
-            {/* Trust Indicators */}
-            <section className="py-16">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="text-center">
-                            <IconBadge className='mb-1' icon={<Shield />} size='xl' shape='circle' color='green' />
-                            <h3 className="text-xl font-bold text-gray-900 mb-1">100% Genuine Products</h3>
-                            <p className="text-gray-600">All products sourced from authorized manufacturers and certified distributors</p>
-                        </div>
-                        <div className="text-center">
-                            <IconBadge className='mb-1' icon={<Truck />} size='xl' shape='circle' color='green' />
-                            <h3 className="text-xl font-bold text-gray-900 mb-1">Fast Nationwide Delivery</h3>
-                            <p className="text-gray-600">Reliable delivery to all 36 states with tracking support</p>
-                        </div>
-                        <div className="text-center">
-                            <IconBadge className='mb-1' icon={<Headphones />} size='xl' shape='circle' color='green' />
-                            <h3 className="text-xl font-bold text-gray-900 mb-1">Expert Support</h3>
-                            <p className="text-gray-600">Free agricultural consultancy and technical assistance</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </>
         </div>
     );
 }

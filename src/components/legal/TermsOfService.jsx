@@ -3,7 +3,7 @@ import CollapsibleSection from "./CollapsibleSection";
 
 export const TermsOfService = () => {
     return (
-        <div className="prose prose-green max-w-none">
+        <div className="prose prose-green max-w-none space-y-10 my-10">
             <div className="bg-amber-50 border-l-4 border-amber-600 p-4 mb-8 rounded">
                 <p className="text-sm text-amber-900 font-medium">
                     Please read these terms carefully before using our platform. By accessing or using {SITE_DATA.name},

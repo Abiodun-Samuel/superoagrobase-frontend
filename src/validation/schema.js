@@ -26,6 +26,26 @@ export const LoginSchema = yup.object({
   password: yup.string().trim().required('Password is required'),
 });
 
+export const ForgotPasswordSchema = yup.object({
+  email: yup.string().trim().email().required('Email is required'),
+});
+
+
+export const ResetPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+    )
+    .required('Password is required'),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required('Please confirm your password'),
+});
+
 export const CheckoutSchema = yup.object({
   first_name: yup
     .string()
@@ -171,4 +191,76 @@ export const ContactSchema = yup.object({
   phone: yup.string().optional(),
   subject: yup.string().optional(),
   message: yup.string().trim().required('Message is required'),
+});
+
+export const VendorRequestSchema = yup.object({
+  // Personal Information
+  first_name: yup
+    .string()
+    .trim()
+    .min(2, 'First name must be at least 2 characters')
+    .max(50, 'First name must not exceed 50 characters')
+    .required('First name is required'),
+
+  last_name: yup
+    .string()
+    .trim()
+    .min(2, 'Last name must be at least 2 characters')
+    .max(50, 'Last name must not exceed 50 characters')
+    .required('Last name is required'),
+
+  email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+
+  phone_number: yup
+    .string()
+    .trim()
+    // .matches(phoneRegex, 'Please enter a valid Nigerian phone number (e.g., 08012345678)')
+    .required('Phone number is required'),
+
+  // Company Information
+  company_name: yup
+    .string()
+    .trim()
+    .min(2, 'Company name must be at least 2 characters')
+    .max(100, 'Company name must not exceed 100 characters')
+    .required('Company name is required'),
+
+  company_email: yup
+    .string()
+    .trim()
+    .email('Please enter a valid company email address')
+    .required('Company email is required'),
+
+  company_phone: yup
+    .string()
+    .trim()
+    // .matches(phoneRegex, 'Please enter a valid company phone number (e.g., 08012345678)')
+    .required('Company phone number is required'),
+
+  company_address: yup
+    .string()
+    .trim()
+    .min(10, 'Company address must be at least 10 characters')
+    .max(500, 'Company address must not exceed 500 characters')
+    .required('Company address is required'),
+
+  company_website: yup
+    .string()
+    .trim()
+    .url('Please enter a valid website URL (e.g., https://example.com)')
+    .nullable()
+    .transform((value, originalValue) => {
+      return originalValue === '' ? null : value;
+    })
+    .notRequired(),
+
+  // Terms Agreement
+  terms_accepted: yup
+    .boolean()
+    .oneOf([true], 'You must accept the vendor terms and conditions to continue')
+    .required('You must accept the vendor terms and conditions'),
 });

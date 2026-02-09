@@ -177,3 +177,54 @@ export const CartPageSkeleton = () => {
     );
 };
 
+export const OrderListSkeleton = () => {
+    return (
+        <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+                <div
+                    key={i}
+                    className="bg-white rounded-xl border border-gray-200 overflow-hidden animate-pulse"
+                >
+                    {/* Progress bar skeleton */}
+                    <div className="h-1.5 bg-gray-200" />
+
+                    <div className="p-4 sm:p-6">
+                        {/* Header skeleton */}
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                            <div className="flex-1 space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="h-6 w-32 bg-gray-200 rounded" />
+                                    <div className="h-6 w-20 bg-gray-200 rounded-full" />
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="h-4 w-24 bg-gray-200 rounded" />
+                                    <div className="h-4 w-20 bg-gray-200 rounded" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="h-4 w-20 bg-gray-200 rounded ml-auto" />
+                                <div className="h-8 w-28 bg-gray-200 rounded" />
+                            </div>
+                        </div>
+
+                        {/* Details grid skeleton */}
+                        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {[1, 2, 3].map((j) => (
+                                <div key={j} className="p-3 bg-gray-50 rounded-lg">
+                                    <div className="h-4 w-24 bg-gray-200 rounded mb-2" />
+                                    <div className="h-5 w-32 bg-gray-200 rounded" />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Actions skeleton */}
+                        <div className="mt-6 flex gap-3">
+                            <div className="flex-1 h-10 bg-gray-200 rounded-lg" />
+                            <div className="flex-1 h-10 bg-gray-200 rounded-lg" />
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};

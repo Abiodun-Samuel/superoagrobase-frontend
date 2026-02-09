@@ -1,35 +1,20 @@
-export const metadata = {
-  title:
-    "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js Home for TailAdmin Dashboard Template",
-};
+import DashboardSection from '@/components/dashboard/common/DashboardSection';
+import PageBreadcrumb from '@/components/dashboard/common/PageBreadcrumb';
+import { getDashboardHomeMetadata } from '@/utils/seo/dashboard-seo.meta';
 
-export default function Dashboard() {
+export const metadata = getDashboardHomeMetadata();
+
+const DashboardPage = () => {
   return (
     <>
-      <div className="grid grid-cols-12 gap-4 md:gap-6">
-        <div className="col-span-12 space-y-6 xl:col-span-7">
-          {/* <EcommerceMetrics />
-
-          <MonthlySalesChart /> */}
-        </div>
-
-        <div className="col-span-12 xl:col-span-5">
-          {/* <MonthlyTarget /> */}
-        </div>
-
-        <div className="col-span-12">
-          {/* <StatisticsChart /> */}
-        </div>
-
-        <div className="col-span-12 xl:col-span-5">
-          {/* <DemographicCard /> */}
-        </div>
-
-        <div className="col-span-12 xl:col-span-7">
-          {/* <RecentOrders /> */}
-        </div>
-      </div>
+      <PageBreadcrumb
+        pageTitle="Dashboard Overview"
+        description="Comprehensive dashboard overview with analytics, recent activities, and quick stats for managing SuperoAgroBase platform."
+      />
+      <DashboardSection>
+        Your dashboard stats, charts, and overview content
+      </DashboardSection>
     </>
   );
-}
+};
+export default DashboardPage;

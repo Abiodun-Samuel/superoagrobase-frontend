@@ -1,19 +1,22 @@
-import OrderDetailsPage from '@/components/orders/OrderDetailsPage';
-import { notFound } from 'next/navigation';
+import DashboardSection from '@/components/dashboard/common/DashboardSection';
+import PageBreadcrumb from '@/components/dashboard/common/PageBreadcrumb';
+import { getDashboardOrderDetailsMetadata } from '@/utils/seo/dashboard-seo.meta';
 
-export const revalidate = 3600;
-export const dynamicParams = true;
+export const metadata = getDashboardOrderDetailsMetadata();
 
-export default async function OrderPage({ params }) {
-    try {
-        const { reference } = await params;
-        if (!reference) notFound();
+const OrderDetailsPage = async ({ params }) => {
+    const { reference } = await params;
+    return (
+        <>
+            <PageBreadcrumb
+                pageTitle="Order Details"
+                description="View complete order information including customer details, order items, payment status, and shipping information."
+            />
+            <DashboardSection>
+                OrderDetails : {reference}
+            </DashboardSection>
+        </>
+    );
+};
 
-
-        return (
-            <OrderDetailsPage reference={reference} />
-        );
-    } catch (error) {
-        notFound();
-    }
-}
+export default OrderDetailsPage;

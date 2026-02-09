@@ -75,7 +75,7 @@ const ContactDetailsPage = () => {
     return (
         <>
             {/* Contact Methods Grid */}
-            <div className="relative z-10">
+            <div className="relative z-10 my-10 space-y-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {contactMethods.map((method, index) => {
                         const Icon = method.icon;
@@ -98,7 +98,7 @@ const ContactDetailsPage = () => {
             </div>
 
             {/* Main Content */}
-            <div >
+            <div className='my-10 space-y-10'>
                 <div className="grid lg:grid-cols-3 gap-8">
                     {/* Contact Form */}
                     <div className="lg:col-span-2">
@@ -236,7 +236,7 @@ const ContactDetailsPage = () => {
             </div>
 
             {/* Map Section */}
-            <div id="map" >
+            <div id="map" className='my-10 space-y-10'>
                 <div className="bg-white rounded-xl shadow border overflow-hidden">
                     <div className="aspect-[16/9] sm:aspect-[21/9] bg-gray-200">
                         <iframe

@@ -1,25 +1,41 @@
 import React from "react";
+import { Sprout, Mail, Phone } from "lucide-react";
 
 export default function SidebarWidget() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div
-      className={`
-        mx-auto mb-10 w-full max-w-60 rounded-xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]`}
-    >
-      <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-        #1 Tailwind CSS Dashboard
+    <div className="w-full rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-4 border border-green-200 dark:border-green-800/30 shadow-sm">
+      {/* Title */}
+      <h3 className="text-sm font-semibold text-green-700 dark:text-white text-center">
+        SuperoAgrobase
       </h3>
-      <p className="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        Leading Tailwind CSS Admin Template with 400+ UI Component and Pages.
+
+      {/* Tagline */}
+      <p className="text-xs text-gray-600 dark:text-gray-400 text-center mb-4 leading-relaxed">
+        Key to Agricultural Productivity
       </p>
-      <a
-        href="https://tailadmin.com/pricing"
-        target="_blank"
-        rel="nofollow"
-        className="flex items-center justify-center p-3 font-medium text-white rounded-xl bg-brand-500 text-theme-sm hover:bg-brand-600"
-      >
-        Upgrade To Pro
-      </a>
+
+      {/* Divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-green-300 dark:via-green-700 to-transparent mb-3" />
+
+      {/* Contact Information */}
+      <div className="space-y-2">
+        <a
+          href="mailto:contact@superoagrobase.com"
+          className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group"
+        >
+          <Mail className="w-3.5 h-3.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
+          <span className="truncate">contact@superoagrobase.com</span>
+        </a>
+        <a
+          href="tel:+2348157037737"
+          className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors group"
+        >
+          <Phone className="w-3.5 h-3.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
+          <span>0815 703 7737</span>
+        </a>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 <!-- # SuperoAgrobase - Complete SEO Implementation Guide
+Hi Samuel
 
 ## 🎯 What Changed in the Refactoring
 

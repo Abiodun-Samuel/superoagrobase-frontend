@@ -1,3 +1,4 @@
+import Toast from "@/lib/toastify";
 import { ROLE_ENUM } from "./constant";
 import { SHIPPING_RATES } from "./data";
 
@@ -13,6 +14,19 @@ export const formatErrorMessage = (error) => {
   }
 
   return error?.message || 'An unexpected error occurred';
+};
+
+
+export const handleSuccess = (response, defaultMessage, callback) => {
+  const message = response?.message || defaultMessage;
+  Toast.success(message);
+  callback?.(response);
+};
+
+export const handleError = (error, callback) => {
+  const message = formatErrorMessage(error);
+  Toast.error(message);
+  callback?.(error);
 };
 
 export function getPrimaryRole(roles = []) {

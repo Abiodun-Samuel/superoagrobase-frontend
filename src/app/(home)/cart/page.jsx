@@ -1,17 +1,34 @@
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
 import { getCartMetadata } from '@/utils/seo/seo.meta';
 import { getCartBreadcrumbJsonLd, getCartPageJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
 import CartDetailsPage from '@/components/cart/CartDetailsPage';
-import JsonLdScripts from '@/components/provider/JsonLdScripts';
+import PageLayout from '@/components/page/PageLayout';
+import PageHeader from '@/components/page/PageHeader';
 
-export async function generateMetadata() { return getCartMetadata(); }
+export const metadata = getCartMetadata();
 
 export default function CartPage() {
-    const jsonLdGenerators = [getCartBreadcrumbJsonLd, getCartPageJsonLd, getOrganizationJsonLd];
+    const jsonLdGenerators = [
+        getOrganizationJsonLd,
+        getCartBreadcrumbJsonLd,
+        getCartPageJsonLd
+    ];
 
     return (
         <>
             <JsonLdScripts generators={jsonLdGenerators} />
-            <CartDetailsPage />
+            <PageHeader
+                title="Shopping Cart"
+                description="Review your selected items and proceed to checkout"
+                badge="Your Cart"
+                breadcrumbs={[
+                    { label: 'Shopping Cart', href: '/cart' },
+                ]}
+                isBackButton={false}
+            />
+            <PageLayout>
+                <CartDetailsPage />
+            </PageLayout>
         </>
     );
 }

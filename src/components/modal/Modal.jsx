@@ -1,7 +1,7 @@
-import Animated from '@/components/common/Animated';
-import { CloseIcon, ModalIcon } from '@/icons';
+import { CloseIcon } from '@/icons';
 import { useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import Animation from '../common/Animation';
 
 const Modal = ({
   isOpen,
@@ -57,7 +57,7 @@ const Modal = ({
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
     >
-      <Animated
+      <Animation
         ref={modalRef}
         animation="zoom-in"
         className={`relative w-full ${maxWidth} bg-white dark:bg-gray-800 rounded-xl shadow-xl`}
@@ -90,7 +90,7 @@ const Modal = ({
         <div className="p-6 text-gray-700 dark:text-gray-300 max-h-[70vh] overflow-y-auto">
           {children}
         </div>
-      </Animated>
+      </Animation>
     </div>,
     document.body
   );

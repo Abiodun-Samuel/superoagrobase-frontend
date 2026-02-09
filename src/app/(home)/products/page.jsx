@@ -1,10 +1,139 @@
-// app/products/page.js
+// // app/products/page.js
+// import { ProductService } from '@/services/products.service';
+// import { getProductsMetadata } from '@/utils/seo/seo.meta';
+// import { getProductCollectionJsonLd, getProductsListBreadcrumbJsonLd, getSearchResultsJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
+// import ProductsDetailsPage from '@/components/products/ProductsDetailsPage';
+// import { notFound } from 'next/navigation';
+// import JsonLdScripts from '@/components/provider/JsonLdScripts';
+
+// export const revalidate = 3600;
+
+// const parseSearchParams = async (searchParams) => {
+//     const params = await searchParams;
+//     const page = params?.page ? parseInt(params.page) : 1;
+//     const perPage = params?.per_page ? parseInt(params.per_page) : 50;
+
+//     if (page < 1 || isNaN(page)) return null;
+//     if (perPage < 1 || perPage > 200 || isNaN(perPage)) return null;
+
+//     return {
+//         category: params?.category || null,
+//         subcategory: params?.subcategory || null,
+//         search: params?.search || null,
+//         sort: params?.sort || 'newest',
+//         brand: params?.brand || null,
+//         minPrice: params?.minPrice || null,
+//         maxPrice: params?.maxPrice || null,
+//         inStock: params?.inStock === 'true',
+//         page,
+//         per_page: perPage
+//     };
+// };
+
+// const fetchProducts = async (filters) => {
+//     try {
+//         const response = await ProductService.getProducts(filters);
+//         if (!response?.data) {
+//             return { products: [], meta: {}, links: [], success: false };
+//         }
+//         return {
+//             products: response.data || [],
+//             meta: response.meta || {},
+//             links: response.links || {},
+//             success: true
+//         };
+//     } catch (error) {
+//         return { products: [], meta: {}, links: [], success: false };
+//     }
+// };
+
+// const validatePagination = (page, totalPages) => {
+//     if (totalPages === 0) return true;
+//     return page <= totalPages;
+// };
+
+// export async function generateMetadata({ searchParams }) {
+//     const filters = await parseSearchParams(searchParams);
+
+//     if (!filters) {
+//         return getProductsMetadata({});
+//     }
+
+//     const { meta } = await fetchProducts(filters);
+
+//     return getProductsMetadata({
+//         category: filters.category,
+//         subcategory: filters.subcategory,
+//         search: filters.search,
+//         brand: filters.brand,
+//         page: filters.page,
+//         totalProducts: meta.total || 0,
+//         totalPages: meta.last_page || 1,
+//         perPage: filters.per_page
+//     });
+// }
+
+// const ProductsPage = async ({ searchParams }) => {
+//     const filters = await parseSearchParams(searchParams);
+
+//     if (!filters) {
+//         notFound();
+//     }
+
+//     const { products, meta, links, success } = await fetchProducts(filters);
+//     if (!success) notFound();
+
+//     const currentPage = meta.current_page || filters.page;
+//     const totalPages = meta.last_page || 1;
+
+//     if (!validatePagination(currentPage, totalPages)) notFound();
+
+//     return (
+//         <>
+//             <JsonLdScripts
+//                 generators={[
+//                     getOrganizationJsonLd,
+//                     { fn: getProductsListBreadcrumbJsonLd, params: { category: filters.category, subcategory: filters.subcategory } },
+//                     { fn: getProductCollectionJsonLd, params: { category: filters.category, subcategory: filters.subcategory, search: filters.search, products, totalProducts: meta.total || 0, page: currentPage, totalPages, perPage: filters.per_page } },
+//                     filters.search && { fn: getSearchResultsJsonLd, params: { search: filters.search, totalProducts: meta.total || 0, products, page: currentPage } }
+//                 ]}
+//             />
+
+//             <ProductsDetailsPage
+//                 products={products}
+//                 meta={meta}
+//                 links={links}
+//                 filters={{
+//                     category: filters.category,
+//                     subcategory: filters.subcategory,
+//                     search: filters.search,
+//                     brand: filters.brand,
+//                     minPrice: filters.minPrice,
+//                     maxPrice: filters.maxPrice,
+//                     inStock: filters.inStock,
+//                     sort: filters.sort,
+//                     page: currentPage,
+//                     per_page: filters.per_page
+//                 }}
+//             />
+//         </>
+//     );
+// };
+
+// export default ProductsPage;
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
 import { ProductService } from '@/services/products.service';
 import { getProductsMetadata } from '@/utils/seo/seo.meta';
-import { getProductCollectionJsonLd, getProductsListBreadcrumbJsonLd, getSearchResultsJsonLd, getOrganizationJsonLd } from '@/utils/seo/seo.jsonld';
+import {
+    getProductCollectionJsonLd,
+    getProductsListBreadcrumbJsonLd,
+    getSearchResultsJsonLd,
+    getOrganizationJsonLd
+} from '@/utils/seo/seo.jsonld';
 import ProductsDetailsPage from '@/components/products/ProductsDetailsPage';
+import PageLayout from '@/components/page/PageLayout';
+import PageHeader from '@/components/page/PageHeader';
 import { notFound } from 'next/navigation';
-import JsonLdScripts from '@/components/provider/JsonLdScripts';
 
 export const revalidate = 3600;
 
@@ -50,6 +179,66 @@ const fetchProducts = async (filters) => {
 const validatePagination = (page, totalPages) => {
     if (totalPages === 0) return true;
     return page <= totalPages;
+};
+
+/**
+ * Build page title based on active filters
+ */
+const getPageTitle = (filters) => {
+    const { category, subcategory, search } = filters;
+    if (search) return `Search Results for "${search}"`;
+    if (subcategory) return subcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    if (category) return category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return 'All Products';
+};
+
+/**
+ * Build page description based on active filters
+ */
+const getPageDescription = (filters, meta) => {
+    const { category, subcategory, search } = filters;
+    const productCount = meta.total?.toLocaleString() || '0';
+    if (search) {
+        return `Found ${productCount} products matching your search. Browse our quality agricultural products and solutions.`;
+    }
+    if (subcategory || category) {
+        return `Explore ${productCount} premium products in our ${subcategory || category} collection. Quality guaranteed for your agricultural needs.`;
+    }
+    return `Discover ${productCount} premium agricultural products. From seeds to tools, find everything you need for successful farming.`;
+};
+
+/**
+ * Build breadcrumb navigation
+ */
+const getBreadcrumbItems = (filters) => {
+    const { category, subcategory } = filters;
+    const breadcrumbs = [{ label: 'Products', href: '/products' }];
+
+    if (category) {
+        breadcrumbs.push({
+            label: category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            href: `/products?category=${encodeURIComponent(category)}`
+        });
+    }
+
+    if (subcategory) {
+        breadcrumbs.push({
+            label: subcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            href: `/products?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}`
+        });
+    }
+
+    return breadcrumbs;
+};
+
+/**
+ * Get badge text based on active filters
+ */
+const getBadgeText = (filters) => {
+    const { search, category } = filters;
+    if (search) return 'Search Results';
+    if (category) return 'Category';
+    return 'Products';
 };
 
 export async function generateMetadata({ searchParams }) {
@@ -99,23 +288,34 @@ const ProductsPage = async ({ searchParams }) => {
                 ]}
             />
 
-            <ProductsDetailsPage
-                products={products}
-                meta={meta}
-                links={links}
-                filters={{
-                    category: filters.category,
-                    subcategory: filters.subcategory,
-                    search: filters.search,
-                    brand: filters.brand,
-                    minPrice: filters.minPrice,
-                    maxPrice: filters.maxPrice,
-                    inStock: filters.inStock,
-                    sort: filters.sort,
-                    page: currentPage,
-                    per_page: filters.per_page
-                }}
+            <PageHeader
+                isHome={true}
+                title={getPageTitle(filters)}
+                description={getPageDescription(filters, meta)}
+                badge={getBadgeText(filters)}
+                breadcrumbs={getBreadcrumbItems(filters)}
+                isBackButton={false}
             />
+
+            <PageLayout isHome={true}>
+                <ProductsDetailsPage
+                    products={products}
+                    meta={meta}
+                    links={links}
+                    filters={{
+                        category: filters.category,
+                        subcategory: filters.subcategory,
+                        search: filters.search,
+                        brand: filters.brand,
+                        minPrice: filters.minPrice,
+                        maxPrice: filters.maxPrice,
+                        inStock: filters.inStock,
+                        sort: filters.sort,
+                        page: currentPage,
+                        per_page: filters.per_page
+                    }}
+                />
+            </PageLayout>
         </>
     );
 };

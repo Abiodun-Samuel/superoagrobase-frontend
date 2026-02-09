@@ -13,7 +13,7 @@ import useAuth from '@/hooks/useAuth';
 
 const Header = () => {
     const pathname = usePathname();
-    const { user, isAuthenticated, role } = useAuth();
+    const { user, isAuthenticated, role, roles } = useAuth();
 
     const [state, setState] = useState({
         isMobileMenuOpen: false,
@@ -27,13 +27,13 @@ const Header = () => {
             {/* Spacer for fixed navbar */}
             <div className='h-[70px]' />
 
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow">
 
                 {/* Main Navigation Bar */}
                 <div
                     className={`transition-all duration-300 bg-white border-b border-gray-100 h-20`}
                 >
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                    <div className="container mx-auto px-3 sm:px-5 lg:px-7 h-full">
                         <div className="flex items-center justify-between h-full gap-2 sm:gap-4">
                             <Logo />
 
@@ -48,6 +48,7 @@ const Header = () => {
                                 isAuthenticated={isAuthenticated}
                                 user={user}
                                 role={role}
+                                roles={roles}
                                 userMenu={NAVBAR_DATA.userMenu}
                                 pathname={pathname}
                             />

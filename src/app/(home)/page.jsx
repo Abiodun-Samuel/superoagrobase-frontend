@@ -5,6 +5,7 @@ import HowItWorks from "@/components/home/HowItWorks"
 import Testimonials from "@/components/home/Testimonials"
 import TrendingProductsSSR from "@/components/home/TrendingProductsSSR"
 import WhyChooseUs from "@/components/home/WhyChooseUs"
+import PageLayout from "@/components/page/PageLayout"
 import JsonLdScripts from "@/components/provider/JsonLdScripts"
 import { getHomeFAQJsonLd, getHomePageJsonLd, getOfferCatalogJsonLd } from "@/utils/seo/seo.jsonld"
 import { getHomeMetadata } from "@/utils/seo/seo.meta"
@@ -18,14 +19,15 @@ const HomePage = async () => {
     return (
         <>
             <JsonLdScripts generators={jsonLdScripts} />
-
-            <HeroWithFeaturedProductsSSR />
-            <FeaturedCategoriesSSR />
-            <TrendingProductsSSR />
-            <WhyChooseUs />
-            <HowItWorks />
-            <Testimonials />
-            <BlogSection />
+            <PageLayout isHome={true}>
+                <HeroWithFeaturedProductsSSR />
+                <FeaturedCategoriesSSR />
+                <TrendingProductsSSR />
+                <WhyChooseUs />
+                <HowItWorks />
+                <Testimonials />
+                <BlogSection />
+            </PageLayout>
         </>
     )
 }

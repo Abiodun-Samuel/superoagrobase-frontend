@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 /**
  * IconBadge Component
  * A versatile badge component for displaying icons with various styles and shapes
@@ -151,21 +153,21 @@ const IconBadge = ({
                 aria-label={ariaLabel || "External icon link"}
             >
                 <IconContent />
-            </a>
+            </a >
         );
     }
 
-    // Render as internal link
+    // Render as internal link (Next.js Link)
     if (href) {
         return (
-            <a
+            <Link
                 href={href}
                 className={combinedClassName}
                 onClick={onClick}
                 aria-label={ariaLabel || "Icon link"}
             >
                 <IconContent />
-            </a>
+            </Link>
         );
     }
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Animated from "../../common/Animated";
+import Animation from "../common/Animation";
 
 export const Dropdown = ({
   isOpen,
@@ -33,11 +33,11 @@ export const Dropdown = ({
   if (!isOpen) return null;
 
   return (
-    <Animated duration={duration} animation={animation} easing={easing}
+    <Animation duration={duration} animation={animation} easing={easing}
       ref={dropdownRef}
       className={`absolute z-10 ${direction == 'right' ? 'left-0 top-7' : 'right-0'}  mt-2  rounded-xl border border-gray-200 bg-white  shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark ${className}`}
     >
       {children}
-    </Animated>
+    </Animation>
   );
 };

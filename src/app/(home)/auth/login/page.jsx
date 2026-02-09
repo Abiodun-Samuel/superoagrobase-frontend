@@ -4,13 +4,16 @@ import { getAuthFAQJsonLd, getLoginBreadcrumbJsonLd, getLoginPageJsonLd } from "
 import { getLoginMetadata } from "@/utils/seo/seo.meta";
 
 export const metadata = getLoginMetadata();
+
 export default async function LoginPage({ searchParams }) {
-  const { redirectTo } = await searchParams;
+
+  const { redirect } = await searchParams;
   const jsonLdGenerators = [getLoginBreadcrumbJsonLd, getLoginPageJsonLd, getAuthFAQJsonLd];
 
-  return (<>
-    <JsonLdScripts generators={jsonLdGenerators} />
-    <Login redirectTo={redirectTo} />
-  </>
+  return (
+    <>
+      <JsonLdScripts generators={jsonLdGenerators} />
+      <Login redirect={redirect} />
+    </>
   );
 }

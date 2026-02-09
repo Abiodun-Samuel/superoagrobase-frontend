@@ -21,12 +21,11 @@ export default function PaymentVerify({ reference }) {
     const paymentData = data?.data;
     const paymentStatus = paymentData?.status;
 
-    // Auto-redirect after 5 seconds regardless of status
     useEffect(() => {
         if (paymentStatus) {
             const timer = setTimeout(() => {
-                router.replace(`/dashboard/orders/${reference?.toLowerCase()}`);
-            }, 5000);
+                router.replace(`/account/orders/${reference?.toLowerCase()}`);
+            }, 2000);
 
             return () => clearTimeout(timer);
         }

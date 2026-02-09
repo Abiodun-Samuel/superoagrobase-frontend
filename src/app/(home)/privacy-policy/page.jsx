@@ -1,26 +1,40 @@
-import LegalPageLayout from '@/components/legal/LegalPageLayout'
-import { PrivacyPolicy } from '@/components/legal/PrivacyPolicy'
-import PageHero from '@/components/page/PageLayout';
-import { getPrivacyPolicyMetadata } from '@/utils/seo/seo.meta';
-import { Shield } from 'lucide-react'
+import JsonLdScripts from "@/components/provider/JsonLdScripts";
+import {
+    getFAQPageJsonLd,
+    getFAQsBreadcrumbJsonLd,
+    getOrganizationJsonLd
+} from "@/utils/seo/seo.jsonld";
+import { getFAQsMetadata } from "@/utils/seo/seo.meta";
+import FAQPage from "@/components/page/FaqsPage";
+import PageLayout from "@/components/page/PageLayout";
+import PageHeader from "@/components/page/PageHeader";
 
-export const metadata = getPrivacyPolicyMetadata();
-const PrivacyPolicyPage = () => {
+export const metadata = getFAQsMetadata();
+
+const FaqsPage = () => {
+    const jsonLdGenerators = [
+        getOrganizationJsonLd,
+        getFAQsBreadcrumbJsonLd,
+        getFAQPageJsonLd
+    ];
+
     return (
         <>
-            <PageHero
-                title="Privacy Policy"
-                description="Learn how we collect, use, and protect your personal information. Our privacy policy complies with Nigeria Data Protection Regulation (NDPR) and ensures your data security."
-                badge="Legal"
+            <JsonLdScripts generators={jsonLdGenerators} />
+            <PageHeader
+                title="Frequently Asked Questions"
+                description="Get answers to common questions about buying agricultural products, delivery, payments, returns, and more. Learn about our quality assurance and customer support."
+                badge="Help Center"
                 breadcrumbs={[
-                    { label: 'Privacy Policy', href: '/privacy-policy' }
+                    { label: 'FAQs', href: '/faqs' }
                 ]}
+                isBackButton={false}
             />
-            <LegalPageLayout icon={Shield} title="Privacy Policy">
-                <PrivacyPolicy />
-            </LegalPageLayout>
+            <PageLayout>
+                <FAQPage />
+            </PageLayout>
         </>
-    )
-}
+    );
+};
 
-export default PrivacyPolicyPage
+export default FaqsPage;

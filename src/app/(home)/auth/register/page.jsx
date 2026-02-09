@@ -4,6 +4,7 @@ import { getAuthFAQJsonLd, getRegisterBreadcrumbJsonLd, getRegisterPageJsonLd } 
 import JsonLdScripts from "@/components/provider/JsonLdScripts";
 
 export const metadata = getRegisterMetadata();
+
 const RegisterPage = () => {
   const jsonLdGenerators = [getRegisterBreadcrumbJsonLd, getRegisterPageJsonLd, getAuthFAQJsonLd];
   return (

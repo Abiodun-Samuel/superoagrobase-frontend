@@ -10,8 +10,8 @@ import InputForm from "../form/InputForm";
 import Alert from "../common/Alert";
 import { LogIn } from "lucide-react";
 
-const Login = ({ redirectTo }) => {
-    const { mutateAsync, isPending, isError, error } = useLogin({ redirectTo });
+const Login = ({ redirect }) => {
+    const { mutateAsync, isPending, isError, error } = useLogin({ redirect });
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(LoginSchema)
@@ -72,7 +72,7 @@ const Login = ({ redirectTo }) => {
                 />
 
                 <Link
-                    href={`/forgot-password`}
+                    href={`/auth/forgot-password`}
                     className="text-blue-600 dark:text-blue-400 hover:underline font-normal  text-xs"
                 >
                     Forget Password?

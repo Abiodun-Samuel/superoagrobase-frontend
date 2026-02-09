@@ -5,10 +5,10 @@ import ProductSpecifications from '@/components/products/ProductSpecifications';
 import SimilarProducts from '@/components/products/SimilarProducts';
 
 
-const ProductDetails = ({ product, breadcrumbItems }) => {
+const ProductDetails = ({ product }) => {
 
     return (
-        <main className="min-h-screen">
+        <main className="min-h-screen my-10 space-y-10">
 
             {/* Product Detail Section */}
             <div className="bg-white rounded-xl shadow overflow-hidden mb-8">
@@ -16,12 +16,10 @@ const ProductDetails = ({ product, breadcrumbItems }) => {
                     {/* Product Images */}
                     <ProductImageGallery product={product} />
 
-                    {/* Product Info & Add to Cart */}
                     <ProductInfo product={product} />
                 </div>
             </div>
 
-            {/* Product Specifications */}
             <ProductSpecifications product={product} />
 
             {/* Reviews Section */}

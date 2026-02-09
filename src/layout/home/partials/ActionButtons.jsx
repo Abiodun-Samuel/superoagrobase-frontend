@@ -7,7 +7,7 @@ import Link from "next/link";
 import Avatar from "@/components/ui/Avatar";
 import { useCart } from "@/queries/cart.query";
 
-const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
+const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role, roles }) => {
     const { data: cartData } = useCart();
 
     const useClickOutside = (handler) => {
@@ -59,6 +59,7 @@ const ActionButtons = ({ isAuthenticated, user, userMenu, pathname, role }) => {
                         isAuthenticated={isAuthenticated}
                         user={user}
                         role={role}
+                        roles={roles}
                         userMenu={userMenu}
                         onClose={() => setShowUserMenu(false)}
                         pathname={pathname}

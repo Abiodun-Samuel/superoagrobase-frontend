@@ -4,10 +4,10 @@ export const AUTH_COOKIE = 'AUTH_COOKIE';
 export const SESSION_COOKIE = 'SESSION_COOKIE';
 
 export const ROLE_ENUM = Object.freeze({
-    super_admin: "Super Admin",
-    admin: "Admin",
-    vendor: "Vendor",
-    user: "User",
+    super_admin: "super_admin",
+    admin: "admin",
+    vendor: "vendor",
+    user: "user",
 });
 
 

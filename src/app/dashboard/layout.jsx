@@ -28,7 +28,10 @@ export default function DashboardLayout({
         {/* Header */}
         <AppHeader />
         {/* Page Content */}
-        <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">{children}</div>
+        <div className="p-3 md:p-5 mx-auto">
+          {children}
+        </div>
+        {/* <div className="p-3 mx-auto max-w-(--breakpoint-2xl) md:p-5">{children}</div> */}
       </div>
     </div>
   );

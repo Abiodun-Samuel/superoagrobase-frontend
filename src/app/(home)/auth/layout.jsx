@@ -11,6 +11,8 @@ export default function AuthLayout({ children }) {
           src="/images/bg/auth-bg.png"
           alt="Auth background"
           fill
+          sizes="(max-width: 767px) 0vw, (max-width: 1023px) 50vw, 512px"
+          priority
           className="object-cover rounded-tl-lg rounded-bl-lg"
         />
       </div>

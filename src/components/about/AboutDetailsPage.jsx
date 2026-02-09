@@ -3,7 +3,6 @@
 import { Users, Target, Award, TrendingUp, Globe, CheckCircle, ArrowRight, Microscope, ShoppingBag, Sprout, Shield, Heart, Sparkles, MapPin } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
 import IconBadge from '../ui/IconBadge';
-import PageHero from '../page/PageLayout';
 import CTASection from '../common/CTASection';
 import Link from 'next/link';
 
@@ -153,17 +152,6 @@ export default function AboutDetailsPage() {
 
     return (
         <>
-            <PageHero
-                title={
-                    <>
-                        About <span className="text-green-200">Supero Agrobase</span>
-                    </>
-                }
-                description={'A fast-rising agribusiness enterprise leveraging in-depth research and development to empower Nigerian farmers with quality agricultural inputs, expert farm management, and comprehensive laboratory services.'}
-                badge="Empowering Nigerian Agriculture"
-                breadcrumbs={[{ label: 'About Us', href: '/about' }]}
-            />
-
             {/* Stats Section */}
             <section className="py-16">
                 <div className="mx-auto px-6">

@@ -1,26 +1,42 @@
-import LegalPageLayout from '@/components/legal/LegalPageLayout'
-import { TermsOfService } from '@/components/legal/TermsOfService'
-import PageHero from '@/components/page/PageLayout';
+import JsonLdScripts from '@/components/provider/JsonLdScripts';
 import { getTermsOfServiceMetadata } from '@/utils/seo/seo.meta';
-import { Scale } from 'lucide-react'
+import {
+    getTermsOfServiceBreadcrumbJsonLd,
+    getTermsOfServicePageJsonLd,
+    getTermsOfServiceFAQJsonLd,
+    getOrganizationJsonLd
+} from '@/utils/seo/seo.jsonld';
+import { TermsOfService } from '@/components/legal/TermsOfService';
+import PageLayout from '@/components/page/PageLayout';
+import PageHeader from '@/components/page/PageHeader';
 
 export const metadata = getTermsOfServiceMetadata();
+
 const TermsOfServicePage = () => {
+    const jsonLdGenerators = [
+        getOrganizationJsonLd,
+        getTermsOfServiceBreadcrumbJsonLd,
+        getTermsOfServicePageJsonLd,
+        getTermsOfServiceFAQJsonLd
+    ];
+
     return (
         <>
-            <PageHero
+            <JsonLdScripts generators={jsonLdGenerators} />
+            <PageHeader
                 title="Terms of Service"
                 description="Read our terms and conditions governing the use of SuperoAgrobase. Understand your rights, responsibilities, purchase terms, delivery policies, and dispute resolution procedures."
                 badge="Legal"
                 breadcrumbs={[
                     { label: 'Terms of Service', href: '/terms-of-service' }
                 ]}
+                isBackButton={false}
             />
-            <LegalPageLayout icon={Scale} title="Terms of Service">
+            <PageLayout>
                 <TermsOfService />
-            </LegalPageLayout>
+            </PageLayout>
         </>
-    )
-}
+    );
+};
 
-export default TermsOfServicePage
+export default TermsOfServicePage;

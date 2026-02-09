@@ -6,7 +6,7 @@ export default function HomeLayout({ children }) {
   return (
     <>
       <Header />
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 my-2 overflow-x-hidden!">
+      <div className="mt-2.5 overflow-x-hidden!">
         {children}
       </div>
       <Footer />

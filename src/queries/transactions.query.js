@@ -9,7 +9,6 @@ export const useVerifyTransaction = (params = {}, options = {}) => {
         queryFn: async () => {
             try {
                 const response = await TransactionService.verifyTransaction(params);
-                console.log(response)
                 Toast.success(response.message || 'Payment verified successfully!');
                 return response;
             } catch (error) {

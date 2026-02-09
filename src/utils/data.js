@@ -28,7 +28,11 @@ import {
   Cookie,
   AlertTriangle, CreditCard, MapPin, CheckCircle, AlertCircle,
   UserPenIcon,
-  Building2
+  Building2,
+  HeartIcon,
+  ListChecksIcon,
+  HelpingHand,
+  Bell
 } from 'lucide-react';
 
 export const SITE_DATA = {
@@ -261,9 +265,12 @@ export const NAVBAR_DATA = {
   ],
   userMenu: {
     authenticated: [
-      { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-      { id: 'profile', label: 'My Profile', path: '/dashboard/profile', icon: UserCircle },
-      { id: 'orders', label: 'My Orders', path: '/dashboard/orders', icon: Clock },
+      { id: 'profile', label: 'Profile', path: '/account/profile', icon: UserCircle },
+      { id: 'orders', label: 'My Orders', path: '/account/orders', icon: Clock },
+      // { id: 'notifications', label: 'Notifications', path: '/account/notifications', icon: Bell },
+      // { id: 'wishlists', label: 'Wishlists', path: '/account/wishlists', icon: HeartIcon },
+      // { id: 'support', label: 'Support', path: '/account/support', icon: HelpingHand },
+      // { id: 'product-reviews', label: 'Product Reviews', path: '/account/product-reviews', icon: ListChecksIcon },
     ],
     guest: [
       { id: 'login', label: 'Login', path: '/auth/login', icon: LogIn },
@@ -273,7 +280,7 @@ export const NAVBAR_DATA = {
 };
 
 export const ROLE_CONFIG = {
-  'super admin': {
+  'super_admin': {
     icon: ShieldCheck,
     color: 'purple',
     label: 'Super Admin'
