@@ -3,7 +3,7 @@ import CollapsibleSection from "./CollapsibleSection";
 
 export const Disclaimer = () => {
     return (
-        <div className="prose prose-green max-w-none">
+        <div className="prose prose-green max-w-none space-y-10 my-10">
             <div className="bg-red-50 border-l-4 border-red-600 p-4 mb-8 rounded">
                 <p className="text-sm text-red-900 font-medium">
                     Please read this disclaimer carefully before using {SITE_DATA.name}. This disclaimer limits our liability

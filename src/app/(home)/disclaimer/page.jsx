@@ -1,5 +1,4 @@
 import { Disclaimer } from '@/components/legal/Disclaimer';
-import LegalPageLayout from '@/components/legal/LegalPageLayout';
 import JsonLdScripts from '@/components/provider/JsonLdScripts';
 import { getDisclaimerMetadata } from '@/utils/seo/seo.meta';
 import {
@@ -10,6 +9,7 @@ import {
 } from '@/utils/seo/seo.jsonld';
 import { FileText } from 'lucide-react';
 import PageHeader from '@/components/page/PageHeader';
+import PageLayout from '@/components/page/PageLayout';
 
 export const metadata = getDisclaimerMetadata();
 
@@ -32,9 +32,9 @@ const DisclaimerPage = () => {
                     { label: 'Disclaimer', href: '/disclaimer' }
                 ]}
             />
-            <LegalPageLayout icon={FileText} title="Disclaimer">
+            <PageLayout icon={FileText} title="Disclaimer">
                 <Disclaimer />
-            </LegalPageLayout>
+            </PageLayout>
         </>
     );
 };

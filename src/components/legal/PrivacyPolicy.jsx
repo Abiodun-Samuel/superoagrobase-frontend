@@ -3,7 +3,7 @@ import CollapsibleSection from "./CollapsibleSection";
 
 export const PrivacyPolicy = () => {
     return (
-        <div className="prose prose-green max-w-none">
+        <div className="prose prose-green max-w-none space-y-10 my-10">
             <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-8 rounded">
                 <p className="text-sm text-blue-900 font-medium">
                     This Privacy Policy complies with the Nigeria Data Protection Regulation (NDPR) and demonstrates our commitment to protecting your personal information.

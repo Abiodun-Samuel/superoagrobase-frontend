@@ -3,7 +3,7 @@ import CollapsibleSection from "./CollapsibleSection";
 
 export const CookiePolicy = () => {
     return (
-        <div className="prose prose-green max-w-none">
+        <div className="prose prose-green max-w-none space-y-10 my-10">
             <div className="bg-purple-50 border-l-4 border-purple-600 p-4 mb-8 rounded">
                 <p className="text-sm text-purple-900 font-medium">
                     This Cookie Policy explains how {SITE_DATA.name} uses cookies and similar tracking technologies to enhance
