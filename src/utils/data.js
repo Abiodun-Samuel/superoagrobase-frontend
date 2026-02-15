@@ -194,8 +194,8 @@ export const FOOTER_DATA = {
       { label: 'Become a vendor', href: '/become-a-vendor', icon: Store },
     ],
     customerService: [
-      { label: 'Orders', href: '/dashboard/orders', icon: ShoppingBag },
-      { label: 'Profile', href: '/dashboard/profile', icon: UserPenIcon },
+      { label: 'Orders', href: '/account/orders', icon: ShoppingBag },
+      { label: 'Profile', href: '/account/profile', icon: UserPenIcon },
       { label: 'Cart', href: '/cart', icon: ShoppingCart },
       { label: 'FAQs', href: '/faqs', icon: HelpCircle },
     ],

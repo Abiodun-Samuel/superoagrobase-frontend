@@ -9,16 +9,15 @@ import { MOCK_PRODUCTS } from "@/utils/data";
 import TextBadge from "../ui/TextBadge";
 
 const SKELETON_COUNT = 4;
-const GRID_CLASSES = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
+const GRID_CLASSES = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6";
 
 const SectionHeader = () => (
-    <header className="text-center mb-12 space-y-4">
+    <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
             color="green"
-            variant="light"
-            size="lg"
-            startIcon={<Star className="w-5 h-5" />}
-            endIcon={<Package className="w-5 h-5" />}
+            variant="solid"
+            startIcon={<Star />}
+            endIcon={<Package />}
         >
             Shop by Category
         </TextBadge>
@@ -30,6 +29,16 @@ const SectionHeader = () => (
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Handpicked premium products trusted by thousands of farmers
         </p>
+
+        <TextBadge
+            color="green"
+            startIcon={<ShoppingBag />}
+            href="/products"
+            variant="outline"
+            endIcon={<ChevronRight />}
+        >
+            <span>View All Products</span>
+        </TextBadge>
     </header>
 );
 
@@ -53,20 +62,6 @@ const ProductGrid = ({ products, isLoading }) => {
     );
 };
 
-const ViewAllButton = () => (
-    <div className="text-center mt-12">
-        <Button
-            startIcon={<ShoppingBag />}
-            href="/products"
-            className="max-w-xs"
-            variant="outline"
-            endIcon={<ChevronRight />}
-        >
-            <span>View All Products</span>
-        </Button>
-    </div>
-);
-
 // Main Component
 export default function FeaturedProducts({
     isError = false,
@@ -82,10 +77,12 @@ export default function FeaturedProducts({
     }, [isError, featuredProducts]);
 
     return (
-        <section className="my-24" aria-labelledby="featured-products-heading">
+        <section
+            className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8"
+            aria-labelledby="featured-products-heading"
+        >
             <SectionHeader />
             <ProductGrid products={products} isLoading={isLoading} />
-            {!isLoading && <ViewAllButton />}
         </section>
     );
 }

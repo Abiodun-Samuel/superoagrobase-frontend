@@ -26,6 +26,7 @@ import InputForm from '@/components/form/InputForm';
 import SwitchForm from '@/components/form/SwitchForm';
 import Paginator from '../common/Paginator';
 import useAuth from '@/hooks/useAuth';
+import Alert from '../common/Alert';
 
 // ============================================
 // Table Row Skeleton Loader
@@ -519,7 +520,9 @@ const ProductSettingsModal = memo(({
     onSave,
     onCancel,
     onRemove,
-    isSaving
+    isSaving,
+    isError,
+    error
 }) => {
     const canSave = useMemo(() => {
         if (selectedProducts.length === 0) return false;
@@ -584,7 +587,9 @@ const ProductSettingsModal = memo(({
                             />
                         ))}
                     </div>
+                    {isError && <Alert className='mt-5' error={error} />}
                 </div>
+
 
                 {/* Footer */}
                 <div className="px-3 sm:px-6 py-3 sm:py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-b-2xl flex-shrink-0">
@@ -637,7 +642,7 @@ ProductSettingsModal.displayName = 'ProductSettingsModal';
 // ============================================
 // Main Component
 // ============================================
-const AddVendorProducts = () => {
+const AddVendorProducts = ({ vendorId }) => {
     const router = useRouter();
     const { user } = useAuth();
 
@@ -665,11 +670,12 @@ const AddVendorProducts = () => {
     const meta = useMemo(() => productsData?.meta || {}, [productsData]);
     const links = useMemo(() => productsData?.links || [], [productsData]);
 
-    const { mutate: addProducts, isPending: isAdding, isSuccess: isAddSuccess } = useAddVendorProducts();
+    const { mutate: addProducts, isPending: isAdding, isSuccess: isAddSuccess, isError, error } = useAddVendorProducts();
 
     useEffect(() => {
         if (isAddSuccess) {
-            router.push('/account/products');
+            const href = vendorId ? `/account/products?vendor_id=${vendorId}` : '/account/products'
+            router.push(href);
         }
     }, [isAddSuccess, router]);
 
@@ -772,11 +778,11 @@ const AddVendorProducts = () => {
                 price: parseFloat(settings.price),
                 stock: parseInt(settings.stock),
                 is_available: settings.is_available ?? true,
-                vendor_id: user?.id,
+                vendor_id: vendorId || user?.id,
             };
         });
         addProducts(formattedData);
-    }, [selectedProductIds, productSettings, addProducts, user?.id]);
+    }, [selectedProductIds, productSettings, addProducts, user?.id, vendorId]);
 
     const selectedCount = selectedProductIds.size;
     const selectedProductsArray = useMemo(() =>
@@ -971,6 +977,8 @@ const AddVendorProducts = () => {
                     onSave={handleSave}
                     onCancel={() => setShowSettingsModal(false)}
                     isSaving={isAdding}
+                    isError={isError}
+                    error={error}
                 />
             )}
         </div>

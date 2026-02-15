@@ -6,6 +6,7 @@ const ENDPOINTS = {
     VENDOR_PRODUCTS: "/vendor/products",
     ALL_PRODUCTS: "/vendor/products/add",
 };
+const BASE_URL = "/admin/vendors";
 
 export const VendorService = {
     // vendor request  
@@ -76,4 +77,5 @@ export const VendorService = {
         const { data } = await $api.delete(ENDPOINTS.VENDOR_PRODUCTS, { data: payload });
         return data;
     },
+
 };

@@ -228,3 +228,171 @@ export const OrderListSkeleton = () => {
         </div>
     );
 };
+
+export const UserDetailsSkeleton = () => {
+    return (
+        <div className="bg-gray-50 dark:bg-gray-900 space-y-10 my-10">
+            <div className="mx-auto">
+                {/* Profile Header Card */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
+                    {/* Back Button Bar */}
+                    <div className="px-6 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                        <div className="h-8 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse" />
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="px-6 py-6 sm:px-8">
+                        <div className="flex flex-col sm:flex-row gap-5 items-start">
+                            {/* Avatar Skeleton */}
+                            <div className="flex-shrink-0 mx-auto sm:mx-0">
+                                <div className="relative">
+                                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse ring-4 ring-white dark:ring-gray-800" />
+                                    {/* Profile status indicator skeleton */}
+                                    <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full bg-gray-300 dark:bg-gray-600 ring-2 ring-white dark:ring-gray-800 animate-pulse" />
+                                </div>
+                            </div>
+
+                            {/* User Details Skeleton */}
+                            <div className="flex-1 space-y-3.5 text-center sm:text-left w-full">
+                                {/* Name and Role */}
+                                <div className="space-y-1.5">
+                                    <div className="h-8 w-48 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse mx-auto sm:mx-0" />
+                                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                                        <div className="h-6 w-20 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse" />
+                                        <div className="h-6 w-16 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse" />
+                                        <div className="h-6 w-24 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse" />
+                                    </div>
+                                </div>
+
+                                {/* Contact Information Skeleton */}
+                                <div className="space-y-2">
+                                    {[1, 2, 3].map((i) => (
+                                        <div key={i} className="flex items-center gap-2.5 justify-center sm:justify-start">
+                                            <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 animate-pulse" />
+                                            <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse" style={{ width: i === 1 ? '200px' : i === 2 ? '140px' : '180px' }} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Action Buttons & Stats Skeleton */}
+                            <div className="flex flex-col gap-3 items-center sm:items-end">
+                                {/* Action Buttons */}
+                                <div className="flex items-center gap-2">
+                                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 animate-pulse" />
+                                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 animate-pulse" />
+                                </div>
+
+                                {/* Completion Stats (Desktop) */}
+                                <div className="hidden sm:flex flex-col items-center justify-center px-6 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600 w-32">
+                                    <div className="h-4 w-16 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse mb-2" />
+                                    <div className="h-9 w-16 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse mb-2" />
+                                    <div className="h-5 w-20 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Progress Bar Section */}
+                    <div className="px-6 py-3.5 sm:px-8 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="h-4 w-36 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse" />
+                            <div className="flex items-center gap-2 sm:hidden">
+                                <div className="h-5 w-16 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full animate-pulse" />
+                                <div className="h-4 w-10 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse" />
+                            </div>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                            <div className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-gray-300 via-gray-400 to-gray-300 dark:from-gray-600 dark:via-gray-500 dark:to-gray-600 animate-pulse w-3/4" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Contact Information Card */}
+                    <InfoCardSkeleton
+                        iconColor="blue"
+                        title="Contact Information"
+                        items={2}
+                    />
+
+                    {/* Location Card */}
+                    <InfoCardSkeleton
+                        iconColor="green"
+                        title="Location"
+                        items={3}
+                    />
+
+                    {/* Account Information Card */}
+                    <InfoCardSkeleton
+                        iconColor="purple"
+                        title="Account Information"
+                        items={3}
+                    />
+
+                    {/* Personal Information Card */}
+                    <InfoCardSkeleton
+                        iconColor="orange"
+                        title="Personal Information"
+                        items={2}
+                    />
+                </div>
+
+                {/* Company Information Card (Optional) */}
+                <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="w-5 h-5 rounded bg-gradient-to-br from-indigo-300 to-indigo-400 dark:from-indigo-600 dark:to-indigo-700" />
+                        <div className="h-6 w-44 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="space-y-2">
+                                <div className="h-3 w-24 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" />
+                                <div className="h-4 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// Reusable Info Card Skeleton Component
+const InfoCardSkeleton = ({ iconColor, title, items }) => {
+    const iconColorClass = {
+        blue: 'from-blue-300 to-blue-400 dark:from-blue-600 dark:to-blue-700',
+        green: 'from-green-300 to-green-400 dark:from-green-600 dark:to-green-700',
+        purple: 'from-purple-300 to-purple-400 dark:from-purple-600 dark:to-purple-700',
+        orange: 'from-orange-300 to-orange-400 dark:from-orange-600 dark:to-orange-700',
+    }[iconColor];
+
+    // Deterministic widths to avoid hydration mismatch
+    const widths = ['75%', '85%', '65%'];
+
+    return (
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+            {/* Card Header */}
+            <div className="flex items-center gap-2 mb-4">
+                <div className={`w-5 h-5 rounded bg-gradient-to-br ${iconColorClass}`} />
+                <div className="h-6 w-40 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" />
+            </div>
+
+            {/* Card Items */}
+            <div className="space-y-4">
+                {Array.from({ length: items }).map((_, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-500 mt-0.5" />
+                        <div className="flex-1 space-y-2">
+                            <div className="h-3 w-20 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" />
+                            <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded" style={{ width: widths[i % widths.length] }} />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};

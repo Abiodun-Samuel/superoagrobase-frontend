@@ -1,6 +1,7 @@
 import $api from "@/lib/axios";
 
 const BASE_URL = "/products";
+const ADMIN_BASE_URL = "/admin/products";
 
 export const ProductService = {
     async getProducts(options = {}) {
@@ -36,6 +37,36 @@ export const ProductService = {
         if (incrementView) params.append('increment_view', 'true');
         const url = `${BASE_URL}/${slug}${params.toString() ? `?${params}` : ''}`;
         const { data } = await $api.get(url);
+        return data;
+    },
+
+    // admin 
+    async getAdminProduct(slug) {
+        const { data } = await $api.get(`${ADMIN_BASE_URL}/${slug}`);
+        return data;
+    },
+
+    async getAdminProducts(params = {}) {
+        const { data } = await $api.get(ADMIN_BASE_URL, { params });
+        return data;
+    },
+    async createProduct(productData) {
+        const { data } = await $api.post(`${ADMIN_BASE_URL}`, productData);
+        return data;
+    },
+
+    async updateProduct(productSlug, productData) {
+        const { data } = await $api.put(`${ADMIN_BASE_URL}/${productSlug}`, productData);
+        return data;
+    },
+
+    async deleteProduct(productId) {
+        const { data } = await $api.delete(`${ADMIN_BASE_URL}/${productId}`);
+        return data;
+    },
+
+    async bulkUpdateFeaturedProducts(productData) {
+        const { data } = await $api.post(`${ADMIN_BASE_URL}/bulk/feature`, productData);
         return data;
     },
 };

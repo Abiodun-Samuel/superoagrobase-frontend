@@ -224,55 +224,6 @@ export const useResendVerification = (options = {}) => {
   });
 };
 
-// export const useChangePassword = (options = {}) => {
-//   return useMutation({
-//     mutationFn: AuthService.changePassword,
-//     onSuccess: (response, variables) => {
-//       const message = response?.message || 'Password changed successfully!';
-//       Toast.success(message);
-//       options.onSuccess?.(response, variables);
-//     },
-//     onError: (error, variables) => {
-//       const message = formatErrorMessage(error);
-//       Toast.error(message);
-//       options.onError?.(error, variables);
-//     },
-//     ...options,
-//   });
-// };
-
-// export const useUpdateProfile = (options = {}) => {
-//   const queryClient = useQueryClient();
-//   const { setAuth: updateAuthState } = useAuth();
-
-//   return useMutation({
-//     mutationFn: AuthService.updateProfile,
-//     onSuccess: (response, variables) => {
-//       const message = response?.message || 'Profile updated successfully!';
-//       Toast.success(message);
-
-//       // Update auth state with new user data if provided
-//       if (response?.data?.user) {
-//         updateAuthState((prevState) => ({
-//           ...prevState,
-//           user: response.data.user,
-//         }));
-//       }
-
-//       // Invalidate user queries
-//       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.auth.me() });
-
-//       options.onSuccess?.(response, variables);
-//     },
-//     onError: (error, variables) => {
-//       const message = formatErrorMessage(error);
-//       Toast.error(message);
-//       options.onError?.(error, variables);
-//     },
-//     ...options,
-//   });
-// };
-
 export const useVerifyToken = (params, options = {}) => {
   return useQuery({
     queryKey: ['auth', 'verify-token', params?.email, params?.token, params?.type],

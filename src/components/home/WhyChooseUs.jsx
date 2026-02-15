@@ -15,8 +15,12 @@ import CTASection from '../common/CTASection';
 
 // Subcomponents
 const SectionHeader = () => (
-    <header className="text-center mb-12 space-y-4">
-        <TextBadge size='lg' color='green' startIcon={<Shield className="w-5 h-5" />}>
+    <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
+        <TextBadge
+            color='green'
+            variant="solid"
+            startIcon={<Shield className="w-5 h-5" />}
+        >
             <span>Trusted by 10,000+ Nigerian Farmers</span>
         </TextBadge>
 
@@ -28,12 +32,22 @@ const SectionHeader = () => (
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Your trusted partner for quality agricultural products, expert support, and reliable delivery across Nigeria
         </p>
+
+        <TextBadge
+            color="green"
+            startIcon={<ShoppingBag />}
+            href="/about"
+            variant="outline"
+            endIcon={<ArrowRight />}
+        >
+            <span>Learn More About Us</span>
+        </TextBadge>
     </header>
 );
 
 const TrustIndicatorsBar = ({ indicators }) => (
-    <div className="mb-12 bg-white/80 backdrop-blur-sm rounded-xl shadow p-6 border border-gray-100">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="mb-8 sm:mb-10 lg:mb-12 bg-white/80 backdrop-blur-sm rounded-xl shadow p-4 sm:p-6 border border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             {indicators.map((indicator, index) => {
                 const Icon = indicator.icon;
                 return (
@@ -116,7 +130,7 @@ export default function WhyChooseUs({
 
     return (
         <section
-            className="my-24"
+            className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8"
             aria-labelledby="why-choose-us-heading"
             itemScope
             itemType="https://schema.org/Organization"
@@ -125,7 +139,7 @@ export default function WhyChooseUs({
             <TrustIndicatorsBar indicators={memoizedIndicators} />
 
             {/* Features Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
                 {memoizedFeatures.map((feature, index) => (
                     <FeatureCard
                         key={`feature-${index}`}

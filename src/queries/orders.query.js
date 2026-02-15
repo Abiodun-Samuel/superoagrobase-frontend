@@ -5,7 +5,6 @@ import { OrderService } from '@/services/orders.service';
 import { invalidationPatterns, QUERY_KEYS } from '@/utils/queries.keys';
 import useAuth from '@/hooks/useAuth';
 
-
 export const useCompleteOrder = (options = {}) => {
     const queryClient = useQueryClient();
     const { sessionId } = useAuth();
@@ -26,7 +25,6 @@ export const useCompleteOrder = (options = {}) => {
     });
 };
 
-
 export const useMyOrders = (filters = {}, options = {}) => {
     return useQuery({
         queryKey: QUERY_KEYS.myOrders.list(filters),
@@ -38,9 +36,6 @@ export const useMyOrders = (filters = {}, options = {}) => {
         ...options,
     });
 };
-
-
-// // //
 
 export const useMyOrder = (reference, options = {}) => {
     return useQuery({
@@ -68,6 +63,7 @@ export const useCancelOrder = () => {
     });
 };
 
+// admin
 export const useAllOrders = (filters = {}, options = {}) => {
     return useQuery({
         queryKey: QUERY_KEYS.orders.list(filters),
@@ -118,24 +114,6 @@ export const useUpdateOrder = () => {
         },
         onError: (error) => {
             const message = error.response?.data?.message || 'Failed to update order';
-            Toast.error(message);
-        },
-    });
-};
-
-export const useBulkUpdateStatus = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: ({ references, status }) =>
-            OrderService.bulkUpdateStatus(references, status),
-        onSuccess: (data) => {
-            invalidationPatterns.orders(queryClient);
-            const successCount = data.data?.success_count || 0;
-            Toast.success(`${successCount} orders updated successfully`);
-        },
-        onError: (error) => {
-            const message = error.response?.data?.message || 'Failed to update orders';
             Toast.error(message);
         },
     });

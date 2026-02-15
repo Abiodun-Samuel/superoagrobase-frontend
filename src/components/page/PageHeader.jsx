@@ -72,6 +72,7 @@ BreadcrumbItem.displayName = 'BreadcrumbItem';
 
 const Breadcrumb = memo(({ items }) => {
     if (!items || items.length === 0) return null;
+    const filteredItems = items?.filter((item) => item?.name != "Home")
 
     return (
         <nav aria-label="Breadcrumb" className="relative z-10">
@@ -81,12 +82,12 @@ const Breadcrumb = memo(({ items }) => {
                 itemType="https://schema.org/BreadcrumbList"
             >
                 <BreadcrumbHome />
-                {items.map((item, index) => (
+                {filteredItems.map((item, index) => (
                     <BreadcrumbItem
                         key={`${item?.href || item?.url}-${index}`}
                         item={item}
                         index={index}
-                        isLast={index === items.length - 1}
+                        isLast={index === filteredItems.length - 1}
                     />
                 ))}
             </ol>

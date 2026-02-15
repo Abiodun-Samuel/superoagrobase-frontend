@@ -11,7 +11,9 @@ import PageHeader from '@/components/page/PageHeader';
 
 export const metadata = getVendorProductsMetadata();
 
-const VendorProductsPage = () => {
+const VendorProductsPage = async ({ searchParams }) => {
+    const { vendor_id } = await searchParams;
+    const actionUrl = vendor_id ? `/account/products/add?vendor_id=${vendor_id}` : '/account/products/'
     const jsonLdGenerators = [
         getOrganizationJsonLd,
         getVendorProductsBreadcrumbJsonLd,
@@ -28,12 +30,12 @@ const VendorProductsPage = () => {
                 breadcrumbs={[
                     { label: 'My Products', href: '/account/products' },
                 ]}
-                actionUrl="/account/products/add"
+                actionUrl={actionUrl}
                 actionLabel="Add Products"
                 isBackButton={true}
             />
             <PageLayout>
-                <VendorProducts />
+                <VendorProducts vendorId={vendor_id} />
             </PageLayout>
         </>
     );

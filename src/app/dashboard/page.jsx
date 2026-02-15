@@ -1,3 +1,4 @@
+import AdminDashboard from '@/components/admin/AdminDashboard';
 import DashboardSection from '@/components/dashboard/common/DashboardSection';
 import PageBreadcrumb from '@/components/dashboard/common/PageBreadcrumb';
 import { getDashboardHomeMetadata } from '@/utils/seo/dashboard-seo.meta';
@@ -8,11 +9,11 @@ const DashboardPage = () => {
   return (
     <>
       <PageBreadcrumb
-        pageTitle="Dashboard Overview"
+        pageTitle="Dashboard"
         description="Comprehensive dashboard overview with analytics, recent activities, and quick stats for managing SuperoAgroBase platform."
       />
       <DashboardSection>
-        Your dashboard stats, charts, and overview content
+        <AdminDashboard />
       </DashboardSection>
     </>
   );

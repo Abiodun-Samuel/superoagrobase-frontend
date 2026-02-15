@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck, MessageSquare, ArrowRight } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
 import { useReviews } from '@/queries/reviews.query';
 
@@ -19,19 +19,17 @@ const TRANSITION_DURATION = 700;
  * Section Header Component
  */
 const SectionHeader = () => (
-    <header className="text-center">
+    <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
-            endIcon={<UserCheck aria-hidden="true" />}
-            size='lg'
-            className="mb-4"
             variant='solid'
             color='green'
             startIcon={<Award aria-hidden="true" />}
+            endIcon={<UserCheck aria-hidden="true" />}
         >
             <span>Customer Success Stories</span>
         </TextBadge>
 
-        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
             What Our{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
                 Customers Say
@@ -182,7 +180,7 @@ const NavButton = ({ direction, onClick, ariaLabel }) => (
  * Dots Indicator Component
  */
 const DotsIndicator = ({ total, currentIndex, onDotClick }) => (
-    <div className="flex justify-center gap-2 mt-10" role="tablist" aria-label="Testimonial navigation">
+    <div className="flex justify-center gap-2 mt-8 sm:mt-10" role="tablist" aria-label="Testimonial navigation">
         {[...Array(total)].map((_, index) => (
             <button
                 key={index}
@@ -203,10 +201,10 @@ const DotsIndicator = ({ total, currentIndex, onDotClick }) => (
  * Loading Skeleton Component
  */
 const TestimonialsSkeleton = () => (
-    <section className="my-24 py-5 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+    <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         <div className="relative z-10">
             {/* Header Skeleton */}
-            <header className="text-center mb-12 space-y-4">
+            <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
                 <div className="flex justify-center">
                     <div className="h-10 w-64 bg-gray-200 rounded-full animate-pulse"></div>
                 </div>
@@ -251,7 +249,7 @@ const TestimonialsSkeleton = () => (
             </div>
 
             {/* Dots Skeleton */}
-            <div className="flex justify-center gap-2 mt-10">
+            <div className="flex justify-center gap-2 mt-8 sm:mt-10">
                 {[...Array(3)].map((_, i) => (
                     <div key={i} className="w-3 h-3 bg-gray-200 rounded-full animate-pulse"></div>
                 ))}
@@ -264,10 +262,7 @@ const TestimonialsSkeleton = () => (
 // MAIN COMPONENT
 // ============================================
 export default function Testimonials() {
-    const { data: reviewsData, isLoading, isError } = useReviews({
-        per_page: 10,
-        is_published: true
-    });
+    const { data: reviewsData, isLoading, isError } = useReviews({ per_page: 10, is_published: true });
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -284,6 +279,13 @@ export default function Testimonials() {
 
         return () => clearInterval(interval);
     }, [isAutoPlaying, testimonials.length]);
+
+
+    // Loading state
+    if (isLoading) return <TestimonialsSkeleton />;
+
+    // Error state
+    if (isError || !testimonials.length) return null;
 
     // Navigation handlers
     const goToSlide = (index) => {
@@ -312,19 +314,9 @@ export default function Testimonials() {
         return 'hidden';
     };
 
-    // Loading state
-    if (isLoading) {
-        return <TestimonialsSkeleton />;
-    }
-
-    // Error state
-    if (isError || !testimonials.length) {
-        return null;
-    }
-
     return (
         <section
-            className="my-24 py-5 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden"
+            className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden"
             aria-label="Customer testimonials"
         >
             {/* Background Decorations */}

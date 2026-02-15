@@ -60,6 +60,17 @@ export function getDashboardHomeMetadata() {
 /**
  * Users Management - Manage all platform users
  */
+export function getDashboardUserDetailsMetadata(userId) {
+    return createDashboardMeta(
+        'User Details',
+        'View comprehensive user information, activity history, account status, and manage user permissions. Access detailed insights into user behavior and account management.',
+        {
+            path: `/dashboard/users/${userId}`,
+            keywords: ['user details', 'user profile', 'user information', 'account details', 'user activity', 'user management']
+        }
+    );
+}
+
 export function getDashboardUsersMetadata() {
     return createDashboardMeta(
         'Users Management',
@@ -207,6 +218,28 @@ export function getDashboardBlogsMetadata() {
         {
             path: '/dashboard/blogs',
             keywords: ['blog management', 'content management', 'blog posts', 'article management']
+        }
+    );
+}
+
+export function getDashboardCreateProductMetadata() {
+    return createDashboardMeta(
+        'Create Product',
+        'Add a new agricultural product to the catalog. Set pricing, inventory, images, product categories, and vendor details.',
+        {
+            path: '/dashboard/products/add',
+            keywords: ['create product', 'add product', 'product catalog', 'inventory', 'agricultural products']
+        }
+    );
+}
+
+export function getDashboardEditProductMetadata() {
+    return createDashboardMeta(
+        'Edit Product',
+        'Edit agricultural product details. Update pricing, inventory, images, categories, and manage vendor product approval.',
+        {
+            path: '/dashboard/products/edit',
+            keywords: ['edit product', 'update product', 'product management', 'inventory', 'agricultural products']
         }
     );
 }

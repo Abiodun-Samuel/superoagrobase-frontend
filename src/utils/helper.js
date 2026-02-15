@@ -160,6 +160,28 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
+export const getStatusColor = (status) => {
+  const statusColors = {
+    pending: 'orange',
+    pending_payment: 'orange',
+    confirmed: 'blue',
+    processing: 'blue',
+    ready_for_pickup: 'purple',
+    shipped: 'blue',
+    out_for_delivery: 'purple',
+    delivered: 'green',
+    completed: 'green',
+    cancelled: 'red',
+    refunded: 'orange',
+    failed: 'red',
+    on_hold: 'gray',
+    partially_shipped: 'blue',
+    returned: 'orange',
+    partially_returned: 'orange',
+  };
+  return statusColors[status?.toLowerCase()] || 'gray';
+};
+
 
 const normalizeString = (str) => {
   if (!str) return '';
@@ -200,4 +222,39 @@ export const findShippingRate = (state, city) => {
   if (partialMatch) return partialMatch.amount;
   return null;
 };
+export const formatDate = (dateString, format = 'short') => {
+  if (!dateString) return '-';
 
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) return '-';
+
+  if (format === 'relative') {
+    return getRelativeTime(date);
+  }
+
+  const options = format === 'long'
+    ? { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+    : { year: 'numeric', month: 'short', day: 'numeric' };
+
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+export const truncateText = (text, maxLength = 50, suffix = '...') => {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength).trim() + suffix;
+};
+
+export const unslugify = (slug) => {
+  if (!slug || typeof slug !== 'string') return '';
+
+  return slug
+    .replace(/[-_]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    )
+    .join(' ');
+};

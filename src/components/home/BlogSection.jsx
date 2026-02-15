@@ -1,16 +1,14 @@
 'use client'
 
 import React from 'react';
-import { Calendar, User, ArrowRight, Tag, Book, ChevronRight } from 'lucide-react';
+import { Calendar, User, ArrowRight, Tag, Book } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
-import Button from '../ui/Button';
 
 const SectionHeader = () => (
-    <header className="text-center mb-12 space-y-4">
+    <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
             color="green"
-            variant="light"
-            size="lg"
+            variant="solid"
             startIcon={<Tag className="w-5 h-5" />}
             endIcon={<Book className="w-5 h-5" />}
         >
@@ -23,24 +21,19 @@ const SectionHeader = () => (
 
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Expert advice, farming tips, and industry insights to help you grow better
-
         </p>
-    </header>
-);
 
-const ViewAllButton = () => (
-    <div className="text-center mt-12">
-        <Button
+        <TextBadge
+            color="green"
             startIcon={<Book />}
             href="/blogs"
-            className="max-w-xs"
             variant="outline"
-            endIcon={<ChevronRight />}
+            endIcon={<ArrowRight />}
         >
             <span>View All Articles</span>
-        </Button>
-    </div>
-)
+        </TextBadge>
+    </header>
+);
 
 export default function BlogSection() {
     const blogs = [
@@ -87,11 +80,11 @@ export default function BlogSection() {
     ];
 
     return (
-        <section className="my-24">
+        <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8">
             <SectionHeader />
 
             {/* Blog Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 relative">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 relative">
                 {blogs.map((blog) => (
                     <article
                         key={blog.id}
@@ -160,11 +153,6 @@ export default function BlogSection() {
                         </div>
                     </article>
                 ))}
-            </div>
-
-            {/* View All Button */}
-            <div className="text-center mt-12">
-                <ViewAllButton />
             </div>
         </section>
     );

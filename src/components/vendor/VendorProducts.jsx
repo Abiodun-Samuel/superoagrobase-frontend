@@ -16,6 +16,11 @@ import {
     Search,
     X,
     ChevronRight,
+    Mail,
+    Phone,
+    Building2,
+    Globe,
+    MapPin,
 } from 'lucide-react';
 import { useVendorProducts, useUpdateVendorProducts, useDeleteVendorProducts } from '@/queries/vendor.query';
 import { useModal } from '@/hooks/useModal';
@@ -29,57 +34,97 @@ import SingleSelectForm from '@/components/form/SingleSelectForm';
 import useAuth from '@/hooks/useAuth';
 
 // ============================================
-// Stats Card Component
+// SKELETON LOADERS
 // ============================================
-const StatsCard = ({ icon: Icon, label, value, color = "green" }) => {
-    const colorClasses = {
-        green: 'bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400',
-        blue: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400',
-        purple: 'bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400',
-        orange: 'bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400',
-    };
 
-    return (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0 mr-2">
-                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{label}</p>
+// Vendor Info Card Skeleton
+const VendorInfoCardSkeleton = () => (
+    <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 border border-green-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+        <div className="flex flex-col lg:flex-row gap-6">
+            {/* Avatar & Primary Info Skeleton */}
+            <div className="flex items-start gap-4">
+                <div className="relative flex-shrink-0">
+                    <div className="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full animate-pulse" />
                 </div>
-                <div className={`p-2.5 rounded-lg flex-shrink-0 ${colorClasses[color]}`}>
-                    <Icon className="w-5 h-5" />
+                <div className="flex-1 min-w-0 space-y-3">
+                    <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 animate-pulse" />
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-40 animate-pulse" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+                            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse" />
+                        </div>
+                    </div>
                 </div>
             </div>
-            <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 truncate" title={value}>
-                {value}
-            </h3>
-        </div>
-    );
-};
 
-// ============================================
-// Empty State Component
-// ============================================
-const EmptyState = ({ icon: Icon, title, description, action }) => (
-    <div className="flex flex-col items-center justify-center py-16 px-4">
-        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-            <Icon className="w-8 h-8 text-gray-400" />
+            {/* Company Info Skeleton */}
+            <div className="flex-1 lg:border-l lg:border-gray-300 dark:border-gray-600 lg:pl-6">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-40 mb-4 animate-pulse" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                            <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded mt-0.5 animate-pulse flex-shrink-0" />
+                            <div className="flex-1 space-y-2">
+                                <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-20 animate-pulse" />
+                                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full animate-pulse" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-400 text-center mb-6 max-w-md">{description}</p>
-        {action && action}
     </div>
 );
 
-// ============================================
+// Stats Card Skeleton
+const StatsCardSkeleton = () => (
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+        <div className="flex items-start justify-between">
+            <div className="flex-1 min-w-0 mr-2">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-3 animate-pulse" />
+            </div>
+            <div className="p-2.5 rounded-lg bg-gray-200 dark:bg-gray-700 flex-shrink-0 animate-pulse">
+                <div className="w-5 h-5" />
+            </div>
+        </div>
+        <div className="h-9 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse" />
+    </div>
+);
+
+// Product Filters Skeleton
+const ProductFiltersSkeleton = () => (
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+        <div className="flex flex-col lg:flex-row gap-3">
+            {/* Search Input Skeleton */}
+            <div className="flex-1">
+                <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
+            </div>
+
+            {/* Search Button Skeleton */}
+            <div className="w-full lg:w-32 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
+
+            {/* Sort Dropdown Skeleton */}
+            <div className="flex items-center gap-2">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-10 hidden lg:block animate-pulse" />
+                <div className="w-full lg:w-44 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
+            </div>
+        </div>
+    </div>
+);
+
 // Table Row Skeleton
-// ============================================
-export const TableRowSkeleton = () => (
-    <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+const TableRowSkeleton = () => (
+    <tr className="border-b border-gray-200 dark:border-gray-700">
         {/* Product */}
         <td className="p-4">
             <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0 animate-pulse" />
-                <div className="min-w-0 space-y-2">
+                <div className="min-w-0 space-y-2 flex-1">
                     <div className="h-3.5 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse" />
                     <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-24 animate-pulse" />
                     <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-20 animate-pulse" />
@@ -125,6 +170,244 @@ export const TableRowSkeleton = () => (
             </div>
         </td>
     </tr>
+);
+
+// Complete Page Skeleton
+const PageSkeleton = () => (
+    <div className="space-y-6 my-10">
+        {/* Vendor Info Skeleton */}
+        <VendorInfoCardSkeleton />
+
+        {/* Stats Grid Skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {[...Array(4)].map((_, i) => (
+                <StatsCardSkeleton key={i} />
+            ))}
+        </div>
+
+        {/* Filters Skeleton */}
+        <ProductFiltersSkeleton />
+
+        {/* Table Skeleton */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+                <table className="w-full">
+                    <thead className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Product
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Description
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Brand
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Category
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Subcategory
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Price
+                            </th>
+                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Stock
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {[...Array(8)].map((_, i) => (
+                            <TableRowSkeleton key={i} />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+);
+
+// ============================================
+// Vendor Info Card Component
+// ============================================
+const VendorInfoCard = ({ vendor }) => {
+    if (!vendor) return null;
+
+    const vendorName = `${vendor.first_name || ''} ${vendor.last_name || ''}`.trim();
+    const hasCompanyInfo = vendor.company_name || vendor.company_email || vendor.company_phone || vendor.company_address || vendor.company_website;
+
+    return (
+        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 border border-green-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+            <div className="flex flex-col lg:flex-row gap-6">
+                {/* Avatar & Primary Info */}
+                <div className="flex items-start gap-4">
+                    <div className="relative flex-shrink-0">
+                        <img
+                            src={vendor.avatar || '/placeholder-avatar.png'}
+                            alt={vendorName}
+                            className="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-md"
+                        />
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-gray-800" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+                            {vendorName}
+                        </h2>
+                        <div className="flex flex-col gap-2">
+                            {vendor.email && (
+                                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <Mail className="w-4 h-4 flex-shrink-0" />
+                                    <a
+                                        href={`mailto:${vendor.email}`}
+                                        className="hover:text-green-600 dark:hover:text-green-400 transition-colors truncate"
+                                    >
+                                        {vendor.email}
+                                    </a>
+                                </div>
+                            )}
+                            {vendor.phone_number && (
+                                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <Phone className="w-4 h-4 flex-shrink-0" />
+                                    <a
+                                        href={`tel:${vendor.phone_number}`}
+                                        className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                                    >
+                                        {vendor.phone_number}
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Company Info */}
+                {hasCompanyInfo && (
+                    <div className="flex-1 lg:border-l lg:border-gray-300 dark:border-gray-600 lg:pl-6">
+                        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                            Company Information
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {vendor.company_name && (
+                                <div className="flex items-start gap-2 text-sm">
+                                    <Building2 className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Company Name</p>
+                                        <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                                            {vendor.company_name}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                            {vendor.company_email && (
+                                <div className="flex items-start gap-2 text-sm">
+                                    <Mail className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Company Email</p>
+                                        <a
+                                            href={`mailto:${vendor.company_email}`}
+                                            className="font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors truncate block"
+                                        >
+                                            {vendor.company_email}
+                                        </a>
+                                    </div>
+                                </div>
+                            )}
+                            {vendor.company_phone && (
+                                <div className="flex items-start gap-2 text-sm">
+                                    <Phone className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Company Phone</p>
+                                        <a
+                                            href={`tel:${vendor.company_phone}`}
+                                            className="font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                                        >
+                                            {vendor.company_phone}
+                                        </a>
+                                    </div>
+                                </div>
+                            )}
+                            {vendor.company_website && (
+                                <div className="flex items-start gap-2 text-sm">
+                                    <Globe className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Website</p>
+                                        <a
+                                            href={vendor.company_website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors truncate block"
+                                        >
+                                            {vendor.company_website}
+                                        </a>
+                                    </div>
+                                </div>
+                            )}
+                            {vendor.company_address && (
+                                <div className="flex items-start gap-2 text-sm sm:col-span-2">
+                                    <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Address</p>
+                                        <p className="font-medium text-gray-900 dark:text-gray-100">
+                                            {vendor.company_address}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// ============================================
+// Stats Card Component
+// ============================================
+const StatsCard = ({ icon: Icon, label, value, color = "green" }) => {
+    const colorClasses = {
+        green: 'bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400',
+        blue: 'bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400',
+        purple: 'bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400',
+        orange: 'bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400',
+    };
+
+    return (
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0 mr-2">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{label}</p>
+                </div>
+                <div className={`p-2.5 rounded-lg flex-shrink-0 ${colorClasses[color]}`}>
+                    <Icon className="w-5 h-5" />
+                </div>
+            </div>
+            <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 truncate" title={value}>
+                {value}
+            </h3>
+        </div>
+    );
+};
+
+// ============================================
+// Empty State Component
+// ============================================
+const EmptyState = ({ icon: Icon, title, description, action }) => (
+    <div className="flex flex-col items-center justify-center py-16 px-4">
+        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+            <Icon className="w-8 h-8 text-gray-400" />
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 text-center mb-6 max-w-md">{description}</p>
+        {action && action}
+    </div>
 );
 
 // ============================================
@@ -522,7 +805,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, product, isLoadin
 // ============================================
 // Main VendorProducts Component
 // ============================================
-const VendorProducts = () => {
+const VendorProducts = ({ vendorId }) => {
     const router = useRouter();
     const { user } = useAuth();
     const [filters, setFilters] = useState({
@@ -536,7 +819,7 @@ const VendorProducts = () => {
     const { isOpen: isDeleteOpen, openModal: openDelete, closeModal: closeDelete } = useModal(false);
 
     const { data: productsData, isLoading } = useVendorProducts({
-        vendor_id: user?.id,
+        vendor_id: vendorId || user?.id,
         search: filters.search,
         sort: filters.sort,
     });
@@ -560,6 +843,14 @@ const VendorProducts = () => {
 
     const products = useMemo(() => productsData?.data || [], [productsData]);
     const meta = useMemo(() => productsData?.meta || {}, [productsData]);
+
+    // Extract vendor info from first product
+    const vendorInfo = useMemo(() => {
+        if (products.length > 0 && products[0].vendor) {
+            return products[0].vendor;
+        }
+        return null;
+    }, [products]);
 
     const stats = useMemo(() => ({
         total: meta.total || products.length,
@@ -611,8 +902,16 @@ const VendorProducts = () => {
 
     const hasActiveFilters = filters.search || filters.sort !== 'newest';
 
+    // Show complete page skeleton while loading
+    if (isLoading) {
+        return <PageSkeleton />;
+    }
+
     return (
-        <div className="space-y-10 my-10">
+        <div className="space-y-6 my-10">
+            {/* Vendor Info Card */}
+            {vendorInfo && <VendorInfoCard vendor={vendorInfo} />}
+
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <StatsCard icon={Package} label="Total Products" value={stats.total} color="blue" />
@@ -630,7 +929,24 @@ const VendorProducts = () => {
             />
 
             {/* Products Table */}
-            {isLoading ? (
+            {products.length === 0 ? (
+                <EmptyState
+                    icon={Package}
+                    title={hasActiveFilters ? "No products found" : "No products yet"}
+                    description={hasActiveFilters ? "Try adjusting your search or filters" : "Start by adding products to your catalog"}
+                    action={
+                        !hasActiveFilters && (
+                            <Button
+                                href={vendorId ? `/account/products/add?vendor_id=${vendorId}` : '/account/products/add'}
+                                color="green"
+                                startIcon={<Plus className="w-5 h-5" />}
+                            >
+                                Add Your First Products
+                            </Button>
+                        )
+                    }
+                />
+            ) : (
                 <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
@@ -666,78 +982,18 @@ const VendorProducts = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[...Array(5)].map((_, i) => <TableRowSkeleton key={i} />)}
+                                {products.map((product) => (
+                                    <ProductTableRow
+                                        key={product.id}
+                                        product={product}
+                                        onEdit={handleEdit}
+                                        onDelete={handleDelete}
+                                    />
+                                ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-            ) : products.length === 0 ? (
-                <EmptyState
-                    icon={Package}
-                    title={hasActiveFilters ? "No products found" : "No products yet"}
-                    description={hasActiveFilters ? "Try adjusting your search or filters" : "Start by adding products to your catalog"}
-                    action={
-                        !hasActiveFilters && (
-                            <Button
-                                onClick={() => router.push('/account/products/add')}
-                                color="green"
-                                startIcon={<Plus className="w-5 h-5" />}
-                            >
-                                Add Your First Products
-                            </Button>
-                        )
-                    }
-                />
-            ) : (
-                <>
-                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Product
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Description
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Brand
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Category
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Subcategory
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Price
-                                        </th>
-                                        <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Stock
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {products.map((product) => (
-                                        <ProductTableRow
-                                            key={product.id}
-                                            product={product}
-                                            onEdit={handleEdit}
-                                            onDelete={handleDelete}
-                                        />
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </>
             )}
 
             {/* Modals */}

@@ -26,7 +26,7 @@ const DashboardSection = forwardRef(({
     return (
         <div
             ref={ref}
-            className={`${sectionClasses} mx-auto p-4 sm:p-6 lg:p-8`}
+            className={`${sectionClasses} mx-auto space-y-10 my-10 max-w-(--breakpoint-2xl)`}
             {...props}
         >
             {children}

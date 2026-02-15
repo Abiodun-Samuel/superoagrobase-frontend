@@ -1,13 +1,17 @@
 'use client'
 
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ShoppingCart, ArrowRight } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
 import IconBadge from '../ui/IconBadge';
 import { STEPS } from '@/utils/data';
 
 const SectionHeader = () => (
-    <header className="text-center mb-12 space-y-4">
-        <TextBadge size='lg' color='blue' startIcon={<CheckCircle className="w-5 h-5" />}>
+    <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
+        <TextBadge
+            color='blue'
+            variant="solid"
+            startIcon={<CheckCircle className="w-5 h-5" />}
+        >
             <span>Easy Ordering Process</span>
         </TextBadge>
 
@@ -19,19 +23,32 @@ const SectionHeader = () => (
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Order farm supplies, seeds, fertilizers, and equipment in 4 simple steps with flexible payment and delivery options
         </p>
+
+        <TextBadge
+            color="blue"
+            startIcon={<ShoppingCart />}
+            href="/products"
+            variant="outline"
+            endIcon={<ArrowRight />}
+        >
+            <span>Start Shopping Now</span>
+        </TextBadge>
     </header>
 );
 
 export default function HowItWorks() {
 
     return (
-        <section className="my-24" aria-labelledby="how-it-works-heading">
+        <section
+            className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8"
+            aria-labelledby="how-it-works-heading"
+        >
             <div className="relative z-10">
                 {/* Section Header */}
                 <SectionHeader />
 
                 {/* Steps Grid */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 relative">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 relative">
                     {/* Connection Lines - Desktop Only */}
                     <div className="hidden lg:block absolute top-20 left-0 right-0 h-1" aria-hidden="true">
                         <div className="relative h-full mx-auto px-24">

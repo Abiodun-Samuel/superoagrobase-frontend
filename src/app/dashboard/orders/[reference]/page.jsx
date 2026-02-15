@@ -1,5 +1,6 @@
 import DashboardSection from '@/components/dashboard/common/DashboardSection';
 import PageBreadcrumb from '@/components/dashboard/common/PageBreadcrumb';
+import AdminOrderDetails from '@/components/orders/AdminOrderDetails';
 import { getDashboardOrderDetailsMetadata } from '@/utils/seo/dashboard-seo.meta';
 
 export const metadata = getDashboardOrderDetailsMetadata();
@@ -13,7 +14,7 @@ const OrderDetailsPage = async ({ params }) => {
                 description="View complete order information including customer details, order items, payment status, and shipping information."
             />
             <DashboardSection>
-                OrderDetails : {reference}
+                <AdminOrderDetails reference={reference} />
             </DashboardSection>
         </>
     );

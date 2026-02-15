@@ -27,6 +27,8 @@ const ProductDetails = ({ product }) => {
 
             {/* Similar Products */}
             <SimilarProducts
+                product={product}
+                subcategorySlug={product.subcategory?.slug}
                 categorySlug={product.category?.slug}
                 currentProductId={product.id}
             />

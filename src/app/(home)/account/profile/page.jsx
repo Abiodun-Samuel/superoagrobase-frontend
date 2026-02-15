@@ -7,6 +7,7 @@ import {
 } from '@/utils/seo/seo.jsonld';
 import PageLayout from '@/components/page/PageLayout';
 import PageHeader from '@/components/page/PageHeader';
+import UserProfile from '@/components/profile/UserProfile';
 
 export const metadata = getUserProfileMetadata();
 
@@ -30,7 +31,7 @@ const UserProfilePage = () => {
                 isBackButton={false}
             />
             <PageLayout>
-                'UserProfile'
+                <UserProfile />
             </PageLayout>
         </>
     );

@@ -8,9 +8,10 @@ import { handleError, handleSuccess } from '@/utils/helper';
  */
 export const useVendorProducts = (filters = {}, options = {}) => {
     return useQuery({
-        queryKey: QUERY_KEYS.vendorProducts.lists(),
+        queryKey: QUERY_KEYS.vendorProducts.lists(filters),
         queryFn: () => VendorService.getVendorProducts(filters),
         staleTime: 30000,
+        refetchOnMount: true,
         ...options,
     });
 };
@@ -37,7 +38,7 @@ export const useAddVendorProducts = (options = {}) => {
     return useMutation({
         mutationFn: VendorService.addProducts,
         onSuccess: (response) => {
-            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.lists() });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.all });
             handleSuccess(response, null, options.onSuccess);
         },
         onError: (error) => handleError(error, options.onError),
@@ -54,7 +55,7 @@ export const useUpdateVendorProducts = (options = {}) => {
     return useMutation({
         mutationFn: VendorService.updateProducts,
         onSuccess: (response) => {
-            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.lists() });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.all });
             handleSuccess(response, null, options.onSuccess);
         },
         onError: (error) => handleError(error, options.onError),
@@ -71,7 +72,7 @@ export const useDeleteVendorProducts = (options = {}) => {
     return useMutation({
         mutationFn: VendorService.deleteProducts,
         onSuccess: (response) => {
-            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.lists() });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.vendorProducts.all });
             handleSuccess(response, null, options.onSuccess);
         },
         onError: (error) => handleError(error, options.onError),

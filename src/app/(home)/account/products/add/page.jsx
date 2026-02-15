@@ -15,7 +15,8 @@ export async function generateMetadata() {
     return getVendorAddProductMetadata();
 }
 
-const AddVendorProductsPage = () => {
+const AddVendorProductsPage = async ({ searchParams }) => {
+    const { vendor_id } = await searchParams;
     const jsonLdGenerators = [
         getVendorAddProductPageJsonLd,
         getVendorAddProductBreadcrumbJsonLd,
@@ -39,7 +40,7 @@ const AddVendorProductsPage = () => {
                 isBackButton={true}
             />
             <PageLayout>
-                <AddVendorProducts />
+                <AddVendorProducts vendorId={vendor_id} />
             </PageLayout>
         </>
     );

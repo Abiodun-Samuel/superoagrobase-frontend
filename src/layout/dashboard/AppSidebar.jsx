@@ -16,10 +16,6 @@ import {
   FileText,
   ChevronDown,
   MoreHorizontal,
-  Settings,
-  Heart,
-  Bell,
-  MessageSquare,
   UserCheck,
 } from "lucide-react";
 import SidebarWidget from "./SidebarWidget";
@@ -82,30 +78,30 @@ const menuConfig = [
     path: "/dashboard/blogs",
     roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
   },
-  {
-    icon: <Heart className="w-5 h-5" />,
-    name: "Wishlists",
-    path: "/dashboard/wishlists",
-    roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
-  },
-  {
-    icon: <MessageSquare className="w-5 h-5" />,
-    name: "Messages",
-    path: "/dashboard/messages",
-    roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
-  },
-  {
-    icon: <Bell className="w-5 h-5" />,
-    name: "Notifications",
-    path: "/dashboard/notifications",
-    roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
-  },
-  {
-    icon: <Settings className="w-5 h-5" />,
-    name: "Settings",
-    path: "/dashboard/settings",
-    roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
-  },
+  // {
+  //   icon: <Heart className="w-5 h-5" />,
+  //   name: "Wishlists",
+  //   path: "/dashboard/wishlists",
+  //   roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
+  // },
+  // {
+  //   icon: <MessageSquare className="w-5 h-5" />,
+  //   name: "Messages",
+  //   path: "/dashboard/messages",
+  //   roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
+  // },
+  // {
+  //   icon: <Bell className="w-5 h-5" />,
+  //   name: "Notifications",
+  //   path: "/dashboard/notifications",
+  //   roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
+  // },
+  // {
+  //   icon: <Settings className="w-5 h-5" />,
+  //   name: "Settings",
+  //   path: "/dashboard/settings",
+  //   roles: [ROLE_ENUM.admin, ROLE_ENUM.super_admin],
+  // },
 ];
 
 const AppSidebar = () => {

@@ -18,7 +18,7 @@ import 'swiper/css/effect-coverflow';
 
 // Constants
 const SWIPER_CONFIG = {
-    spaceBetween: 30,
+    spaceBetween: 20,
     slidesPerView: 1,
     centeredSlides: false,
     autoplay: {
@@ -33,7 +33,7 @@ const SWIPER_CONFIG = {
     },
     breakpoints: {
         640: { slidesPerView: 2, spaceBetween: 20 },
-        1024: { slidesPerView: 3, spaceBetween: 30 },
+        1024: { slidesPerView: 3, spaceBetween: 24 },
         1280: { slidesPerView: 3.5, spaceBetween: 30 },
     },
 };
@@ -64,21 +64,20 @@ const NavigationButton = ({ direction, onClick }) => {
 
 // Section Header Component
 const SectionHeader = () => (
-    <div className="text-center mb-12">
+    <div className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
-            className="mb-4"
             color="green"
-            variant="light"
-            size="lg"
+            variant="solid"
             startIcon={<Sparkles />}
             endIcon={<Package />}
         >
             Shop by Category
         </TextBadge>
 
-        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
             Featured <span className="text-green-600">Categories</span>
         </h2>
+
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Explore our comprehensive range of agricultural products tailored for modern farming
         </p>
@@ -102,7 +101,7 @@ export default function FeaturedCategories() {
     // Render empty state
     if (!isLoading && !hasCategories) {
         return (
-            <section className="my-24">
+            <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8">
                 <SectionHeader />
                 <ContentPlaceholder
                     icon={Package}
@@ -117,7 +116,7 @@ export default function FeaturedCategories() {
 
     if (isError) {
         return (
-            <section className="my-24">
+            <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8">
                 <SectionHeader />
                 <ContentPlaceholder
                     icon={Package}
@@ -131,7 +130,7 @@ export default function FeaturedCategories() {
     }
 
     return (
-        <section className="my-24">
+        <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8">
             <SectionHeader />
 
             <div className="relative">
