@@ -69,7 +69,7 @@ const TextBadge = ({
       green: "bg-gradient-to-br from-green-500 to-green-600 text-white border-green-400 hover:from-green-600 hover:to-green-700 shadow-sm hover:shadow-md",
       darkGreen: "bg-gradient-to-br from-[#558B2F] to-[#33691E] text-white border-[#558B2F] hover:from-[#689F38] hover:to-[#558B2F] shadow-sm hover:shadow-md",
       lightGreen: "bg-gradient-to-br from-[#9CCC65] to-[#7CB342] text-white border-[#9CCC65] hover:from-[#AED581] hover:to-[#9CCC65] shadow-sm hover:shadow-md",
-      orange: "bg-gradient-to-br from-orange-500 to-orange-600 text-white border-orange-400 hover:from-orange-600 hover:to-orange-700 shadow-sm hover:shadow-md",
+      orange: "bg-gradient-to-br from-[#FFA726] to-[#FB8C00] text-white border-[#FFA726] hover:from-[#FB8C00] hover:to-[#F57C00] shadow-sm hover:shadow-md",
       gray: "bg-gradient-to-br from-gray-500 to-gray-600 text-white border-gray-400 hover:from-gray-600 hover:to-gray-700 shadow-sm hover:shadow-md",
       red: "bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400 hover:from-red-600 hover:to-red-700 shadow-sm hover:shadow-md",
       white: "bg-white text-gray-800 border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow-md",
@@ -97,7 +97,7 @@ const TextBadge = ({
       blue: "bg-transparent text-blue-700 border-blue-500 hover:bg-blue-50 dark:text-blue-300 dark:border-blue-500 dark:hover:bg-blue-900/20",
       purple: "bg-transparent text-purple-700 border-purple-500 hover:bg-purple-50 dark:text-purple-300 dark:border-purple-500 dark:hover:bg-purple-900/20",
       red: "bg-transparent text-red-700 border-red-500 hover:bg-red-50 dark:text-red-300 dark:border-red-500 dark:hover:bg-red-900/20",
-      orange: "bg-transparent text-orange-700 border-orange-500 hover:bg-orange-50 dark:text-orange-300 dark:border-orange-500 dark:hover:bg-orange-900/20",
+      orange: "bg-transparent text-[#FB8C00] border-[#FFA726] hover:bg-[#FFA726]/10 dark:text-[#FFA726] dark:border-[#FFA726] dark:hover:bg-[#FFA726]/20",
       gray: "bg-transparent text-gray-700 border-gray-500 hover:bg-gray-50 dark:text-gray-300 dark:border-gray-500 dark:hover:bg-gray-800/50",
     }
   };

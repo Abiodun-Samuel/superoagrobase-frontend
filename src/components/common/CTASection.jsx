@@ -17,7 +17,7 @@ const CTASection = () => (
                 <div className="max-w-sm mx-auto flex flex-col w-fit sm:flex-row gap-4 justify-center items-center pt-4">
                     <Button
                         href="/products"
-                        color='red'
+                        color='gray'
                         variant='solid'
                         startIcon={<ShoppingBag />}
                         endIcon={<ArrowRight />}
@@ -30,7 +30,7 @@ const CTASection = () => (
                         endIcon={<ArrowRight />}
                         href="/contact"
                         variant='outline'
-                        color='red'
+                        color='gray'
                     >
                         <span>Contact Expert</span>
                     </Button>

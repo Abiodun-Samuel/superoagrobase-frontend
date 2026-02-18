@@ -1,7 +1,7 @@
 // seo.meta.js
 import { generateMetadata } from "../config/seo.config";
 import { SITE_DATA } from "../data";
-import { formatCurrency } from "../helper";
+import { formatCount, formatCurrency } from "../helper";
 
 export function getHomeMetadata() {
     return generateMetadata({
@@ -1110,7 +1110,7 @@ export function getBlogPostMetadata(post) {
     const seoTitle = `${title} | ${category} - ${SITE_DATA.name} Blog`;
 
     // Rich description
-    const seoDescription = `${excerpt} By ${author}, ${authorRole}. ${readTime} read. ${views} views. Expert insights on ${category.toLowerCase()} in Nigerian agriculture.`;
+    const seoDescription = `${excerpt} By ${author}, ${authorRole}. ${readTime} read. ${formatCount(views)} views. Expert insights on ${category.toLowerCase()} in Nigerian agriculture.`;
 
     // Keywords
     const keywords = [

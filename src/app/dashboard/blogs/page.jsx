@@ -1,3 +1,4 @@
+import AdminBlogList from '@/components/blog/AdminBlogList';
 import DashboardSection from '@/components/dashboard/common/DashboardSection';
 import PageBreadcrumb from '@/components/dashboard/common/PageBreadcrumb';
 import { getDashboardBlogsMetadata } from '@/utils/seo/dashboard-seo.meta';
@@ -12,7 +13,7 @@ const BlogsPage = () => {
                 description="Manage agricultural blog content. Create new blog posts, edit articles, publish content, and monitor blog performance."
             />
             <DashboardSection>
-                BlogsTable
+                <AdminBlogList />
             </DashboardSection>
         </>
     );

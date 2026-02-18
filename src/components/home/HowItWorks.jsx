@@ -8,7 +8,7 @@ import { STEPS } from '@/utils/data';
 const SectionHeader = () => (
     <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
-            color='blue'
+            color='green'
             variant="solid"
             startIcon={<CheckCircle className="w-5 h-5" />}
         >
@@ -17,7 +17,7 @@ const SectionHeader = () => (
 
         <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
             How to{" "}
-            <span className="text-blue-600">Order Online</span>
+            <span className="text-green-600">Order Online</span>
         </h2>
 
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -25,7 +25,7 @@ const SectionHeader = () => (
         </p>
 
         <TextBadge
-            color="blue"
+            color="green"
             startIcon={<ShoppingCart />}
             href="/products"
             variant="outline"
@@ -52,7 +52,7 @@ export default function HowItWorks() {
                     {/* Connection Lines - Desktop Only */}
                     <div className="hidden lg:block absolute top-20 left-0 right-0 h-1" aria-hidden="true">
                         <div className="relative h-full mx-auto px-24">
-                            <div className="h-full bg-gradient-to-r from-blue-300 via-blue-300 to-blue-300 rounded-full"></div>
+                            <div className="h-full bg-gradient-to-r from-green-300 via-green-300 to-green-300 rounded-full"></div>
                         </div>
                     </div>
 
@@ -65,7 +65,7 @@ export default function HowItWorks() {
                                 aria-label={step.ariaLabel}
                             >
                                 {/* Step Card */}
-                                <div className="bg-white rounded-xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-blue-200">
+                                <div className="bg-white rounded-xl p-6 shadow transition-all duration-300 transform hover:-translate-y-2 h-full border-2 border-transparent hover:border-green-200">
                                     {/* Step Number */}
                                     <div className="flex items-center justify-between mb-6">
                                         <div className="relative">
@@ -73,11 +73,11 @@ export default function HowItWorks() {
                                                 className='transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300'
                                                 variant='light'
                                                 size='xl'
-                                                color='blue'
+                                                color='green'
                                                 icon={<Icon aria-hidden="true" />}
                                             />
                                             {/* Pulse Effect */}
-                                            <div className="bg-blue-300 absolute inset-0 w-13 h-13 rounded-xl opacity-20 animate-ping" aria-hidden="true"></div>
+                                            <div className="bg-green-300 absolute inset-0 w-13 h-13 rounded-xl opacity-20 animate-ping" aria-hidden="true"></div>
                                         </div>
                                         <div className="text-5xl font-bold text-gray-200 group-hover:text-gray-200 transition-colors" aria-hidden="true">
                                             {step.id}
@@ -86,7 +86,7 @@ export default function HowItWorks() {
 
                                     {/* Content */}
                                     <div>
-                                        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
                                             {step.title}
                                         </h3>
                                         <p className="text-gray-600 leading-relaxed">
@@ -96,7 +96,7 @@ export default function HowItWorks() {
 
                                     {/* Decorative Element */}
                                     <div
-                                        className="mt-6 h-1 w-16 rounded-full bg-blue-500 transform origin-left group-hover:scale-x-150 transition-transform duration-300"
+                                        className="mt-6 h-1 w-16 rounded-full bg-green-500 transform origin-left group-hover:scale-x-150 transition-transform duration-300"
                                         aria-hidden="true"
                                     ></div>
                                 </div>

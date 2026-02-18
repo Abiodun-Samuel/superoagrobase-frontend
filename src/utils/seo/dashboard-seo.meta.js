@@ -313,3 +313,34 @@ export function getDashboardSettingsMetadata() {
         }
     );
 }
+// Add these functions to your existing dashboard-seo.meta.js file
+
+export const getDashboardCreateBlogMetadata = () => ({
+    title: 'Create New Blog Post | Blogs Management',
+    description: 'Create and publish new agricultural blog content. Write articles, add images, set SEO metadata, and share insights with your audience.',
+    keywords: 'create blog, new blog post, blog editor, content creation, agricultural blog, blog management',
+    openGraph: {
+        title: 'Create New Blog Post | Blogs Management',
+        description: 'Create and publish new agricultural blog content with our intuitive blog editor.',
+        type: 'website',
+    },
+    robots: {
+        index: false,
+        follow: false,
+    },
+});
+
+export const getDashboardEditBlogMetadata = () => ({
+    title: 'Edit Blog Post | Blogs Management',
+    description: 'Edit and update your agricultural blog content. Modify articles, update images, refine SEO settings, and republish your blog posts.',
+    keywords: 'edit blog, update blog post, blog editor, content management, agricultural blog, blog editing',
+    openGraph: {
+        title: 'Edit Blog Post | Blogs Management',
+        description: 'Edit and update your agricultural blog content with our comprehensive blog editor.',
+        type: 'website',
+    },
+    robots: {
+        index: false,
+        follow: false,
+    },
+});

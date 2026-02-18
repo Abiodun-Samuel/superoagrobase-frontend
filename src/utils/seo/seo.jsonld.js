@@ -1,6 +1,7 @@
 // seo.jsonld.js
 import { SCHEMA_BASE, PRODUCT_SCHEMA_CONFIG, FAQ_CONFIG, OFFER_CATALOG_CONFIG, toJsonLd } from "../config/seo.config";
 import { SITE_DATA } from "../data";
+import { formatCount } from "../helper";
 
 // Home Layout
 export function getOrganizationJsonLd() {
@@ -2020,8 +2021,8 @@ export function getBlogCollectionJsonLd(params = {}) {
                     "headline": post.title,
                     "description": post.excerpt,
                     "image": post.image,
-                    "datePublished": new Date(post.date).toISOString(),
-                    "dateModified": new Date(post.date).toISOString(),
+                    "datePublished": new Date(post.created_at).toISOString(),
+                    "dateModified": new Date(post.updated_at).toISOString(),
                     "author": {
                         "@type": "Person",
                         "name": post.author,
@@ -2047,7 +2048,7 @@ export function getBlogCollectionJsonLd(params = {}) {
                     "interactionStatistic": {
                         "@type": "InteractionCounter",
                         "interactionType": "https://schema.org/ReadAction",
-                        "userInteractionCount": post.views.replace('K', '000').replace('.', '')
+                        "userInteractionCount": formatCount(post?.views_count),
                     }
                 }
             }))
@@ -2198,7 +2199,7 @@ export function getBlogPostJsonLd(post) {
             {
                 "@type": "InteractionCounter",
                 "interactionType": "https://schema.org/ReadAction",
-                "userInteractionCount": views.replace('K', '000').replace('.', '')
+                "userInteractionCount": formatCount(views),
             }
         ],
         "about": {
@@ -5346,5 +5347,116 @@ export function getVendorProductManagementFAQJsonLd() {
                 }
             }
         ]
+    };
+}
+
+// Blog detail page
+export function getBlogJsonLd(blog) {
+    if (!blog) return null;
+
+    const {
+        title,
+        slug,
+        excerpt,
+        content,
+        featured_image,
+        category,
+        tags,
+        author,
+        status,
+        is_featured,
+        meta_title,
+        meta_description,
+        published_at,
+        created_at,
+        updated_at,
+    } = blog;
+
+    const postUrl = `${SITE_DATA.domain}/blogs/${slug}`;
+    const publishDate = published_at || created_at;
+
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "BlogPosting",
+        "@id": `${postUrl}#blogpost`,
+        "headline": title,
+        "name": title,
+        "description": meta_description || excerpt,
+        "url": postUrl,
+        "image": featured_image
+            ? {
+                "@type": "ImageObject",
+                "url": featured_image,
+                "caption": title
+            }
+            : `${SITE_DATA.domain}/placeholder.jpg`,
+        "datePublished": publishDate ? new Date(publishDate).toISOString() : new Date(created_at).toISOString(),
+        "dateModified": updated_at ? new Date(updated_at).toISOString() : new Date(created_at).toISOString(),
+        "author": author
+            ? {
+                "@type": "Person",
+                "name": author?.full_name || author?.name || author,
+            }
+            : {
+                "@type": "Organization",
+                "@id": `${SITE_DATA.domain}/#organization`
+            },
+        "publisher": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`,
+            "name": SITE_DATA.name,
+            "logo": toJsonLd(SCHEMA_BASE.logo)
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": postUrl
+        },
+        "isPartOf": {
+            "@type": "Blog",
+            "@id": `${SITE_DATA.domain}/blog#blog`
+        },
+        "articleSection": category || "Blog",
+        ...(tags?.length > 0 && {
+            "keywords": Array.isArray(tags) ? tags.join(", ") : tags
+        }),
+        ...(is_featured && {
+            "backstory": "Featured article highlighting innovation and insight in agriculture"
+        }),
+        "inLanguage": "en-NG",
+        "copyrightYear": new Date(created_at).getFullYear(),
+        "copyrightHolder": {
+            "@type": "Organization",
+            "@id": `${SITE_DATA.domain}/#organization`
+        }
+    };
+}
+
+// Blog detail page
+export function getBlogPageJsonLd(blog) {
+    if (!blog) return null;
+
+    const postUrl = `${SITE_DATA.domain}/blogs/${blog.slug}`;
+
+    return {
+        "@context": SCHEMA_BASE.context,
+        "@type": "WebPage",
+        "@id": `${postUrl}#webpage`,
+        "url": postUrl,
+        "name": blog.meta_title || blog.title,
+        "description": blog.meta_description || blog.excerpt,
+        "inLanguage": "en-NG",
+        "isPartOf": {
+            "@type": "WebSite",
+            "@id": `${SITE_DATA.domain}/#website`
+        },
+        "about": {
+            "@type": "Thing",
+            "name": blog.category || "Agriculture",
+            "description": blog.excerpt
+        },
+        "mainEntity": {
+            "@type": "BlogPosting",
+            "@id": `${postUrl}#blogpost`
+        }
     };
 }

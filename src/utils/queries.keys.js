@@ -1,6 +1,17 @@
 // utils/queries.keys.js - UPDATED VERSION WITH CATEGORIES & SUBCATEGORIES
 
 export const QUERY_KEYS = {
+  blogs: {
+    all: ['blogs'],
+    lists: () => [...QUERY_KEYS.blogs.all, 'list'],
+    list: (filters) => [...QUERY_KEYS.blogs.lists(), filters],
+    published: (filters) => [...QUERY_KEYS.blogs.all, 'published', filters],
+    featured: () => [...QUERY_KEYS.blogs.all, 'featured'],
+    details: () => [...QUERY_KEYS.blogs.all, 'detail'],
+    detail: (slug) => [...QUERY_KEYS.blogs.details(), slug],
+    admin: (filters) => [...QUERY_KEYS.blogs.all, 'admin', filters],
+  },
+
   admin: {
     all: ['admin'],
     dashboard: () => [...QUERY_KEYS.admin.all, 'dashboard'],
@@ -126,6 +137,13 @@ export const QUERY_KEYS = {
 // INVALIDATION PATTERNS - EXPANDED
 // ============================================
 export const invalidationPatterns = {
+  blogs: (queryClient) => {
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.blogs.all });
+  },
+
+  blog: (queryClient, slug) => {
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.blogs.detail(slug) });
+  },
   reviews: (queryClient) => {
     queryClient.invalidateQueries({ queryKey: QUERY_KEYS.reviews.all });
   },

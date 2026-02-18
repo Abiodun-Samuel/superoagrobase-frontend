@@ -958,3 +958,94 @@ span.flatpickr-weekday,
 .duration-300 {
   animation-duration: 0.3s;
 }
+
+/* blogs  */
+/* Add to your global styles or create a separate file */
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker {
+    font-family: inherit;
+    border-color: rgb(209 213 219);
+}
+
+.dark .react-datepicker {
+    background-color: rgb(31 41 55);
+    border-color: rgb(75 85 99);
+    color: rgb(243 244 246);
+}
+
+.react-datepicker__header {
+    background-color: rgb(249 250 251);
+    border-bottom-color: rgb(209 213 219);
+}
+
+.dark .react-datepicker__header {
+    background-color: rgb(17 24 39);
+    border-bottom-color: rgb(75 85 99);
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+    color: rgb(17 24 39);
+}
+
+.dark .react-datepicker__current-month,
+.dark .react-datepicker-time__header,
+.dark .react-datepicker-year-header {
+    color: rgb(243 244 246);
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    color: rgb(55 65 81);
+}
+
+.dark .react-datepicker__day-name,
+.dark .react-datepicker__day,
+.dark .react-datepicker__time-name {
+    color: rgb(209 213 219);
+}
+
+.react-datepicker__day:hover {
+    background-color: rgb(243 244 246);
+}
+
+.dark .react-datepicker__day:hover {
+    background-color: rgb(55 65 81);
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: rgb(147 51 234);
+    color: white;
+}
+
+.dark .react-datepicker__day--selected,
+.dark .react-datepicker__day--keyboard-selected {
+    background-color: rgb(126 34 206);
+}
+
+.react-datepicker__time-container {
+    border-left-color: rgb(209 213 219);
+}
+
+.dark .react-datepicker__time-container {
+    border-left-color: rgb(75 85 99);
+}
+
+.react-datepicker__time-list-item:hover {
+    background-color: rgb(243 244 246);
+}
+
+.dark .react-datepicker__time-list-item:hover {
+    background-color: rgb(55 65 81);
+}
+
+.react-datepicker__time-list-item--selected {
+    background-color: rgb(147 51 234) !important;
+    color: white !important;
+}

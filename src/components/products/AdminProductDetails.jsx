@@ -30,6 +30,7 @@ import Avatar from '@/components/ui/Avatar';
 import DeleteProductModal from './DeleteProductModal';
 import { useModal } from '@/hooks/useModal';
 import { useState } from 'react';
+import { formatCount } from '@/utils/helper';
 
 const AdminProductDetails = ({ slug }) => {
     const router = useRouter();
@@ -532,7 +533,7 @@ const AdminProductDetails = ({ slug }) => {
                                     <Eye className="w-4 h-4 text-blue-600" />
                                 </div>
                                 <p className="text-xl sm:text-2xl font-bold text-gray-900">
-                                    {product.view_count?.toLocaleString() || 0}
+                                    {formatCount(product.view_count) || 0}
                                 </p>
                             </div>
                             <div className="p-3 sm:p-4 bg-gradient-to-br from-green-50 to-white rounded-xl border border-green-100">

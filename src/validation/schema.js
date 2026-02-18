@@ -475,3 +475,46 @@ export const defaultProductValues = {
   discount_price: '',
   stock: '',
 };
+
+export const defaultBlogValues = {
+  title: '',
+  excerpt: '',
+  content: '',
+  featured_image: '',
+  category: '',
+  tags: [],
+  status: 'draft',
+  is_featured: false,
+  published_at: null,
+  meta_title: '',
+  meta_description: '',
+};
+
+export const blogValidationSchema = yup.object().shape({
+  title: yup
+    .string()
+    .required('Blog title is required')
+    .max(255, 'Title must not exceed 255 characters'),
+  excerpt: yup
+    .string()
+    .required('Blog excerpt is required')
+    .max(500, 'Excerpt must not exceed 500 characters'),
+  content: yup
+    .string()
+    .required('Blog content is required')
+    .min(100, 'Content must be at least 100 characters'),
+  featured_image: yup.string().nullable(),
+  category: yup.string().max(100, 'Category must not exceed 100 characters').nullable(),
+  tags: yup.array().of(yup.string().max(50, 'Tag must not exceed 50 characters')),
+  status: yup
+    .string()
+    .required('Status is required')
+    .oneOf(['draft', 'published'], 'Status must be either draft or published'),
+  is_featured: yup.boolean(),
+  published_at: yup.date().nullable(),
+  meta_title: yup.string().max(255, 'Meta title must not exceed 255 characters').nullable(),
+  meta_description: yup
+    .string()
+    .max(500, 'Meta description must not exceed 500 characters')
+    .nullable(),
+});

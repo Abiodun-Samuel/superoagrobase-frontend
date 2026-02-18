@@ -50,7 +50,7 @@ import Avatar from '@/components/ui/Avatar';
 import Modal from '@/components/modal/Modal';
 import TextareaForm from '@/components/form/TextareaForm';
 import SwitchForm from '@/components/form/SwitchForm';
-import { formatCurrency, getStatusColor } from '@/utils/helper';
+import { formatCount, formatCurrency, getStatusColor } from '@/utils/helper';
 import Link from 'next/link';
 import DashboardSkeleton from './DashboardSkeleton';
 import { useUpdateReview } from '@/queries/reviews.query';
@@ -748,7 +748,7 @@ const AdminDashboard = () => {
                         value={`${products.metrics.conversion_rate}%`}
                         icon={Activity}
                         iconColor="blue"
-                        subtitle={`${products.metrics.total_views.toLocaleString()} total views`}
+                        subtitle={`${formatCount(products.metrics.total_views)} total views`}
                     />
                     <StatCard
                         label="Customer Satisfaction"

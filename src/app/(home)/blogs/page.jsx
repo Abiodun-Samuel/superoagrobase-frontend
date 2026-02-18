@@ -4,173 +4,154 @@ import {
     getBlogBreadcrumbJsonLd,
     getBlogCollectionJsonLd,
     getBlogWebsiteJsonLd,
-    getBlogFAQJsonLd,
-    getBlogNewsletterJsonLd,
-    getOrganizationJsonLd
+    getOrganizationJsonLd,
 } from '@/utils/seo/seo.jsonld';
-// import BlogList from '@/components/blog/BlogLists';
+import BlogList from '@/components/blog/BlogList';
 import PageLayout from '@/components/page/PageLayout';
 import PageHeader from '@/components/page/PageHeader';
+import { BlogService } from '@/services/blogs.service';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 3600;
 
-export async function generateMetadata({ searchParams }) {
-    const params = await searchParams;
-    const category = params?.category;
-    const search = params?.search;
-    const page = parseInt(params?.page) || 1;
-    const totalPosts = 6;
-    const totalPages = Math.ceil(totalPosts / 6);
-    const featuredCount = 2;
+// ─── Param parsing ────────────────────────────────────────────────────────────
 
-    return getBlogMetadata({ category, search, page, totalPosts, totalPages, featuredCount });
+const parseSearchParams = async (searchParams) => {
+    const params = await searchParams;
+
+    const page = params?.page ? parseInt(params.page, 10) : 1;
+    const perPage = params?.per_page ? parseInt(params.per_page, 10) : 9;
+
+    if (isNaN(page) || page < 1) return null;
+    if (isNaN(perPage) || perPage < 1 || perPage > 100) return null;
+
+    return {
+        category: params?.category || null,
+        search: params?.search || null,
+        page,
+        per_page: perPage,
+    };
+};
+
+// ─── Data fetching ────────────────────────────────────────────────────────────
+
+const fetchBlogs = async (filters) => {
+    try {
+        const params = {
+            page: filters.page,
+            per_page: filters.per_page,
+            ...(filters.category && { category: filters.category }),
+            ...(filters.search && { search: filters.search }),
+        };
+        const response = await BlogService.getPublishedBlogs(params);
+        if (!response?.data) return { blogs: [], meta: {}, links: [], success: false };
+        return {
+            blogs: response.data || [],
+            meta: response.meta || {},
+            links: response.links || [],  // Laravel pagination links array
+            success: true,
+        };
+    } catch {
+        return { blogs: [], meta: {}, links: [], success: false };
+    }
+};
+
+// ─── Display helpers ──────────────────────────────────────────────────────────
+
+const getPageTitle = ({ category, search }) => {
+    if (search) return `Results for "${search}"`;
+    if (category) return category;
+    return 'Blog & Insights';
+};
+
+const getPageDescription = ({ category, search }, meta) => {
+    const count = meta.total?.toLocaleString() ?? '0';
+    if (search) return `Found ${count} articles matching your search.`;
+    if (category) return `Explore ${count} articles in ${category}.`;
+    return `Discover ${count} expert insights, trends, and stories from the world of agriculture and AgTech.`;
+};
+
+const getBreadcrumbs = ({ category }) => {
+    const crumbs = [{ label: 'Blogs', href: '/blogs' }];
+    if (category) crumbs.push({ label: category, href: `/blogs?category=${encodeURIComponent(category)}` });
+    return crumbs;
+};
+
+const getBadge = ({ search, category }) => {
+    if (search) return 'Search Results';
+    if (category) return category;
+    return 'Knowledge Hub';
+};
+
+// ─── Metadata ─────────────────────────────────────────────────────────────────
+
+export async function generateMetadata({ searchParams }) {
+    const filters = await parseSearchParams(searchParams);
+    if (!filters) return getBlogMetadata({});
+    const { meta } = await fetchBlogs(filters);
+    return getBlogMetadata({
+        category: filters.category,
+        search: filters.search,
+        page: filters.page,
+        totalPosts: meta.total ?? 0,
+        totalPages: meta.last_page ?? 1,
+    });
 }
 
-/**
- * Blog Page Component
- * Main blog listing page with comprehensive SEO implementation
- */
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 export default async function BlogPage({ searchParams }) {
-    const params = await searchParams;
-    const category = params?.category;
-    const search = params?.search;
-    const page = parseInt(params?.page) || 1;
+    const filters = await parseSearchParams(searchParams);
+    if (!filters) notFound();
 
-    // Blog data - in production, this would come from your CMS/database/API
-    const BLOG_POSTS = [
-        {
-            id: 1,
-            title: 'The Carbon Revolution: How Regenerative Agriculture is Healing Our Planet',
-            excerpt: 'Farmers worldwide are reversing climate change, one field at a time. Discover the science and stories behind soil carbon sequestration.',
-            image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1600&h=1200&fit=crop',
-            category: 'Regenerative Farming',
-            author: 'Dr. Elena Martinez',
-            authorRole: 'Soil Scientist',
-            date: '2024-12-08',
-            readTime: '12 min',
-            views: '24.5K',
-            featured: true,
-            color: 'emerald'
-        },
-        {
-            id: 2,
-            title: 'Vertical Futures: Inside the World\'s Most Advanced Urban Farm',
-            excerpt: 'A deep dive into how AI-powered vertical farms are producing 400x more food per square meter than traditional agriculture.',
-            image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=1600&h=1200&fit=crop',
-            category: 'AgTech Innovation',
-            author: 'Marcus Chen',
-            authorRole: 'Tech Journalist',
-            date: '2024-12-05',
-            readTime: '10 min',
-            views: '18.2K',
-            featured: true,
-            color: 'blue'
-        },
-        {
-            id: 3,
-            title: 'From Barren to Bountiful: A Decade-Long Transformation',
-            excerpt: 'How one family transformed 50 acres of degraded land into a thriving food forest using permaculture principles.',
-            image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1600&h=1200&fit=crop',
-            category: 'Community',
-            author: 'Sarah Williams',
-            authorRole: 'Permaculture Designer',
-            date: '2024-12-01',
-            readTime: '15 min',
-            views: '31.7K',
-            featured: false,
-            color: 'amber'
-        },
-        {
-            id: 4,
-            title: 'The New Water Warriors: IoT Sensors Saving Billions of Gallons',
-            excerpt: 'Smart irrigation technology is revolutionizing water management in agriculture, reducing usage by up to 60%.',
-            image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1600&h=1200&fit=crop',
-            category: 'AgTech Innovation',
-            author: 'Dr. Priya Patel',
-            authorRole: 'Agricultural Engineer',
-            date: '2024-11-28',
-            readTime: '8 min',
-            views: '15.9K',
-            featured: false,
-            color: 'cyan'
-        },
-        {
-            id: 5,
-            title: 'Market Decoded: Why Organic Prices Are Finally Dropping',
-            excerpt: 'An economist\'s perspective on the supply chain innovations making organic food accessible to everyone.',
-            image: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1600&h=1200&fit=crop',
-            category: 'Market Intelligence',
-            author: 'James Okonkwo',
-            authorRole: 'Agricultural Economist',
-            date: '2024-11-25',
-            readTime: '11 min',
-            views: '22.3K',
-            featured: false,
-            color: 'violet'
-        },
-        {
-            id: 6,
-            title: 'Climate Adaptation: The Crops That Will Feed 2050',
-            excerpt: 'Scientists are engineering climate-resilient varieties that can withstand extreme weather while maintaining nutrition.',
-            image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1600&h=1200&fit=crop',
-            category: 'Climate Action',
-            author: 'Dr. Amara Osei',
-            authorRole: 'Plant Geneticist',
-            date: '2024-11-20',
-            readTime: '13 min',
-            views: '28.1K',
-            featured: false,
-            color: 'rose'
-        }
-    ];
+    const { blogs, meta, links, success } = await fetchBlogs(filters);
+    if (!success) notFound();
 
-    // Filter posts based on search params
-    const filteredPosts = BLOG_POSTS.filter(post => {
-        const matchesCategory = !category || category === 'All Stories' || post.category === category;
-        const matchesSearch = !search ||
-            post.title.toLowerCase().includes(search.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(search.toLowerCase()) ||
-            post.author.toLowerCase().includes(search.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
+    const currentPage = meta.current_page ?? filters.page;
+    const totalPages = meta.last_page ?? 1;
 
-    const featuredPosts = filteredPosts.filter(post => post.featured);
-    const totalPosts = filteredPosts.length;
-    const totalPages = Math.ceil(totalPosts / 6);
+    // Guard: if requested page exceeds total, 404
+    if (totalPages > 0 && currentPage > totalPages) notFound();
 
     const jsonLdGenerators = [
         getOrganizationJsonLd,
-        { fn: getBlogBreadcrumbJsonLd, params: { category, search } },
+        { fn: getBlogBreadcrumbJsonLd, params: { category: filters.category, search: filters.search } },
         {
             fn: getBlogCollectionJsonLd,
-            params: { category, search, posts: filteredPosts, totalPosts, page, totalPages, featuredPosts }
+            params: {
+                category: filters.category,
+                search: filters.search,
+                posts: blogs,
+                totalPosts: meta.total ?? 0,
+                page: currentPage,
+                totalPages,
+            },
         },
         getBlogWebsiteJsonLd,
-        getBlogFAQJsonLd,
-        getBlogNewsletterJsonLd
-    ];
+    ].filter(Boolean);
 
     return (
         <>
             <JsonLdScripts generators={jsonLdGenerators} />
             <PageHeader
-                title="Agriculture Insights & Stories"
-                description="Explore the latest trends, innovations, and expert insights in agriculture, sustainability, and AgTech"
-                badge="Knowledge Hub"
-                breadcrumbs={[
-                    { label: 'Blog', href: '/blog' },
-                ]}
+                title={getPageTitle(filters)}
+                description={getPageDescription(filters, meta)}
+                badge={getBadge(filters)}
+                breadcrumbs={getBreadcrumbs(filters)}
                 isBackButton={false}
             />
             <PageLayout>
-                {/* <BlogList
-                    posts={filteredPosts}
-                    featuredPosts={featuredPosts}
-                    category={category}
-                    search={search}
-                    page={page}
-                    totalPages={totalPages}
-                /> */}
+                <BlogList
+                    blogs={blogs}
+                    meta={meta}
+                    links={links}
+                    filters={{
+                        category: filters.category,
+                        search: filters.search,
+                        page: currentPage,
+                        per_page: filters.per_page,
+                    }}
+                />
             </PageLayout>
         </>
     );

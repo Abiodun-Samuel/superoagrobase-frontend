@@ -48,6 +48,94 @@ export const isActivePath = (pathname, itemPath) => {
   return pathname === itemPath || pathname?.startsWith(itemPath + '/');
 };
 
+// export function buildBreadcrumb(config) {
+//   const { page, data = {} } = config;
+//   const items = [];
+
+//   items.push({ name: 'Home', url: '/' });
+
+//   switch (page) {
+//     case 'allProducts':
+//       items.push({
+//         name: 'Products',
+//         url: '/products',
+//         current: true
+//       });
+//       break;
+
+//     case 'category':
+//       items.push({ name: 'Products', url: '/products' });
+//       items.push({
+//         name: data.category?.title,
+//         url: `/products?category=${data.category?.slug}`,
+//         current: true
+//       });
+//       break;
+
+//     case 'subcategory':
+//       items.push({ name: 'Products', url: '/products' });
+//       items.push({
+//         name: data.category?.title,
+//         url: `/products?category/${data.category.slug}`
+//       });
+//       items.push({
+//         name: data.subcategory?.title,
+//         url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
+//         current: true
+//       });
+//       break;
+
+//     case 'product':
+//       items.push({ name: 'Products', url: '/products' });
+
+//       if (data.category) {
+//         items.push({
+//           name: data.category.title,
+//           url: `/products?category=${data.category.slug}`
+//         });
+//       }
+
+//       if (data.subcategory) {
+//         items.push({
+//           name: data.subcategory.title,
+//           url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
+//         });
+//       }
+
+//       items.push({
+//         name: data.title,
+//         url: `/products/${data.slug}`,
+//         current: true
+//       });
+//       break;
+
+//     case 'about':
+//       items.push({ name: 'About Us', url: '/about', current: true });
+//       break;
+
+//     case 'contact':
+//       items.push({ name: 'Contact Us', url: '/contact', current: true });
+//       break;
+
+//     case 'services':
+//       items.push({ name: 'Services', url: '/services', current: true });
+//       break;
+
+//     case 'singleService':
+//       items.push({ name: 'Services', url: '/services' });
+//       items.push({
+//         name: data.title,
+//         url: `/services/${data.slug}`,
+//         current: true
+//       });
+//       break;
+
+//     default:
+//       items.push({ name: 'Page', url: '#', current: true });
+//   }
+
+//   return items;
+// }
 export function buildBreadcrumb(config) {
   const { page, data = {} } = config;
   const items = [];
@@ -55,11 +143,48 @@ export function buildBreadcrumb(config) {
   items.push({ name: 'Home', url: '/' });
 
   switch (page) {
+    case 'allBlogs':
+      items.push({
+        name: 'Blogs',
+        url: '/blogs',
+        current: true,
+      });
+      break;
+
+    case 'blogCategory':
+      items.push({ name: 'Blogs', url: '/blogs' });
+      items.push({
+        name: data.category,
+        url: `/blogs?category=${encodeURIComponent(data.category)}`,
+        current: true,
+      });
+      break;
+
+    case 'blogDetail':
+      items.push({ name: 'Blogs', url: '/blogs' });
+
+      // Optional: category crumb if the blog has one
+      if (data.category) {
+        items.push({
+          name: data.category,
+          url: `/blogs?category=${encodeURIComponent(data.category)}`,
+        });
+      }
+
+      items.push({
+        name: data.title,
+        url: `/blogs/${data.slug}`,
+        current: true,
+      });
+      break;
+
+    // ── Product breadcrumbs (kept, bugs fixed) ──────────────────────────
+
     case 'allProducts':
       items.push({
         name: 'Products',
         url: '/products',
-        current: true
+        current: true,
       });
       break;
 
@@ -68,7 +193,7 @@ export function buildBreadcrumb(config) {
       items.push({
         name: data.category?.title,
         url: `/products?category=${data.category?.slug}`,
-        current: true
+        current: true,
       });
       break;
 
@@ -76,12 +201,13 @@ export function buildBreadcrumb(config) {
       items.push({ name: 'Products', url: '/products' });
       items.push({
         name: data.category?.title,
-        url: `/products?category/${data.category.slug}`
+        url: `/products?category=${data.category?.slug}`,
       });
       items.push({
         name: data.subcategory?.title,
-        url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
-        current: true
+        // Fixed: was using $ instead of & for query separator
+        url: `/products?category=${data.category?.slug}&subcategory=${data.subcategory?.slug}`,
+        current: true,
       });
       break;
 
@@ -91,23 +217,26 @@ export function buildBreadcrumb(config) {
       if (data.category) {
         items.push({
           name: data.category.title,
-          url: `/products?category=${data.category.slug}`
+          url: `/products?category=${data.category.slug}`,
         });
       }
 
       if (data.subcategory) {
         items.push({
           name: data.subcategory.title,
-          url: `/products?category=${data.category.slug}$subcategory=${data.subcategory.slug}`,
+          // Fixed: was using $ instead of & for query separator
+          url: `/products?category=${data.category.slug}&subcategory=${data.subcategory.slug}`,
         });
       }
 
       items.push({
         name: data.title,
         url: `/products/${data.slug}`,
-        current: true
+        current: true,
       });
       break;
+
+    // ── Static pages ────────────────────────────────────────────────────
 
     case 'about':
       items.push({ name: 'About Us', url: '/about', current: true });
@@ -126,7 +255,7 @@ export function buildBreadcrumb(config) {
       items.push({
         name: data.title,
         url: `/services/${data.slug}`,
-        current: true
+        current: true,
       });
       break;
 
@@ -239,6 +368,50 @@ export const formatDate = (dateString, format = 'short') => {
 
   return new Intl.DateTimeFormat('en-US', options).format(date);
 };
+
+export function formatCount(value, decimals = 1) {
+  if (value === null || value === undefined) return '0';
+  if (isNaN(value)) return '0';
+
+  const abs = Math.abs(value);
+
+  const units = [
+    { limit: 1e12, suffix: 'T' },
+    { limit: 1e9, suffix: 'B' },
+    { limit: 1e6, suffix: 'M' },
+    { limit: 1e3, suffix: 'K' },
+  ];
+
+  for (const unit of units) {
+    if (abs >= unit.limit) {
+      const num = (value / unit.limit).toFixed(decimals);
+      return `${parseFloat(num)}${unit.suffix}`;
+    }
+  }
+
+  return `${value}`;
+}
+
+
+export const formatDate2 = (dateString) => {
+  if (!dateString) return '-';
+
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+  if (diffInDays === 0) return 'Today';
+  if (diffInDays === 1) return 'Yesterday';
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
 export const truncateText = (text, maxLength = 50, suffix = '...') => {
   if (!text) return '';
   if (text.length <= maxLength) return text;

@@ -632,7 +632,6 @@ export async function generateMetadata({ params }) {
 
 // Always use SITE_DATE
 import { SITE_DATE } from '@/utils/seo-metadata'
-console.log(SITE_DATE.phone) // +2348157037737
 ```
 
 ---

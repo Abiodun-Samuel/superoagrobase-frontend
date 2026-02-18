@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck, MessageSquare, ArrowRight } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, Award, UserCheck } from 'lucide-react';
 import TextBadge from '../ui/TextBadge';
 import { useReviews } from '@/queries/reviews.query';
 
@@ -21,8 +21,8 @@ const TRANSITION_DURATION = 700;
 const SectionHeader = () => (
     <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
-            variant='solid'
-            color='green'
+            variant="solid"
+            color="green"
             startIcon={<Award aria-hidden="true" />}
             endIcon={<UserCheck aria-hidden="true" />}
         >
@@ -49,27 +49,44 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
     const isCenter = position === 'center';
     const isClickable = !isCenter;
 
+    const fullName = testimonial?.user?.full_name ?? 'Customer';
+    const avatar = testimonial?.user?.avatar ?? '';
+    const city = testimonial?.user?.city ?? '';
+    const state = testimonial?.user?.state ?? '';
+    const productTitle = testimonial?.product?.title ?? '';
+    const rating = Number(testimonial?.rating ?? 0);
+    const comment = testimonial?.comment ?? '';
+    const createdAt = testimonial?.created_at ?? '';
+
+    const formattedDate = createdAt
+        ? new Date(createdAt).toLocaleDateString('en-NG', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        })
+        : '';
+
     return (
         <div
             className={`absolute transition-all duration-${TRANSITION_DURATION} ease-in-out ${position === 'center'
-                ? 'w-full lg:w-[600px] scale-100 opacity-100 z-30'
-                : position === 'left'
-                    ? 'w-full lg:w-[500px] -translate-x-[70%] lg:-translate-x-[70%] scale-90 opacity-40 z-10'
-                    : position === 'right'
-                        ? 'w-full lg:w-[500px] translate-x-[70%] lg:translate-x-[70%] scale-90 opacity-40 z-10'
-                        : 'opacity-0 scale-75 pointer-events-none'
+                    ? 'w-full lg:w-[600px] scale-100 opacity-100 z-30'
+                    : position === 'left'
+                        ? 'w-full lg:w-[500px] -translate-x-[70%] lg:-translate-x-[70%] scale-90 opacity-40 z-10'
+                        : position === 'right'
+                            ? 'w-full lg:w-[500px] translate-x-[70%] lg:translate-x-[70%] scale-90 opacity-40 z-10'
+                            : 'opacity-0 scale-75 pointer-events-none'
                 }`}
             onClick={onClick}
             style={{ cursor: isClickable ? 'pointer' : 'default' }}
-            role={isClickable ? "button" : undefined}
+            role={isClickable ? 'button' : undefined}
             tabIndex={isClickable ? 0 : -1}
             onKeyDown={(e) => {
                 if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
                     e.preventDefault();
-                    onClick();
+                    onClick?.();
                 }
             }}
-            aria-label={isClickable ? `View testimonial from ${testimonial.user.full_name}` : undefined}
+            aria-label={isClickable ? `View testimonial from ${fullName}` : undefined}
         >
             <div className="bg-white mx-5 rounded-xl shadow-2xl p-8 lg:p-10 relative overflow-hidden">
                 {/* Quote Icon */}
@@ -83,14 +100,21 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
                     <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
                         {/* Avatar */}
                         <div className="relative">
-                            <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-green-100 shadow-lg">
-                                <img
-                                    src={testimonial.user.avatar}
-                                    alt={`${testimonial.user.full_name}'s profile picture`}
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                />
+                            <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-green-100 shadow-lg bg-gray-100">
+                                {avatar ? (
+                                    <img
+                                        src={avatar}
+                                        alt={`${fullName}'s profile picture`}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
+                                        N/A
+                                    </div>
+                                )}
                             </div>
+
                             {/* Verified Badge */}
                             <div
                                 className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-600 rounded-full flex items-center justify-center border-2 border-white"
@@ -102,27 +126,27 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
 
                         {/* Info */}
                         <div className="text-center sm:text-left flex-1">
-                            <h3 className="text-xl font-bold text-gray-900">
-                                {testimonial.user.full_name}
-                            </h3>
-                            <p className="text-green-600 font-semibold">
-                                {testimonial.user.city}, {testimonial.user.state}
-                            </p>
-                            {testimonial.product && (
+                            <h3 className="text-xl font-bold text-gray-900">{fullName}</h3>
+
+                            {(city || state) && (
+                                <p className="text-green-600 font-semibold">
+                                    {[city, state].filter(Boolean).join(', ')}
+                                </p>
+                            )}
+
+                            {productTitle && (
                                 <p className="text-sm text-gray-500">
-                                    Reviewed: {testimonial.product.title}
+                                    Reviewed: {productTitle}
                                 </p>
                             )}
                         </div>
 
                         {/* Rating */}
-                        <div className="flex gap-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
+                        <div className="flex gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
                             {[...Array(5)].map((_, i) => (
                                 <Star
                                     key={i}
-                                    className={`w-5 h-5 ${i < testimonial.rating
-                                        ? 'fill-yellow-400 text-yellow-400'
-                                        : 'fill-gray-200 text-gray-200'
+                                    className={`w-5 h-5 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'fill-gray-200 text-gray-200'
                                         }`}
                                     aria-hidden="true"
                                 />
@@ -131,9 +155,11 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
                     </div>
 
                     {/* Comment */}
-                    <blockquote className="text-gray-700 text-lg leading-relaxed mb-6">
-                        <p className="italic">"{testimonial.comment}"</p>
-                    </blockquote>
+                    {comment && (
+                        <blockquote className="text-gray-700 text-lg leading-relaxed mb-6">
+                            <p className="italic">"{comment}"</p>
+                        </blockquote>
+                    )}
 
                     {/* Date & Product Info */}
                     <div className="flex flex-wrap items-center gap-3">
@@ -141,18 +167,20 @@ const TestimonialCard = ({ testimonial, position, onClick }) => {
                             <div className="w-2 h-2 bg-green-600 rounded-full" aria-hidden="true"></div>
                             Verified Purchase
                         </div>
-                        <time className="text-sm text-gray-500" dateTime={testimonial.created_at}>
-                            {new Date(testimonial.created_at).toLocaleDateString('en-NG', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            })}
-                        </time>
+
+                        {createdAt && (
+                            <time className="text-sm text-gray-500" dateTime={createdAt}>
+                                {formattedDate}
+                            </time>
+                        )}
                     </div>
                 </div>
 
                 {/* Decorative Element */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400" aria-hidden="true"></div>
+                <div
+                    className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400"
+                    aria-hidden="true"
+                ></div>
             </div>
         </div>
     );
@@ -184,15 +212,15 @@ const DotsIndicator = ({ total, currentIndex, onDotClick }) => (
         {[...Array(total)].map((_, index) => (
             <button
                 key={index}
-                onClick={() => onDotClick(index)}
+                onClick={() => onDotClick?.(index)}
                 role="tab"
                 aria-selected={currentIndex === index}
                 aria-label={`Go to testimonial ${index + 1}`}
-                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 ${currentIndex === index
-                    ? 'w-8 h-3 bg-green-600'
-                    : 'w-3 h-3 bg-gray-300 hover:bg-green-400'
+                className={`transition-all duration-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 ${currentIndex === index ? 'w-8 h-3 bg-green-600' : 'w-3 h-3 bg-gray-300 hover:bg-green-400'
                     }`}
-            >{''}</button>
+            >
+                {''}
+            </button>
         ))}
     </div>
 );
@@ -203,7 +231,6 @@ const DotsIndicator = ({ total, currentIndex, onDotClick }) => (
 const TestimonialsSkeleton = () => (
     <section className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         <div className="relative z-10">
-            {/* Header Skeleton */}
             <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
                 <div className="flex justify-center">
                     <div className="h-10 w-64 bg-gray-200 rounded-full animate-pulse"></div>
@@ -212,22 +239,18 @@ const TestimonialsSkeleton = () => (
                 <div className="h-6 w-[500px] bg-gray-200 rounded-xl mx-auto animate-pulse"></div>
             </header>
 
-            {/* Card Skeleton */}
             <div className="relative h-[500px] lg:h-[450px] flex items-center justify-center">
                 <div className="w-full lg:w-[600px]">
                     <div className="bg-white mx-5 rounded-xl shadow-2xl p-8 lg:p-10">
                         <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
-                            {/* Avatar Skeleton */}
                             <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse"></div>
 
-                            {/* Info Skeleton */}
                             <div className="flex-1 space-y-2">
                                 <div className="h-6 w-40 bg-gray-200 rounded animate-pulse"></div>
                                 <div className="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
                                 <div className="h-4 w-36 bg-gray-200 rounded animate-pulse"></div>
                             </div>
 
-                            {/* Rating Skeleton */}
                             <div className="flex gap-1">
                                 {[...Array(5)].map((_, i) => (
                                     <div key={i} className="w-5 h-5 bg-gray-200 rounded animate-pulse"></div>
@@ -235,20 +258,17 @@ const TestimonialsSkeleton = () => (
                             </div>
                         </div>
 
-                        {/* Comment Skeleton */}
                         <div className="space-y-3 mb-6">
                             <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
                             <div className="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
                             <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
                         </div>
 
-                        {/* Badge Skeleton */}
                         <div className="h-10 w-40 bg-gray-200 rounded-full animate-pulse"></div>
                     </div>
                 </div>
             </div>
 
-            {/* Dots Skeleton */}
             <div className="flex justify-center gap-2 mt-8 sm:mt-10">
                 {[...Array(3)].map((_, i) => (
                     <div key={i} className="w-3 h-3 bg-gray-200 rounded-full animate-pulse"></div>
@@ -267,9 +287,8 @@ export default function Testimonials() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    const testimonials = reviewsData?.data || [];
+    const testimonials = reviewsData?.data ?? [];
 
-    // Auto-play effect
     useEffect(() => {
         if (!isAutoPlaying || testimonials.length === 0) return;
 
@@ -280,14 +299,9 @@ export default function Testimonials() {
         return () => clearInterval(interval);
     }, [isAutoPlaying, testimonials.length]);
 
-
-    // Loading state
     if (isLoading) return <TestimonialsSkeleton />;
+    if (isError || testimonials.length === 0) return null;
 
-    // Error state
-    if (isError || !testimonials.length) return null;
-
-    // Navigation handlers
     const goToSlide = (index) => {
         setCurrentIndex(index);
         setIsAutoPlaying(false);
@@ -303,7 +317,6 @@ export default function Testimonials() {
         setIsAutoPlaying(false);
     };
 
-    // Calculate slide position
     const getSlidePosition = (index) => {
         if (testimonials.length === 0) return 'hidden';
 
@@ -319,24 +332,21 @@ export default function Testimonials() {
             className="py-12 sm:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden"
             aria-label="Customer testimonials"
         >
-            {/* Background Decorations */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
                 <div className="absolute top-0 left-0 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
             </div>
 
             <div className="relative z-10">
-                {/* Section Header */}
                 <SectionHeader />
 
-                {/* Testimonials Carousel */}
                 <div className="relative" role="region" aria-roledescription="carousel" aria-label="Customer testimonials carousel">
                     <div className="relative h-[500px] lg:h-[450px] flex items-center justify-center">
                         {testimonials.map((testimonial, index) => {
                             const position = getSlidePosition(index);
                             return (
                                 <TestimonialCard
-                                    key={testimonial.id}
+                                    key={testimonial?.id ?? index}
                                     testimonial={testimonial}
                                     position={position}
                                     onClick={() => position !== 'center' && goToSlide(index)}
@@ -345,79 +355,71 @@ export default function Testimonials() {
                         })}
                     </div>
 
-                    {/* Navigation Buttons */}
                     {testimonials.length > 1 && (
                         <>
-                            <NavButton
-                                direction="prev"
-                                onClick={prevSlide}
-                                ariaLabel="Previous testimonial"
-                            />
-                            <NavButton
-                                direction="next"
-                                onClick={nextSlide}
-                                ariaLabel="Next testimonial"
-                            />
+                            <NavButton direction="prev" onClick={prevSlide} ariaLabel="Previous testimonial" />
+                            <NavButton direction="next" onClick={nextSlide} ariaLabel="Next testimonial" />
                         </>
                     )}
                 </div>
 
-                {/* Dots Indicator */}
                 {testimonials.length > 1 && (
-                    <DotsIndicator
-                        total={testimonials.length}
-                        currentIndex={currentIndex}
-                        onDotClick={goToSlide}
-                    />
+                    <DotsIndicator total={testimonials.length} currentIndex={currentIndex} onDotClick={goToSlide} />
                 )}
 
-                {/* SEO-friendly content (hidden but crawlable) */}
+                {/* SEO-friendly content */}
                 <div className="sr-only">
                     <h3>Customer Reviews and Testimonials</h3>
-                    {testimonials.map((testimonial) => (
-                        <article key={testimonial.id} itemScope itemType="https://schema.org/Review">
-                            <meta itemProp="author" content={testimonial.user.full_name} />
-                            <meta itemProp="datePublished" content={testimonial.created_at} />
+                    {testimonials.map((testimonial, index) => (
+                        <article
+                            key={testimonial?.id ?? index}
+                            itemScope
+                            itemType="https://schema.org/Review"
+                        >
+                            <meta itemProp="author" content={testimonial?.user?.full_name ?? ''} />
+                            <meta itemProp="datePublished" content={testimonial?.created_at ?? ''} />
                             <div itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
-                                <meta itemProp="ratingValue" content={testimonial.rating} />
+                                <meta itemProp="ratingValue" content={String(testimonial?.rating ?? '')} />
                                 <meta itemProp="bestRating" content="5" />
                             </div>
-                            {testimonial.product && (
+
+                            {testimonial?.product?.title && (
                                 <div itemProp="itemReviewed" itemScope itemType="https://schema.org/Product">
-                                    <meta itemProp="name" content={testimonial.product.title} />
+                                    <meta itemProp="name" content={testimonial?.product?.title ?? ''} />
                                 </div>
                             )}
-                            <p itemProp="reviewBody">{testimonial.comment}</p>
+
+                            <p itemProp="reviewBody">{testimonial?.comment ?? ''}</p>
                         </article>
                     ))}
                 </div>
             </div>
 
             <style jsx>{`
-                @keyframes blob {
-                    0%, 100% { transform: translate(0, 0) scale(1); }
-                    25% { transform: translate(20px, -50px) scale(1.1); }
-                    50% { transform: translate(-20px, 20px) scale(0.9); }
-                    75% { transform: translate(50px, 50px) scale(1.05); }
-                }
-                .animate-blob {
-                    animation: blob 7s infinite;
-                }
-                .animation-delay-2000 {
-                    animation-delay: 2s;
-                }
-                .sr-only {
-                    position: absolute;
-                    width: 1px;
-                    height: 1px;
-                    padding: 0;
-                    margin: -1px;
-                    overflow: hidden;
-                    clip: rect(0, 0, 0, 0);
-                    white-space: nowrap;
-                    border-width: 0;
-                }
-            `}</style>
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(20px, -50px) scale(1.1); }
+          50% { transform: translate(-20px, 20px) scale(0.9); }
+          75% { transform: translate(50px, 50px) scale(1.05); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+      `}</style>
         </section>
     );
 }

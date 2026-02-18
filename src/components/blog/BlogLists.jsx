@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Search, Calendar, Clock, ArrowUpRight, Leaf, Sprout, TrendingUp, Sparkles, Filter, X, ChevronRight, Eye } from 'lucide-react';
+import { formatCount } from '@/utils/helper';
 
 const CATEGORIES = ['All Stories', 'Regenerative Farming', 'AgTech Innovation', 'Climate Action', 'Community', 'Market Intelligence'];
 
@@ -118,7 +119,7 @@ const FeaturedCard = ({ post }) => {
                     </span>
                     <div className="flex items-center gap-2 text-white/80 text-sm">
                         <Eye className="w-4 h-4" />
-                        <span>{post.views}</span>
+                        <span>{formatCount(post.views)}</span>
                     </div>
                 </div>
 
@@ -187,7 +188,7 @@ const StoryCard = ({ post }) => {
 
                 <div className="absolute bottom-4 right-4 flex items-center gap-1.5 text-white/90 text-xs">
                     <Eye className="w-3.5 h-3.5" />
-                    <span>{post.views}</span>
+                    <span>{formatCount(post.views)}</span>
                 </div>
             </div>
 

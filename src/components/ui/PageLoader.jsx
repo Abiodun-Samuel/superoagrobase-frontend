@@ -41,7 +41,7 @@ const PageLoader = ({ text = 'Loading page...', showBlur = false }) => {
                 {/* Redesigned Loading Message */}
                 <div className="flex flex-col items-center gap-3 animate-slideUp">
                     {/* Main Loading Text */}
-                    <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-sm shadow-lg border border-gray-100">
+                    {/* <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-sm shadow-lg border border-gray-100">
                         <Loader
                             className="text-green-600 w-4 h-4 sm:w-5 sm:h-5 animate-spin shrink-0"
                             strokeWidth={2.5}
@@ -50,7 +50,7 @@ const PageLoader = ({ text = 'Loading page...', showBlur = false }) => {
                         <span className="text-sm sm:text-base font-semibold text-gray-800 tracking-wide">
                             {text}
                         </span>
-                    </div>
+                    </div> */}
 
                     {/* Progress Indicator Dots */}
                     <div className="flex items-center gap-1.5" aria-hidden="true">

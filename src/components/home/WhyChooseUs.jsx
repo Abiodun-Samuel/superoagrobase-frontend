@@ -85,16 +85,16 @@ const FeatureCard = ({ feature }) => {
         >
             <div className="relative h-full bg-white rounded-xl p-6 shadow hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden">
                 {/* Gradient Background on Hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-orange-600 to-amber-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500`} aria-hidden="true" />
+                <div className={`absolute inset-0 bg-gradient-to-br from-green-600 to-amber-600 opacity-0 group-hover:opacity-5 transition-opacity duration-500`} aria-hidden="true" />
 
                 {/* Badge */}
                 <div className="absolute top-4 right-4 z-10">
-                    <TextBadge size='sm' color='orange'>{feature.badge}</TextBadge>
+                    <TextBadge size='sm' color='green'>{feature.badge}</TextBadge>
                 </div>
 
                 {/* Icon Container */}
                 <div className="relative mb-4">
-                    <IconBadge size='lg' color='orange' icon={<Icon aria-hidden="true" />}></IconBadge>
+                    <IconBadge size='lg' color='green' icon={<Icon aria-hidden="true" />}></IconBadge>
                 </div>
 
                 {/* Content */}
@@ -115,7 +115,7 @@ const FeatureCard = ({ feature }) => {
             </div>
 
             {/* Decorative Glow Effect */}
-            <div className={`absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-orange-600 to-amber-600 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} aria-hidden="true" />
+            <div className={`absolute -top-2 -right-2 w-20 h-20 bg-gradient-to-br from-green-600 to-amber-600 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} aria-hidden="true" />
         </article>
     );
 };

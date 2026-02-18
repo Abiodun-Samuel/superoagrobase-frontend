@@ -14,7 +14,7 @@ const GRID_CLASSES = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-col
 const SectionHeader = () => (
     <header className="text-center mb-8 sm:mb-10 lg:mb-12 space-y-3 sm:space-y-4">
         <TextBadge
-            color="red"
+            color="orange"
             variant="solid"
             startIcon={<Flame className="w-5 h-5" />}
             endIcon={<Zap className="w-5 h-5" />}
@@ -23,7 +23,7 @@ const SectionHeader = () => (
         </TextBadge>
 
         <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
-            Trending <span className="text-orange-600">Products</span>
+            Trending <span className="text-[#F57C00]">Products</span>
         </h2>
 
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
