@@ -172,10 +172,10 @@ function SharePanel({ title, excerpt, url }) {
             // Fallback for older browsers
             const el = document.createElement('textarea');
             el.value = url;
-            document.body.appendChild(el);
+            document?.body?.appendChild(el);
             el.select();
             document.execCommand('copy');
-            document.body.removeChild(el);
+            document?.body?.removeChild(el);
         }
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);

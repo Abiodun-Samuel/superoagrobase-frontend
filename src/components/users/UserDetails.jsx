@@ -30,46 +30,45 @@ import { useModal } from '@/hooks/useModal';
 import ChangeStatusModal from './ChangeStatusModal';
 import AssignRoleModal from './AssignRoleModal';
 import { UserDetailsSkeleton } from '../skeletonloader';
+import useAuth from '@/hooks/useAuth';
 
 const UserDetails = ({ id }) => {
     const router = useRouter();
+    const { user: authUser, role: authRole } = useAuth(); // <-- consume auth context
     const { data: user, isLoading, isError } = useUser(id);
 
-    // Modal states
     const { isOpen: isStatusModalOpen, openModal: openStatusModal, closeModal: closeStatusModal } = useModal(false);
     const { isOpen: isRoleModalOpen, openModal: openRoleModal, closeModal: closeRoleModal } = useModal(false);
 
-    // Mutations
     const { mutate: updateStatus, isPending: isUpdatingStatus } = useUpdateUser();
     const { mutate: assignRole, isPending: isAssigningRole } = useAssignRole();
 
+    /**
+     * True only when:
+     *   1. The current user is a super_admin.
+     *   2. The current user is not viewing their own profile.
+     *
+     * We derive this after the early-return guards so `user` is guaranteed
+     * to be defined by the time we use it in the JSX below.
+     */
+    const canActOnUser =
+        authRole === 'super_admin' && authUser?.id !== user?.id;
+
     const handleStatusUpdate = useCallback((newStatus) => {
-        updateStatus({
-            userId: user.id,
-            status: newStatus,
-        }, {
-            onSuccess: () => {
-                closeStatusModal();
-            }
+        if (!canActOnUser) return;
+        updateStatus({ userId: user.id, status: newStatus }, {
+            onSuccess: closeStatusModal,
         });
-    }, [user?.id, updateStatus, closeStatusModal]);
+    }, [user?.id, canActOnUser, updateStatus, closeStatusModal]);
 
     const handleRoleAssign = useCallback((data) => {
-        assignRole({
-            userId: user.id,
-            role: data.role,
-            roles: data.roles,
-        }, {
-            onSuccess: () => {
-                closeRoleModal();
-            }
+        if (!canActOnUser) return;
+        assignRole({ userId: user.id, role: data.role, roles: data.roles }, {
+            onSuccess: closeRoleModal,
         });
-    }, [user?.id, assignRole, closeRoleModal]);
+    }, [user?.id, canActOnUser, assignRole, closeRoleModal]);
 
-    // Loading State
-    if (isLoading) {
-        return <UserDetailsSkeleton />;
-    }
+    if (isLoading) return <UserDetailsSkeleton />;
 
     const getStatusColor = (status) => {
         const colors = {
@@ -90,22 +89,17 @@ const UserDetails = ({ id }) => {
         return { color: 'rose', label: 'Needs Attention', icon: AlertCircle };
     };
 
-    // Error/Not Found State
     if (isError || !user) {
         return (
             <div className="min-h-[400px] bg-white dark:bg-gray-900 flex items-center justify-center p-6">
                 <div className="max-w-md w-full">
-                    {/* Icon Container */}
                     <div className="relative mb-8">
                         <div className="w-14 h-14 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl flex items-center justify-center shadow">
                             <User className="w-10 h-10 text-gray-400 dark:text-gray-500" strokeWidth={1.5} />
                         </div>
-                        {/* Decorative elements */}
                         <div className="absolute -top-2 -right-2 w-20 h-20 bg-red-100 dark:bg-red-900/20 rounded-full blur-2xl opacity-60" />
                         <div className="absolute -bottom-2 -left-2 w-20 h-20 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl opacity-60" />
                     </div>
-
-                    {/* Content */}
                     <div className="text-center space-y-4">
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
@@ -115,16 +109,8 @@ const UserDetails = ({ id }) => {
                                 The user you're looking for doesn't exist or may have been removed from the system.
                             </p>
                         </div>
-
-
-                        {/* Action Button */}
                         <div className="pt-2">
-                            <Button
-                                onClick={() => router.back()}
-                                variant="outline"
-                                color="gray"
-                                className="w-full sm:w-auto"
-                            >
+                            <Button onClick={() => router.back()} variant="outline" color="gray" className="w-full sm:w-auto">
                                 <ArrowLeft className="w-4 h-4 mr-2" />
                                 Go Back
                             </Button>
@@ -140,13 +126,15 @@ const UserDetails = ({ id }) => {
 
     return (
         <>
-            <div className=" bg-gray-50 dark:bg-gray-900 space-y-10 my-10">
+            <div className="bg-gray-50 dark:bg-gray-900 space-y-10 my-10">
                 <div className="mx-auto">
                     {/* Profile Header Card */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
                         {/* Back Button Bar */}
                         <div className="px-6 py-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-                            <TextBadge color='green' onClick={() => router.back()} startIcon={<ArrowLeft />}>Go Back</TextBadge>
+                            <TextBadge color="green" onClick={() => router.back()} startIcon={<ArrowLeft />}>
+                                Go Back
+                            </TextBadge>
                         </div>
 
                         {/* Main Content */}
@@ -165,7 +153,6 @@ const UserDetails = ({ id }) => {
 
                                 {/* User Details */}
                                 <div className="flex-1 space-y-3.5 text-center sm:text-left">
-                                    {/* Name and Role */}
                                     <div className="space-y-1.5">
                                         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
                                             {user.full_name}
@@ -188,18 +175,13 @@ const UserDetails = ({ id }) => {
                                         </div>
                                     </div>
 
-                                    {/* Contact Information */}
                                     <div className="space-y-2">
                                         <ContactItem icon={Mail} text={user.email} />
-                                        {user.phone_number && (
-                                            <ContactItem icon={Phone} text={user.phone_number} />
-                                        )}
+                                        {user.phone_number && <ContactItem icon={Phone} text={user.phone_number} />}
                                         {(user.city || user.state || user.country) && (
                                             <ContactItem
                                                 icon={MapPin}
-                                                text={[user.city, user.state, user.country]
-                                                    .filter(Boolean)
-                                                    .join(', ')}
+                                                text={[user.city, user.state, user.country].filter(Boolean).join(', ')}
                                             />
                                         )}
                                     </div>
@@ -207,25 +189,31 @@ const UserDetails = ({ id }) => {
 
                                 {/* Action Buttons & Stats */}
                                 <div className="flex flex-col gap-3 items-center sm:items-end">
-                                    {/* Action Buttons */}
-                                    <div className="flex items-center gap-2">
-                                        <IconBadge
-                                            icon={<Edit2 className="w-4 h-4" />}
-                                            size="md"
-                                            variant="light"
-                                            color="blue"
-                                            onClick={openStatusModal}
-                                            ariaLabel="Change status"
-                                        />
-                                        <IconBadge
-                                            icon={<UserCog className="w-4 h-4" />}
-                                            size="md"
-                                            variant="light"
-                                            color="purple"
-                                            onClick={openRoleModal}
-                                            ariaLabel="Assign role"
-                                        />
-                                    </div>
+                                    {/* Action Buttons: only rendered for super_admin acting on another user */}
+                                    {canActOnUser && (
+                                        <div className="flex items-center gap-2">
+                                            <IconBadge
+                                                icon={<Edit2 className="w-4 h-4" />}
+                                                size="md"
+                                                variant="light"
+                                                color="blue"
+                                                onClick={openStatusModal}
+                                                disabled={isUpdatingStatus}
+                                                ariaLabel="Change status"
+                                                title="Change status"
+                                            />
+                                            <IconBadge
+                                                icon={<UserCog className="w-4 h-4" />}
+                                                size="md"
+                                                variant="light"
+                                                color="purple"
+                                                onClick={openRoleModal}
+                                                disabled={isAssigningRole}
+                                                ariaLabel="Assign role"
+                                                title="Assign role"
+                                            />
+                                        </div>
+                                    )}
 
                                     {/* Completion Stats (Desktop) */}
                                     <div className="hidden sm:flex flex-col items-center justify-center px-6 py-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-100 dark:border-gray-600">
@@ -253,10 +241,7 @@ const UserDetails = ({ id }) => {
                                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                                         Profile Completion
                                     </span>
-                                    <StatusIcon
-                                        size={15}
-                                        className={`text-${completionStatus.color}-600 sm:hidden`}
-                                    />
+                                    <StatusIcon size={15} className={`text-${completionStatus.color}-600 sm:hidden`} />
                                 </div>
                                 <div className="flex items-center gap-2 sm:hidden">
                                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full bg-${completionStatus.color}-100 text-${completionStatus.color}-700 dark:bg-${completionStatus.color}-900/30 dark:text-${completionStatus.color}-400`}>
@@ -268,7 +253,6 @@ const UserDetails = ({ id }) => {
                                 </div>
                             </div>
 
-                            {/* Progress Bar */}
                             <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                                 <div
                                     className={`absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out bg-gradient-to-r ${completionStatus.color === 'emerald'
@@ -298,24 +282,17 @@ const UserDetails = ({ id }) => {
                                     <Mail className="w-5 h-5 text-gray-400 mt-0.5" />
                                     <div className="flex-1">
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Email</p>
-                                        <a
-                                            href={`mailto:${user.email}`}
-                                            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                        >
+                                        <a href={`mailto:${user.email}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                                             {user.email}
                                         </a>
                                     </div>
                                 </div>
-
                                 {user.phone_number && (
                                     <div className="flex items-start gap-3">
                                         <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
                                         <div className="flex-1">
                                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Phone</p>
-                                            <a
-                                                href={`tel:${user.phone_number}`}
-                                                className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                            >
+                                            <a href={`tel:${user.phone_number}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                                                 {user.phone_number}
                                             </a>
                                         </div>
@@ -340,7 +317,6 @@ const UserDetails = ({ id }) => {
                                         </div>
                                     </div>
                                 )}
-
                                 {(user.city || user.state) && (
                                     <div className="flex items-start gap-3">
                                         <MapPin className="w-5 h-5 text-gray-400 mt-0.5" />
@@ -352,7 +328,6 @@ const UserDetails = ({ id }) => {
                                         </div>
                                     </div>
                                 )}
-
                                 {user.country && (
                                     <div className="flex items-start gap-3">
                                         <Globe className="w-5 h-5 text-gray-400 mt-0.5" />
@@ -381,7 +356,6 @@ const UserDetails = ({ id }) => {
                                         </p>
                                     </div>
                                 </div>
-
                                 {user.last_login_at && (
                                     <div className="flex items-start gap-3">
                                         <Clock className="w-5 h-5 text-gray-400 mt-0.5" />
@@ -391,7 +365,6 @@ const UserDetails = ({ id }) => {
                                         </div>
                                     </div>
                                 )}
-
                                 {user.auth_provider && (
                                     <div className="flex items-start gap-3">
                                         <Shield className="w-5 h-5 text-gray-400 mt-0.5" />
@@ -424,7 +397,6 @@ const UserDetails = ({ id }) => {
                                         </div>
                                     </div>
                                 )}
-
                                 {user.gender && (
                                     <div className="flex items-start gap-3">
                                         <User className="w-5 h-5 text-gray-400 mt-0.5" />
@@ -438,7 +410,7 @@ const UserDetails = ({ id }) => {
                         </div>
                     </div>
 
-                    {/* Company Information (if available) */}
+                    {/* Company Information */}
                     {user.company?.name && (
                         <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
@@ -449,18 +421,13 @@ const UserDetails = ({ id }) => {
                                 {user.company.name && (
                                     <div>
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Company Name</p>
-                                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {user.company.name}
-                                        </p>
+                                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{user.company.name}</p>
                                     </div>
                                 )}
                                 {user.company.email && (
                                     <div>
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Company Email</p>
-                                        <a
-                                            href={`mailto:${user.company.email}`}
-                                            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                        >
+                                        <a href={`mailto:${user.company.email}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                                             {user.company.email}
                                         </a>
                                     </div>
@@ -468,10 +435,7 @@ const UserDetails = ({ id }) => {
                                 {user.company.phone && (
                                     <div>
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Company Phone</p>
-                                        <a
-                                            href={`tel:${user.company.phone}`}
-                                            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                        >
+                                        <a href={`tel:${user.company.phone}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                                             {user.company.phone}
                                         </a>
                                     </div>
@@ -479,24 +443,18 @@ const UserDetails = ({ id }) => {
                                 {user.company.website && (
                                     <div>
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Website</p>
-                                        <a
-                                            href={user.company.website}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                        >
+                                        <a href={user.company.website} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                                             {user.company.website}
                                         </a>
                                     </div>
                                 )}
                             </div>
-                        </div >
+                        </div>
                     )}
-                </div >
-            </div >
+                </div>
+            </div>
 
-            {/* Modals */}
-            < ChangeStatusModal
+            <ChangeStatusModal
                 isOpen={isStatusModalOpen}
                 onClose={closeStatusModal}
                 user={user}
@@ -515,7 +473,6 @@ const UserDetails = ({ id }) => {
     );
 };
 
-// Contact Item Component (matching ProfileHeader style)
 const ContactItem = ({ icon: Icon, text }) => (
     <div className="flex items-center gap-2.5 justify-center sm:justify-start group">
         <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/30 transition-colors">

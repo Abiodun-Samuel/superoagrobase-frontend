@@ -31,8 +31,11 @@ import AssignRoleModal from './AssignRoleModal';
 import DeleteUserModal from './DeleteUserModal';
 import { formatDate, truncateText } from '@/utils/helper';
 import { useModal } from '@/hooks/useModal';
+import useAuth from '@/hooks/useAuth';
 
 const AdminUserList = () => {
+    const { user: authUser, role: authRole } = useAuth();
+    console.log({ authRole })
     const [page, setPage] = useState(1);
     const [filters, setFilters] = useState({
         search: '',
@@ -42,23 +45,19 @@ const AdminUserList = () => {
         sort_order: 'desc',
     });
 
-    // Modal states
     const statusModal = useModal(false);
     const roleModal = useModal(false);
     const deleteModal = useModal(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    // Form for filters
     const { register, setValue, watch, handleSubmit, formState: { errors } } = useForm({
         defaultValues: filters,
     });
 
-    // Watch form values
     const searchValue = watch('search');
     const roleValue = watch('role');
     const statusValue = watch('status');
 
-    // Update filters when role or status changes
     useEffect(() => {
         if (roleValue !== filters.role) {
             setFilters(prev => ({ ...prev, role: roleValue }));
@@ -73,7 +72,6 @@ const AdminUserList = () => {
         }
     }, [statusValue, filters.status]);
 
-    // Active filters for API
     const activeFilters = useMemo(() => ({
         search: filters.search,
         role: filters.role,
@@ -84,7 +82,6 @@ const AdminUserList = () => {
         per_page: 15,
     }), [filters, page]);
 
-    // Fetch users with filters
     const { data, isLoading, isError, error } = useUsers(activeFilters);
     const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
     const { mutate: updateStatus, isPending: isUpdatingStatus } = useUpdateUser();
@@ -94,7 +91,19 @@ const AdminUserList = () => {
     const meta = data?.meta || {};
     const links = data?.links || [];
 
-    // Filter options
+    /**
+     * Determines whether the current auth user can perform privileged
+     * actions (change status, assign role, delete) on a given target user.
+     *
+     * Two conditions must both be true:
+     *   1. The current user holds the "super_admin" role.
+     *   2. The current user is not the target user (no self-mutation).
+     */
+    const canActOnUser = useCallback(
+        (targetUser) => authRole === 'super_admin' && authUser?.id !== targetUser?.id,
+        [authRole, authUser?.id],
+    );
+
     const roleOptions = [
         { value: '', text: 'All Roles' },
         { value: 'super_admin', text: 'Super Admin' },
@@ -114,7 +123,6 @@ const AdminUserList = () => {
         { value: 'online', text: 'Online' },
     ];
 
-    // Status color mapping
     const getStatusColor = (status) => {
         const colors = {
             active: 'green',
@@ -128,16 +136,11 @@ const AdminUserList = () => {
         return colors[status?.toLowerCase()] || 'gray';
     };
 
-    // Handle search form submit
     const handleSearchSubmit = (data) => {
-        setFilters(prev => ({
-            ...prev,
-            search: data.search,
-        }));
+        setFilters(prev => ({ ...prev, search: data.search }));
         setPage(1);
     };
 
-    // Clear all filters
     const handleClearFilters = () => {
         setValue('search', '');
         setValue('role', '');
@@ -152,32 +155,28 @@ const AdminUserList = () => {
         setPage(1);
     };
 
-    // Handle change status
+    // Guard: only open privileged modals when the current user is permitted
     const handleChangeStatus = (user) => {
+        if (!canActOnUser(user)) return;
         setSelectedUser(user);
         statusModal.openModal();
     };
 
-    // Handle assign role
     const handleAssignRole = (user) => {
+        if (!canActOnUser(user)) return;
         setSelectedUser(user);
         roleModal.openModal();
     };
 
-    // Handle delete user
     const handleDeleteUser = (user) => {
+        if (!canActOnUser(user)) return;
         setSelectedUser(user);
         deleteModal.openModal();
     };
 
-    // Confirm status update
     const handleStatusUpdate = useCallback((newStatus) => {
         if (!selectedUser) return;
-
-        updateStatus({
-            userId: selectedUser.id,
-            status: newStatus,
-        }, {
+        updateStatus({ userId: selectedUser.id, status: newStatus }, {
             onSuccess: () => {
                 statusModal.closeModal();
                 setSelectedUser(null);
@@ -185,15 +184,9 @@ const AdminUserList = () => {
         });
     }, [selectedUser, updateStatus, statusModal]);
 
-    // Confirm role assignment
     const handleRoleAssign = useCallback((data) => {
         if (!selectedUser) return;
-
-        assignRole({
-            userId: selectedUser.id,
-            role: data.role,
-            roles: data.roles,
-        }, {
+        assignRole({ userId: selectedUser.id, role: data.role, roles: data.roles }, {
             onSuccess: () => {
                 roleModal.closeModal();
                 setSelectedUser(null);
@@ -201,7 +194,6 @@ const AdminUserList = () => {
         });
     }, [selectedUser, assignRole, roleModal]);
 
-    // Confirm delete
     const confirmDelete = (userId) => {
         deleteUser(userId, {
             onSuccess: () => {
@@ -211,7 +203,6 @@ const AdminUserList = () => {
         });
     };
 
-    // Handle page change
     const handlePageChange = (newPage) => {
         setPage(parseInt(newPage));
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -238,7 +229,6 @@ const AdminUserList = () => {
                 </div>
 
                 <form onSubmit={handleSubmit(handleSearchSubmit)} className="space-y-4">
-                    {/* Search Input */}
                     <div className="flex gap-2">
                         <div className="flex-1">
                             <InputForm
@@ -259,9 +249,7 @@ const AdminUserList = () => {
                         </Button>
                     </div>
 
-                    {/* Filter Dropdowns */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Role Filter */}
                         <SingleSelectForm
                             name="role"
                             placeholder="Filter by role"
@@ -271,8 +259,6 @@ const AdminUserList = () => {
                             searchable={false}
                             defaultValue={roleValue}
                         />
-
-                        {/* Status Filter */}
                         <SingleSelectForm
                             name="status"
                             placeholder="Filter by status"
@@ -285,7 +271,6 @@ const AdminUserList = () => {
                     </div>
                 </form>
 
-                {/* Active Filters Summary */}
                 {(filters.search || filters.role || filters.status) && (
                     <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-200">
                         <span className="text-sm text-gray-600">Active filters:</span>
@@ -310,10 +295,8 @@ const AdminUserList = () => {
 
             {/* Users Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                {/* Loading State */}
                 {isLoading && <UserListSkeleton />}
 
-                {/* Error State */}
                 {isError && (
                     <div className="flex flex-col items-center justify-center py-16 px-4">
                         <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
@@ -326,7 +309,6 @@ const AdminUserList = () => {
                     </div>
                 )}
 
-                {/* Empty State */}
                 {!isLoading && !isError && users.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-16 px-4">
                         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
@@ -346,183 +328,174 @@ const AdminUserList = () => {
                     </div>
                 )}
 
-                {/* Table */}
                 {!isLoading && !isError && users.length > 0 && (
                     <>
                         <div className="overflow-x-auto">
                             <Table className="min-w-full divide-y divide-gray-200">
                                 <TableHeader className="bg-gray-50">
                                     <TableRow>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            User
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Contact
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Role
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Profile
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Joined
-                                        </TableCell>
-                                        <TableCell isHeader className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions
-                                        </TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</TableCell>
+                                        <TableCell isHeader className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</TableCell>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody className="bg-white divide-y divide-gray-200">
-                                    {users.map((user) => (
-                                        <TableRow key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
-                                            {/* User */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-3">
-                                                    <Avatar
-                                                        src={user.avatar}
-                                                        initials={user.initials}
-                                                        size="md"
-                                                        showProfileStatus
-                                                        isProfileCompleted={user.profile_completed}
-                                                    />
-                                                    <div>
-                                                        <Link
-                                                            href={`/dashboard/users/${user.id}`}
-                                                            className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
-                                                        >
-                                                            {user.full_name}
-                                                        </Link>
-                                                        <a
-                                                            href={`mailto:${user.email}`}
-                                                            className="block text-xs text-gray-500 hover:text-blue-600 transition-colors"
-                                                        >
-                                                            {user.email}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </TableCell>
+                                    {users.map((user) => {
+                                        const permitted = canActOnUser(user); // derived once per row
 
-                                            {/* Contact */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <div className="space-y-1">
-                                                    {user.phone_number && (
-                                                        <a
-                                                            href={`tel:${user.phone_number}`}
-                                                            className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-blue-600 transition-colors"
-                                                        >
-                                                            <Phone className="w-3 h-3" />
-                                                            {user.phone_number}
-                                                        </a>
-                                                    )}
-                                                    {user.city && user.state && (
-                                                        <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                                                            <Building2 className="w-3 h-3" />
-                                                            {user.city}, {user.state}
+                                        return (
+                                            <TableRow key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar
+                                                            src={user.avatar}
+                                                            initials={user.initials}
+                                                            size="md"
+                                                            showProfileStatus
+                                                            isProfileCompleted={user.profile_completed}
+                                                        />
+                                                        <div>
+                                                            <Link
+                                                                href={`/dashboard/users/${user.id}`}
+                                                                className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
+                                                            >
+                                                                {user.full_name}
+                                                            </Link>
+                                                            <a
+                                                                href={`mailto:${user.email}`}
+                                                                className="block text-xs text-gray-500 hover:text-blue-600 transition-colors"
+                                                            >
+                                                                {user.email}
+                                                            </a>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </TableCell>
+                                                    </div>
+                                                </TableCell>
 
-                                            {/* Role */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <RoleBadge role={user.roles?.[0] || 'user'} size="sm" />
-                                            </TableCell>
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="space-y-1">
+                                                        {user.phone_number && (
+                                                            <a
+                                                                href={`tel:${user.phone_number}`}
+                                                                className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-blue-600 transition-colors"
+                                                            >
+                                                                <Phone className="w-3 h-3" />
+                                                                {user.phone_number}
+                                                            </a>
+                                                        )}
+                                                        {user.city && user.state && (
+                                                            <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                                                                <Building2 className="w-3 h-3" />
+                                                                {user.city}, {user.state}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </TableCell>
 
-                                            {/* Status */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <TextBadge
-                                                    variant="light"
-                                                    color={getStatusColor(user.status)}
-                                                    size="sm"
-                                                    className="capitalize"
-                                                >
-                                                    {user.status}
-                                                </TextBadge>
-                                            </TableCell>
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <RoleBadge role={user.roles?.[0] || 'user'} size="sm" />
+                                                </TableCell>
 
-                                            {/* Profile Completion */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[80px]">
-                                                        <div
-                                                            className={`h-2 rounded-full transition-all duration-300 ${user.completion_percent >= 100
-                                                                ? 'bg-green-500'
-                                                                : user.completion_percent >= 50
-                                                                    ? 'bg-blue-500'
-                                                                    : 'bg-orange-500'
-                                                                }`}
-                                                            style={{ width: `${user.completion_percent}%` }}
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <TextBadge
+                                                        variant="light"
+                                                        color={getStatusColor(user.status)}
+                                                        size="sm"
+                                                        className="capitalize"
+                                                    >
+                                                        {user.status}
+                                                    </TextBadge>
+                                                </TableCell>
+
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[80px]">
+                                                            <div
+                                                                className={`h-2 rounded-full transition-all duration-300 ${user.completion_percent >= 100
+                                                                    ? 'bg-green-500'
+                                                                    : user.completion_percent >= 50
+                                                                        ? 'bg-blue-500'
+                                                                        : 'bg-orange-500'
+                                                                    }`}
+                                                                style={{ width: `${user.completion_percent}%` }}
+                                                            />
+                                                        </div>
+                                                        <span className="text-xs font-medium text-gray-600">
+                                                            {user.completion_percent}%
+                                                        </span>
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                                                        <Calendar className="w-3 h-3" />
+                                                        {formatDate(user.created_at)}
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell className="px-6 py-4 whitespace-nowrap text-right">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        {/* View: always visible to all admins */}
+                                                        <IconBadge
+                                                            variant="light"
+                                                            color="blue"
+                                                            size="sm"
+                                                            shape="circle"
+                                                            icon={<Eye className="w-4 h-4" />}
+                                                            href={`/dashboard/users/${user.id}`}
+                                                            ariaLabel="View user"
+                                                        />
+
+                                                        {/* Change status: super_admin only, not self */}
+                                                        <IconBadge
+                                                            variant="light"
+                                                            color="green"
+                                                            size="sm"
+                                                            shape="circle"
+                                                            icon={<Activity className="w-4 h-4" />}
+                                                            onClick={() => handleChangeStatus(user)}
+                                                            disabled={!permitted || isUpdatingStatus}
+                                                            ariaLabel="Change status"
+                                                            title={!permitted ? 'Insufficient permissions' : 'Change status'}
+                                                        />
+
+                                                        {/* Assign role: super_admin only, not self */}
+                                                        <IconBadge
+                                                            variant="light"
+                                                            color="purple"
+                                                            size="sm"
+                                                            shape="circle"
+                                                            icon={<Shield className="w-4 h-4" />}
+                                                            onClick={() => handleAssignRole(user)}
+                                                            disabled={!permitted || isAssigningRole}
+                                                            ariaLabel="Assign role"
+                                                            title={!permitted ? 'Insufficient permissions' : 'Assign role'}
+                                                        />
+
+                                                        {/* Delete: super_admin only, not self */}
+                                                        <IconBadge
+                                                            variant="light"
+                                                            color="red"
+                                                            size="sm"
+                                                            shape="circle"
+                                                            icon={<Trash2 className="w-4 h-4" />}
+                                                            onClick={() => handleDeleteUser(user)}
+                                                            disabled={!permitted || isDeleting}
+                                                            ariaLabel="Delete user"
+                                                            title={!permitted ? 'Insufficient permissions' : 'Delete user'}
                                                         />
                                                     </div>
-                                                    <span className="text-xs font-medium text-gray-600">
-                                                        {user.completion_percent}%
-                                                    </span>
-                                                </div>
-                                            </TableCell>
-
-                                            {/* Joined Date */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                                                    <Calendar className="w-3 h-3" />
-                                                    {formatDate(user.created_at)}
-                                                </div>
-                                            </TableCell>
-
-                                            {/* Actions */}
-                                            <TableCell className="px-6 py-4 whitespace-nowrap text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <IconBadge
-                                                        variant="light"
-                                                        color="blue"
-                                                        size="sm"
-                                                        shape="circle"
-                                                        icon={<Eye className="w-4 h-4" />}
-                                                        href={`/dashboard/users/${user.id}`}
-                                                        ariaLabel="View user"
-                                                    />
-                                                    <IconBadge
-                                                        variant="light"
-                                                        color="green"
-                                                        size="sm"
-                                                        shape="circle"
-                                                        icon={<Activity className="w-4 h-4" />}
-                                                        onClick={() => handleChangeStatus(user)}
-                                                        disabled={isUpdatingStatus}
-                                                        ariaLabel="Change status"
-                                                    />
-                                                    <IconBadge
-                                                        variant="light"
-                                                        color="purple"
-                                                        size="sm"
-                                                        shape="circle"
-                                                        icon={<Shield className="w-4 h-4" />}
-                                                        onClick={() => handleAssignRole(user)}
-                                                        disabled={isAssigningRole}
-                                                        ariaLabel="Assign role"
-                                                    />
-                                                    <IconBadge
-                                                        variant="light"
-                                                        color="red"
-                                                        size="sm"
-                                                        shape="circle"
-                                                        icon={<Trash2 className="w-4 h-4" />}
-                                                        onClick={() => handleDeleteUser(user)}
-                                                        disabled={isDeleting}
-                                                        ariaLabel="Delete user"
-                                                    />
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
                                 </TableBody>
                             </Table>
                         </div>
 
-                        {/* Pagination */}
                         {meta.last_page > 1 && (
                             <div className="px-6 py-4 border-t border-gray-200">
                                 <Paginator
@@ -534,10 +507,10 @@ const AdminUserList = () => {
                             </div>
                         )}
                     </>
-                )}
-            </div>
+                )
+                }
+            </div >
 
-            {/* Change Status Modal */}
             <ChangeStatusModal
                 isOpen={statusModal.isOpen}
                 onClose={statusModal.closeModal}
@@ -546,7 +519,6 @@ const AdminUserList = () => {
                 isLoading={isUpdatingStatus}
             />
 
-            {/* Assign Role Modal */}
             <AssignRoleModal
                 isOpen={roleModal.isOpen}
                 onClose={roleModal.closeModal}
@@ -555,7 +527,6 @@ const AdminUserList = () => {
                 isLoading={isAssigningRole}
             />
 
-            {/* Delete User Modal */}
             <DeleteUserModal
                 isOpen={deleteModal.isOpen}
                 onClose={deleteModal.closeModal}
@@ -563,7 +534,7 @@ const AdminUserList = () => {
                 onConfirm={confirmDelete}
                 isDeleting={isDeleting}
             />
-        </div>
+        </div >
     );
 };
 
